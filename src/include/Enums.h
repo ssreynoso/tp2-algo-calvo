@@ -1,0 +1,20 @@
+#ifndef __ENUMS_H__
+#define __ENUMS_H__
+
+//fichas
+enum TipoContenido {
+    Espia, 
+    Tesoro,
+    VACIO,
+};
+
+//cartas
+enum TipoCarta {
+    Blindaje,
+    Radar,
+    PartirTesoro,
+
+};
+
+
+#endif
