@@ -40,20 +40,20 @@ void TesoroBinario::cargarJuego() {
 
 
 
-void BatallaDigital::cargarCantidadesDeFichasAJugadores(){
+void TesoroBinario::cargarCantidadesDeFichasAJugadores(){
     for(int i = 0; i < this->jugadores->getSize(); i++) {
         this->jugadores->getLData(i)->setEspias(1), jugadores->getLData(i)->setTesoros(5);
     }    
 }
 
-bool BatallaDigital::validarCeldaAInsertarFicha(Coordenada cordenada) {
+bool TesoroBinario::validarCeldaAInsertarFicha(Coordenada cordenada) {
     TipoContenido tipo = this->tablero->getTData(cordenada.getCoordenadaX(),cordenada.getCoordenadaY(),cordenada.getCoordenadaZ())->getFicha()->getTipo();
 
     return (tipo == VACIO);
 }
 
 
-void BatallaDigital::cargarFichaDelTipo(int cantidadDeCarga, TipoContenido tipoDeFicha, int jugadorOwner){
+void TesoroBinario::cargarFichaDelTipo(int cantidadDeCarga, TipoContenido tipoDeFicha, int jugadorOwner){
     Coordenada cordenada;
     for (int i = 0; i <= cantidadDeCarga; i++){
         do{
@@ -66,7 +66,7 @@ void BatallaDigital::cargarFichaDelTipo(int cantidadDeCarga, TipoContenido tipoD
     }
 }
         
-void BatallaDigital::cargarFichas(){
+void TesoroBinario::cargarFichas(){
     for (int i = 0; i < jugadores->getSize(); i++){
         this->cargarFichaDelTipo(jugadores->getLData(i)->getEspia(),Espia,i);
         this->cargarFichaDelTipo(jugadores->getLData(i)->getTesoro(),Tesoro,i);
