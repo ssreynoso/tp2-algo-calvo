@@ -16,5 +16,11 @@ enum TipoCarta {
 
 };
 
+//lista
+enum Iteracion {
+    SIGUIENTE, 
+    FINAL, 
+    ANTERIOR
+};
 
 #endif
