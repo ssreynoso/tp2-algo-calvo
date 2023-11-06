@@ -270,5 +270,67 @@ void TesoroBinario::cargarFichas(){
 	}
 }
 
-    
+TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
+    TipoCarta tipo;
+    switch (indiceCarta)
+    {
+    case Blindaje:
+        tipo = Blindaje;
+        break;
+    case Radar:
+        tipo = Radar;
+        break;
+    case PartirTesoro:
+        tipo = PartirTesoro;
+        break;
+    }
+    return tipo;
+}
 
+Carta* TesoroBinario::generarCarta(){
+    int numero = rand() % 3;
+    TipoCarta tipo = obtenerTipoCarta(numero);
+    Carta* carta= new Carta(tipo);
+    return carta;
+}
+
+void TesoroBinario::ejecutarCartaElegida(Carta* carta, Jugador* jugador,Coordenada coordenada){
+    carta->usarCarta(tablero, coordenada);
+    }
+} 
+bool TesoroBinario::rta(std::string mensaje){
+    return (mensaje == "Y" || mensaje == "N");
+}
+int TesoroBinario::obtenerIndiceDeCarta(Jugador* jugador){
+    int i = 0;
+    int indiceDeCarta;
+    while(i !=-1){
+        cout<<"Ingrese el indice de la carta que quiere usar: "<<endl;
+        cin >> indiceDeCarta;
+        if( (indiceDeCarta -1 >= 0) && (indiceDeCarta -1  < jugador->getCantidadDeCartas()) ){
+            i= -1;
+        }else{
+            cout<<"Ingrese un indice valido"<<endl;
+        }
+    }
+    return indiceDeCarta-1;
+}
+void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada){
+    Carta*  carta = this->generarCarta();
+    jugador->agregarCarta(carta);
+    cout<<"Acaba de selecionar una carta del tipo: " << carta->getStringTipoCarta()<<endl;
+    string respuesta = "";
+    
+    while(!rta(respuesta)){
+        cout<<"¿Desea usar alguna Carta? Y/N: "<<endl;
+        cin>>respuesta;
+    }  
+
+    if(respuesta == "Y"){
+        jugador->imprimirCartas();
+        int indiceCarta = this->obtenerIndiceDeCarta(jugador);
+        this->ejecutarCartaElegida(jugador->seleccionarCarta(indiceCarta),jugador,coordenada);
+        jugador->removerCarta(indiceCarta);
+        cout<<"Carta ejecutada correctamente"<<endl;
+    }
+}
