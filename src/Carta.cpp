@@ -14,7 +14,6 @@ using namespace std;
 
 Carta::Carta(TipoCarta carta) {
     this->cartaActiva = true;
-    this->radioAccion = -1;
     this->carta = carta;
 }
 
@@ -24,15 +23,13 @@ Carta::Carta(TipoCarta carta) {
 
     switch(this->carta){
         case Blindaje:
-            this->radioAccion = 4;
-          
+            this->blindaje(tablero,centro);
             break;
         case Radar:
-            this->radioAccion = 5;
-           
+            this->radar(tablero,centro);
             break;
         case PartirTesoro:
-            this->radioAccion = 3;
+            this->partirTesoro(tablero,centro);
             break;
     }
 }
@@ -83,5 +80,9 @@ string Carta::getStringTipoFicha(TipoContenido tipo){
     return tipoDeCarta;
 }
 
-
-
+void Carta::blindaje(Tablero<Celda*>* tablero, Coordenada centro){
+}
+void Carta::radar(Tablero<Celda*>* tablero, Coordenada centro){
+}
+void Carta::partirTesoro(Tablero<Celda*>* tablero, Coordenada centro){
+}
