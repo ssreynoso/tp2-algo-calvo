@@ -106,7 +106,7 @@ void TesoroBinario::cargarTesorosPorJugador(){
 
 			recibirPosicion(&x, &y, &z);
 			while(this->tablero->getCelda(x,y,z)->getFicha()->getTipo() == Tesoro){
-				cout << "Ya hay un tesoro en la celda indicaca. Intentelo nuevamente" << endl;
+				cout << "Ya hay un tesoro en la celda indicada. Intentelo nuevamente" << endl;
 				recibirPosicion(&x,&y,&z);
 			}
 			colocarTesoro(x, y, z, j);
@@ -138,17 +138,15 @@ void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador){
 }
 
 void TesoroBinario::juego(){
-/*
-	do{
+	do {
 		this->jugadores->iniciarCursor();
 		while(this->jugadores->avanzarCursor()){
 			if(sigueJugando(this->jugadores->obtenerCursor())){
-				jugarTurno(this->jugadores->obtenerCursor()->getNumeroDeJugador())
+				jugarTurno(this->jugadores->obtenerCursor()->getNumeroDeJugador());
 			}
 		}
 
 	}while(!finDeJuego())
-*/
 }
 
 void TesoroBinario::jugarTurno(int jugador){
@@ -272,7 +270,7 @@ void TesoroBinario::cargarFichas(){
 
 TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
     TipoCarta tipo;
-    switch (indiceCarta)
+    switch (indiceCarta) 
     {
     case Blindaje:
         tipo = Blindaje;

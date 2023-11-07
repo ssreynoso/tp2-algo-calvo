@@ -64,7 +64,7 @@ public:
      * post: agrega el elemento en la posición indicada.
      *
      */
-    void agregar(T elemento, unsigned int opcion);
+    void agregar(T elemento, unsigned int posicion);
 
     /*
      * post: agrega todos los elementos de otraLista

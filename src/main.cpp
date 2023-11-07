@@ -51,11 +51,11 @@ int main(){
     juego->cargarTesorosPorJugador();
     juego->imprimirTodosLosTableros();
 
+    juego->juego();
 
-
-    //cout << "cargarJuego" << endl;
-    //juego->cargarJuego();
-    //juego->imprimirTablero();
+    // cout << "cargarJuego" << endl;
+    // juego->cargarJuego();
+    // juego->imprimirTablero();
 
 
 
