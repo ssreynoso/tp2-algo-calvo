@@ -87,7 +87,23 @@ class TesoroBinario{
         //Post: Devuelve true si la celda esta vacia y se puede insertar la ficha
         bool validarCeldaAInsertarFicha(Coordenada cordenada);
 
+        //Post: devuelve de forma aleatoria un tipo de Carta
+        Carta* generarCarta();
 
+        //Post: devuelve el tipo de carta dependiendo del indice que reciba
+        TipoCarta obtenerTipoDeCarta(int indiceDeCarta);
+
+        //Pre: 'carta', 'jugador' y 'coordenada' deben contener un valor valido
+        //Post: dependiendo del tipo de carta ejecuta la accion correspondiente
+        void ejecutarCartaElegida(Carta* carta, Jugador* jugador, Coordenada coordenada);
+
+        //Pre: 'jugador' y 'coordenada' deben contener un valor valido
+        //Post:se genera una carta al azar y le da la opcion al usuario de usarla o no
+        void tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada);
+
+        //Pre: 'mensaje' debe estar inicializado
+        //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no
+        bool mensajeValido(std::string mensaje);
     
 };
 #endif /* TESOROBINARIO_H_ */
