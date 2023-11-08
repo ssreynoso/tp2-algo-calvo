@@ -23,13 +23,13 @@ Carta::Carta(TipoCarta carta) {
 
     switch(this->carta){
         case Blindaje:
-            this->blindaje(tablero,centro);
+            //this->blindaje(tablero,centro);
             break;
         case Radar:
-            this->radar(tablero,centro);
+            //this->radar(tablero,centro);
             break;
         case PartirTesoro:
-            this->partirTesoro(tablero,centro);
+            //this->partirTesoro(tablero,centro);
             break;
     }
 }
@@ -80,9 +80,9 @@ string Carta::getStringTipoFicha(TipoContenido tipo){
     return tipoDeCarta;
 }
 
-void Carta::blindaje(Tablero<Celda*>* tablero, Coordenada centro){
-}
-void Carta::radar(Tablero<Celda*>* tablero, Coordenada centro){
-}
-void Carta::partirTesoro(Tablero<Celda*>* tablero, Coordenada centro){
-}
+//void Carta::blindaje(Tablero<Celda*>* tablero, Coordenada centro){
+//}
+//void Carta::radar(Tablero<Celda*>* tablero, Coordenada centro){
+//}
+//void Carta::partirTesoro(Tablero<Celda*>* tablero, Coordenada centro){
+//}

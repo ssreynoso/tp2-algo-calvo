@@ -109,7 +109,7 @@ class TesoroBinario{
         Carta* generarCarta();
 
         //Post: devuelve el tipo de carta dependiendo del indice que reciba
-        TipoCarta obtenerTipoDeCarta(int indiceDeCarta);
+        TipoCarta obtenerTipoCarta(int indiceDeCarta);
 
         //Pre: 'carta', 'jugador' y 'coordenada' deben contener un valor valido
         //Post: dependiendo del tipo de carta ejecuta la accion correspondiente
@@ -122,6 +122,9 @@ class TesoroBinario{
         //Pre: 'mensaje' debe estar inicializado
         //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no
         bool mensajeValido(std::string mensaje);
-    
+
+        //Pre: 'jugador' debe contener un valor valido
+        //Post: devuelve el indice de la carta solictado por el usuario
+        int obtenerIndiceDeCarta(Jugador* jugador);
 };
 #endif /* TESOROBINARIO_H_ */

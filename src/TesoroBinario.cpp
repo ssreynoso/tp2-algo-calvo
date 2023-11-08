@@ -365,7 +365,7 @@ void TesoroBinario::ejecutarCartaElegida(Carta* carta, Jugador* jugador,Coordena
     carta->usarCarta(tablero, coordenada);
     }
 } 
-bool TesoroBinario::rta(std::string mensaje){
+bool TesoroBinario::mensajeValido(std::string mensaje){
     return (mensaje == "Y" || mensaje == "N");
 }
 int TesoroBinario::obtenerIndiceDeCarta(Jugador* jugador){
@@ -388,7 +388,7 @@ void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada){
     cout<<"Acaba de selecionar una carta del tipo: " << carta->getStringTipoCarta()<<endl;
     string respuesta = "";
     
-    while(!rta(respuesta)){
+    while(!mensajeValido(respuesta)){
         cout<<"¿Desea usar alguna Carta? Y/N: "<<endl;
         cin>>respuesta;
     }  
