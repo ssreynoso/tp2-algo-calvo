@@ -190,8 +190,8 @@ void TesoroBinario::colocarEspia(int jugador){
 			eliminarEspias(this->tablero->getCelda(x,y,z));
 			break;
 		case Mina:
-			//pierdeTurno;
-			break;
+            explotarEspia(this->tablero->getCelda(x,y,z),this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner()));
+                break;
 		}
 	}
 }
@@ -213,6 +213,73 @@ void TesoroBinario::eliminarEspias(Celda* celda){
 	celda->getFicha()->setJugadorOwner(-1);
 }
 
+//__________________________________________________
+
+///Disminuye una unidad la cantidad de Espias del jugador, resetea la casilla y
+///configura la cantidad de turnos desactivados. Finalmente omite el turno del jugador propietario;
+void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
+    jugador->descontarEspias();
+    celda->getFicha()->resetFicha();
+    celda->desctivarCasillaPorTurnos(2);
+    jugador->setOmitirTurno(true);
+}
+
+///Disminuye una unidad la cantidad de Tesoros del jugador, resetea la casilla y
+///configura la cantidad de turnos desactivados.
+void TesoroBinario::explotarTesoro(Celda *celda, Jugador *jugador) {
+    jugador->descontarTesoros();
+    celda->desctivarCasillaPorTurnos(3);
+}
+///Resetea la casilla y configura la cantidad de turnos desactivados.
+void TesoroBinario::explotarMinas(Celda *celda) {
+    celda->getFicha()->resetFicha();
+    celda->desctivarCasillaPorTurnos(5);
+}
+
+
+void TesoroBinario::colocarMina(int jugador){
+    int x,y,z;
+    cout << "JUGADOR. " << jugador << "Indique la posicion para Mina: " << endl;
+
+    recibirPosicion(&x,&y,&z);
+    Celda *celdaActual = this->tablero->getCelda(x,y,z);
+    Ficha *ficha = celdaActual->getFicha();
+    Jugador *jugadorPropietario = this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner());
+
+    if(ficha->getJugadorOwner() == jugador){
+        cout << "Ya tienes una ficha en esta casilla" << endl;
+        colocarMina(jugador);
+    }else{
+        switch (ficha->getTipo()){
+
+            case VACIO:
+                ficha->setJugadorOwner(jugador);
+                ficha->setTipo(Mina);
+                break;
+            case Tesoro:
+                //Si encuentra un tesoro entonces pierde el tesoro el jugador contrincante, dajando inactivo 3 turnos
+                cout << "Eliminaste un tesoro del oponente: " << ficha->getJugadorOwner()<<endl;
+                explotarTesoro(celdaActual,jugadorPropietario);
+                break;
+            case Espia:
+                cout << "Eliminaste un Espia. El dueño perdera un turno"<<endl;
+                cout << "Se desactivo la casilla por 2 Turnos"<<endl;
+                //Si encuentra un espia deja incactivo el casillero por 2 turno
+                //Pierde el turno el dueño del espia
+                explotarEspia(celdaActual, jugadorPropietario);
+                break;
+            case Mina:
+                cout << "Oh, encontraste una mina..."<<endl;
+                cout << "Ambas minas explotaron y desactivaron la casilla por 5 Turnos"<<endl;
+                //Si encuentra otra minas, ambas explotan si se desactiva por 5 turnos
+                explotarMinas(celdaActual);
+                break;
+
+        }
+    }
+}
+
+//____________________________________________________
 
 
 

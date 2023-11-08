@@ -67,6 +67,24 @@ class TesoroBinario{
         //post: elimina los espias del juego y deja la casilla vacia y sin dueño
         void eliminarEspias(Celda* celda);
 
+        //Pre: 'Debe estar inicializado tablero y ademas la celda por parametro debe tener un Espia'
+        //Post: 'Eliminas los espias, resetea la celda, desactiva la celda
+        //tantos turnos y hace perder un turno al jugador propietario del Espia'
+        void explotarEspia(Celda *celda, Jugador *jugador);
+
+        //Pre: 'Debe estar inicializado tablero y ademas la celda por parametro debe tener un Tesoro'
+        //Post: 'Elimina cantidad de tesoros. Resetea la celda y desactiva la celda por tantos turnos'
+        void explotarTesoro(Celda *celda, Jugador *jugador);
+
+        //Pre: 'Debe estar inicializado tablero y adcional la celda por parametro debe tener un Mina'
+        //Post: 'Resetea la celda y desactiva la celda por tantos turnos'
+        void explotarMinas(Celda *celda);
+
+        //Pre: 'Debe estar inicializado Tablero, con casillas disponibles'
+        //Post: 'Coloca una ficha tipo Tesoro Mina'
+
+        void colocarMina(int jugador);
+
         //Post: Gestiona la carga del tablero y los tesoros
         void cargarJuego();    
 
