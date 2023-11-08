@@ -334,3 +334,47 @@ void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada){
         cout<<"Carta ejecutada correctamente"<<endl;
     }
 }
+
+
+
+
+
+
+//Escritura del archivo de texto, que luego vamos a reescribir a modo de bitmap
+void TesoroBinario::escribirArchivo(string contenido){
+    string nombreArchivo = "src/include/libreria/recursoEscrito.txt";
+    ofstream archivo;
+
+    archivo.open(nombreArchivo.c_str(), fstream::app);
+    if( contenido == "#"){
+        archivo << endl;
+    } else {
+        archivo << contenido;
+    }
+    archivo.close();
+}
+
+//Reseteo de archivo de texto
+void TesoroBinario::reiniciarArchivoEscrito(){
+    string nombreArchivo = "src/include/libreria/recursoEscrito.txt";
+    ofstream archivo;
+
+    archivo.open(nombreArchivo.c_str(), fstream::out);
+    archivo.close();
+}
+
+//recorrido de archivo de texto para formar imagen.
+void TesoroBinario::impresionImagen(){
+
+    //Hay que hacer que el tamaño sea mutable segun las config del juego
+    int ancho = 1000, alto = 1000, color;
+
+    //los rangos de la matriz van a depender de los x,y,z
+    int matriz[this->tablero->getTamanioX()][this->tablero->getTamanioY()];
+
+    for(int i = 0; i < this->tablero->getTamanioY(); i++){
+        for(int n = 0; n < this->tablero->getTamanioX(); n++){
+            lecturaPixel(n, i, )
+        }
+    }
+}
