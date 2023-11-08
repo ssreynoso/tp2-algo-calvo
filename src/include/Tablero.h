@@ -37,7 +37,9 @@ public:
     //POST: Devuelve true si la coordenada esta dentro del tablero
     bool inRange(int x, int y, int z);
 
-
+    // Pre: -
+    // Post
+    // void moverTesoro();
 };
 
 /*

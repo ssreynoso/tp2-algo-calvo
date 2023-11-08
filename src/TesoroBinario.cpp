@@ -12,6 +12,7 @@
 #include "./include/Enums.h"
 #include "./include/Celda.h"
 #include "./include/Carta.h"
+#include "./include/Utilidades.h"
 
 using namespace std;
 
@@ -115,52 +116,49 @@ void TesoroBinario::cargarTesorosPorJugador(){
 	}
 }
 
-void TesoroBinario::recibirPosicion(int* x, int* y, int* z){
-	cout << "plano: ";
-	cin >> *x;
-	cout << "fila: ";
-	cin >> *y;
-	cout << "columna: ";
-	cin >> *z;
-	if(!this->tablero->inRange(*x,*y,*z)){
-		cout << "Coordenadas fuera de rango, intentelo nuevamente" << endl;;
-		recibirPosicion(x,y,z);
-	}
-	if(!this->tablero->getCelda(*x,*y,*z)->estaActiva()){
-		cout << "La celda indicada esta inactiva" << endl;
-		recibirPosicion(x,y,z);
-	}
-}
-
 void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador){
 	this->tablero->getCelda(x,y,z)->getFicha()->setTipo(Tesoro);
 	this->tablero->getCelda(x,y,z)->getFicha()->setJugadorOwner(jugador);
 }
 
-void TesoroBinario::juego(){
-	do {
-		this->jugadores->iniciarCursor();
-		while(this->jugadores->avanzarCursor()){
-			if(sigueJugando(this->jugadores->obtenerCursor())){
-				jugarTurno(this->jugadores->obtenerCursor()->getNumeroDeJugador());
-			}
-		}
-
-	}while(!finDeJuego())
+bool TesoroBinario::sigueJugando(Jugador* jugador) {
+    return jugador->getTesoros() != 0;
 }
 
-void TesoroBinario::jugarTurno(int jugador){
+bool TesoroBinario::finDeJuego() {
+    // El juego termina cuando todos los jugadores se quedan sin tesoros salvo uno, ganando este jugador
+    int jugadoresConTesoro = 0;
+    
+    // Recorro todos los jugadores.
+    for (int i = 0; i < this->cantidadJugadores; i++) {
+        int numeroTesoros = this->jugadores->obtener(i)->getTesoros();
+        // Tienen tesoros?
+        if (numeroTesoros > 0) {
+            jugadoresConTesoro++;
+        }
+    }
+    
+    return jugadoresConTesoro == 1;
+}
 
+void TesoroBinario::juego(){
+    this->jugadores->iniciarCursor();
+    while(this->jugadores->avanzarCursor() && !finDeJuego()){
+        Jugador* jugadorActual = this->jugadores->obtenerCursor();
+        if (sigueJugando(jugadorActual)) {
+            jugarTurno(jugadorActual);
+        }
+    }
+}
 
-
+void TesoroBinario::jugarTurno(Jugador* jugador){
 	//logica cartas (levantar, jugar, guardar, ver disponibles)
 
-	//colocarMina();
-	//colocarEspia(jugador);
-	//moverTesoro();
+	// colocarMina();
 
+	// colocarEspia(jugador);
 
-
+	moverTesoro(jugador);
 
 	this->turno++;
 }
@@ -268,7 +266,7 @@ void TesoroBinario::cargarFichas(){
 	}
 }
 
-TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
+TipoCarta TesoroBinario::obtenerTipoDeCarta(int indiceCarta){
     TipoCarta tipo;
     switch (indiceCarta) 
     {
@@ -287,44 +285,46 @@ TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
 
 Carta* TesoroBinario::generarCarta(){
     int numero = rand() % 3;
-    TipoCarta tipo = obtenerTipoCarta(numero);
+    TipoCarta tipo = obtenerTipoDeCarta(numero);
     Carta* carta= new Carta(tipo);
     return carta;
 }
 
 void TesoroBinario::ejecutarCartaElegida(Carta* carta, Jugador* jugador,Coordenada coordenada){
     carta->usarCarta(tablero, coordenada);
-    }
 } 
-bool TesoroBinario::rta(std::string mensaje){
-    return (mensaje == "Y" || mensaje == "N");
-}
 int TesoroBinario::obtenerIndiceDeCarta(Jugador* jugador){
     int i = 0;
     int indiceDeCarta;
-    while(i !=-1){
-        cout<<"Ingrese el indice de la carta que quiere usar: "<<endl;
+    bool esIndiceValido = false;
+
+    while(!esIndiceValido) {
+        // Ingreso de datos
+        cout << "Ingrese el indice de la carta que quiere usar: " << endl;
         cin >> indiceDeCarta;
-        if( (indiceDeCarta -1 >= 0) && (indiceDeCarta -1  < jugador->getCantidadDeCartas()) ){
-            i= -1;
-        }else{
+
+        // Evaluación de índice
+        bool estaEnRangoValido    = (indiceDeCarta - 1 >= 0);
+        bool estaEnRangoDeJugador = (indiceDeCarta - 1 < jugador->getCantidadDeCartas()); 
+
+        esIndiceValido = estaEnRangoValido && estaEnRangoDeJugador;
+
+        if (!esIndiceValido){
             cout<<"Ingrese un indice valido"<<endl;
         }
     }
-    return indiceDeCarta-1;
+
+    return indiceDeCarta - 1;
 }
+
 void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada){
-    Carta*  carta = this->generarCarta();
+    Carta* carta = this->generarCarta();
     jugador->agregarCarta(carta);
     cout<<"Acaba de selecionar una carta del tipo: " << carta->getStringTipoCarta()<<endl;
-    string respuesta = "";
     
-    while(!rta(respuesta)){
-        cout<<"¿Desea usar alguna Carta? Y/N: "<<endl;
-        cin>>respuesta;
-    }  
+    bool respuesta = confirmar("¿Desea usar alguna Carta? Y/N: ");
 
-    if(respuesta == "Y"){
+    if (respuesta){
         jugador->imprimirCartas();
         int indiceCarta = this->obtenerIndiceDeCarta(jugador);
         this->ejecutarCartaElegida(jugador->seleccionarCarta(indiceCarta),jugador,coordenada);

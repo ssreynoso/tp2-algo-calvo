@@ -50,9 +50,22 @@ class TesoroBinario{
         // gestiona todo el desarrollo del juego hasta que algun jugador gane
         void juego();
 
+        //
+        // post: devuelve true en el caso de que el jugador recibido pueda seguir jugando, de lo contrario false. 
+        bool sigueJugando(Jugador* jugador);
+
+        //
+        // post: realiza las evaluaciones correspondientes para ver si sigue el juego.
+        //       devuelve true en caso de que el juego deba finalizar.
+        bool finDeJuego();
+
         //pre: recibe el indice correspondiente al jugador del turno
         //post: gestiona cada turno
-        void jugarTurno(int jugador);
+        void jugarTurno(Jugador* jugador);
+
+        // pre: -
+        // post: Recibe un jugador y mueve un tesoro
+        void TesoroBinario::moverTesoro(Jugador* jugador);
 
         //
         //
@@ -92,6 +105,9 @@ class TesoroBinario{
 
         //Post: devuelve el tipo de carta dependiendo del indice que reciba
         TipoCarta obtenerTipoDeCarta(int indiceDeCarta);
+
+        //Post: devuelve el tipo de carta dependiendo del indice que reciba
+        int obtenerIndiceDeCarta(Jugador* jugador);
 
         //Pre: 'carta', 'jugador' y 'coordenada' deben contener un valor valido
         //Post: dependiendo del tipo de carta ejecuta la accion correspondiente

@@ -64,7 +64,6 @@ class Jugador{
         //POST: Setea la cantidad de Espias
         void setEspia(int espias);
 
-
         //Pre:debe recibir un punto a una carta
         //Post: debe agregar la carta recibida como parametro a la lista de cartas
         void agregarCarta(Carta* carta);
@@ -83,7 +82,6 @@ class Jugador{
 
         //Post: devuelve la cantidad de cartas que tiene el jugador
         int getCantidadDeCartas();
-
 };
 
 #endif

@@ -12,7 +12,7 @@ class Celda {
         Coordenada* coordenadas;
 
     public:
-        //Pre: no tiene
+        //Pre: -
         //Post: crea una instancia de celda
         Celda();
 
@@ -24,7 +24,7 @@ class Celda {
         //Post: asigna el estado pasado por parametro
         void setEstado(bool activa);
         
-        //Pre: no tiene
+        //Pre: -
         //Post: devuelve true si la celda esta activa y false si esta inactiva
         bool estaActiva();
         
@@ -32,7 +32,7 @@ class Celda {
         //Post: coloca la ficha en la celda
         void setFicha(Ficha* ficha);
 
-        //Pre:no tiene
+        //Pre: -
         //Post:devuelve un puntero a la ficha que se encuentra dentro de la celda
         Ficha* getFicha();
 
@@ -40,7 +40,7 @@ class Celda {
         //Post: asigna la cantidad de rondas que la celda tiene que permancer inactiva
         void setTurnosInactiva(int turnosInactiva);
 
-        //Pre: no tiene
+        //Pre: -
         //Post: devuelve la cantidad de turnos que la celda debe permanecer inactiva
         int getTurnosInactiva();
 
