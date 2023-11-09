@@ -54,8 +54,11 @@ void TesoroBinario::cargarCantidadesDeFichasAJugadores() {
 bool TesoroBinario::validarCeldaAInsertarFicha(Coordenada coordenada) {
     TipoContenido tipo =
         this->tablero
-            ->getCelda(coordenada.getCoordenadaX(), coordenada.getCoordenadaY(),
-                       coordenada.getCoordenadaZ())
+            ->getCelda(
+                coordenada.getCoordenadaX(),
+                coordenada.getCoordenadaY(),
+                coordenada.getCoordenadaZ()
+            )
             ->getFicha()
             ->getTipo();
 
