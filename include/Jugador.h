@@ -15,6 +15,7 @@ class Jugador {
     int tesoros;
     int espias;
     bool escudoActivo;
+    bool omitirTurno;
 
    public:
     // PRE: no tiene
@@ -88,10 +89,18 @@ class Jugador {
     // Post: devuelve la cantidad de cartas que tiene el jugador
     int getCantidadDeCartas();
 
-    //Activa el escudo del jugador
+    // pre: 'Debe existrir la instancia jugador y pasar una valor bool'
+    // post:'Setea el valor omitirTurno segun el valor ingresado'
+    void setOmitirTurno(bool estado);
+
+    // pre: 'Debe existrir la instancia jugador'
+    // post: 'Retorna es estado de turno del jugador'
+    bool getOmitirTurno();
+
+    // Activa el escudo del jugador
     void activarEscudo();
 
-    //Remueve el escudo del jugador
+    // Remueve el escudo del jugador
     void desactivarEscudo();
 };
 

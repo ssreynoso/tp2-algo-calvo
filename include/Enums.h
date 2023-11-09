@@ -1,16 +1,16 @@
 #ifndef __ENUMS_H__
 #define __ENUMS_H__
 
-//fichas
+// fichas
 enum TipoContenido {
-    Espia, 
+    Espia,
     Tesoro,
     TesoroPartido,
-	Mina,
+    Mina,
     VACIO,
 };
 
-//cartas
+// cartas
 enum TipoCarta {
     Blindaje,
     Radar,
@@ -20,11 +20,7 @@ enum TipoCarta {
     Escudo,
 };
 
-//lista
-enum Iteracion {
-    SIGUIENTE, 
-    FINAL, 
-    ANTERIOR
-};
+// lista
+enum Iteracion { SIGUIENTE, FINAL, ANTERIOR };
 
 #endif
