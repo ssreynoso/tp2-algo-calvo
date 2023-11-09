@@ -5,6 +5,7 @@
 enum TipoContenido {
     Espia, 
     Tesoro,
+    TesoroPartido,
 	Mina,
     VACIO,
 };

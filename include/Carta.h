@@ -1,40 +1,59 @@
-#ifndef __CARTA_H__
-#define __CARTA_H__
-
-#include <map>
 #include <string>
 #include "Tablero.h"
 #include "Celda.h"
-#include "Coordenadas.h"
 #include "Enums.h"
+#include "Coordenadas.h"
+#include <map>
 
-class Carta {
-   private:
-    TipoCarta carta;
-    bool cartaActiva;
-    int radioAccion;
+#ifndef __CARTA_H__
+#define __CARTA_H__
 
-   public:
-    // Post: construye una instancia de la clase carta
-    Carta(TipoCarta carta);
+class Carta{
+    private:
 
-    // Pre: recibe como parametro el tablero y el centro de accion
-    // Post:Dependiendo del tipo de carta desencadenara la accion
-    void usarCarta(Tablero* tablero, Coordenada centro);
+        TipoCarta carta;
+        bool cartaActiva;
+        int radioAccion;
+       
 
-    // Post:Permite saber cual es el tipo de carta
-    TipoCarta getTipoCarta();
+    public:
 
-    // Post:devuelve un strung del tipo de carta
-    std::string getStringTipoCarta();
+        //Post: construye una instancia de la clase carta
+        Carta(TipoCarta carta);
 
-    // Post:Permite saber si la carta esta activa
-    bool getCartaActiva();
+        //Pre: recibe como parametro el tablero y el centro de accion
+        //Post:Dependiendo del tipo de carta desencadenara la accion 
+        void usarCarta(Tablero* tablero, Coordenada centro);
 
-   private:
-    // Pre: recibe el contenido de una ficha
-    // Post: devuelve un string  que describa el tipo de contenido
-    std::string getStringTipoFicha(TipoContenido tipoFicha);
+        //Post:Permite saber cual es el tipo de carta
+        TipoCarta getTipoCarta();
+
+        //Post:devuelve un strung del tipo de carta
+        std::string getStringTipoCarta();
+
+        //Post:Permite saber si la carta esta activa
+        bool getCartaActiva();
+
+    private:
+
+        //Pre: recibe el contenido de una ficha
+        //Post: devuelve un string  que describa el tipo de contenido
+        std::string getStringTipoFicha(TipoContenido tipoFicha);
+        
+        //Avisa si hay Tesoros a la redonda
+        bool radar(Tablero* tablero, Coordenada coord);
+
+        // Inactiva la Celdad por turnos limitados
+        void blindaje(Tablero* tablero, Coordenada coord);
+
+        //Parte una ficha "Tesoro" en dos fichas "TesoroPartido"
+        // en dos casilleros distintos
+        void partirTesoro(Tablero* tablero, Coordenada coord);
+
+        //Post: elimina la ficha del jugador e inactiva la celda en donde se produjo el encuentro
+        void eliminarEspia(Tablero* tablero, Coordenada coord);
+
+
 };
 
 #endif

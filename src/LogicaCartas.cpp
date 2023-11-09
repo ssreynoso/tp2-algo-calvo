@@ -23,6 +23,7 @@ void TesoroBinario::ejecutarCartaElegida(
 ) {
     carta->usarCarta(tablero, coordenada);
 }
+
 int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
     int indiceDeCarta;
     bool esIndiceValido = false;
