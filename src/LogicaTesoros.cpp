@@ -9,6 +9,11 @@ void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador) {
     this->tablero->getCelda(x, y, z)->getFicha()->setJugadorOwner(jugador);
 }
 
+void TesoroBinario::colocarTesoro(Celda* celda, int jugador) {
+    celda->getFicha()->setTipo(Tesoro);
+    celda->getFicha()->setJugadorOwner(jugador);
+}
+
 void TesoroBinario::moverTesoro(Jugador* jugador) {
     int numeroJugador = jugador->getNumeroDeJugador();
     Celda* celda = NULL;
@@ -20,10 +25,8 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
 
     switch (fichaNuevaPosicion->getTipo()) {
         case VACIO:
-            fichaNuevaPosicion->setTipo(Tesoro);
-            fichaNuevaPosicion->setJugadorOwner(numeroJugador);
-            fichaTesoroPropio->setTipo(VACIO);
-            fichaTesoroPropio->setJugadorOwner(0);
+            colocarTesoro(nuevaPosicion, numeroJugador);
+            fichaTesoroPropio->resetFicha();
             break;
         case Tesoro:
             std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;
@@ -39,6 +42,8 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             break;
         case Mina:
             // pierdeTurno;
+            std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
+            explotarTesoro(nuevaPosicion, jugador);
             break;
     }
 }

@@ -12,6 +12,7 @@ Jugador::Jugador() {
     this->numeroDeJugador = 0;
     this->espias = 0;
     this->tesoros = 0;
+    this->omitirTurno = false;
     this->cartas = new Lista<Carta*>();
 }
 
@@ -102,4 +103,12 @@ void Jugador::removerCarta(int indiceCarta){
 
 int Jugador::getCantidadDeCartas(){
 	return this->cartas->contarElementos();
+}
+
+void Jugador::setOmitirTurno(bool estado){
+    this->omitirTurno = estado;
+}
+
+bool Jugador::getOmitirTurno() {
+    return this->getOmitirTurno();
 }

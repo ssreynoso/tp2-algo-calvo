@@ -1,10 +1,13 @@
 #include "./include/TesoroBinario.h"
 #include "./include/Jugador.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 
 // libreria bitmap
 #include "./include/libreria/EasyBMP_1.06/EasyBMP.h"
-#include <fstream>
-#include <sstream>
+
 
 //Creacion de canvas blanco de dimensiones del juego.
 //Habria que hacer uno para cada jugador
@@ -43,9 +46,9 @@ void TesoroBinario::creacionCanvas(Jugador * jugador){
     int numeroDeJugador = jugador->getNumeroDeJugador();
     std::stringstream ss;
     ss << numeroDeJugador;
-    string cambioIntStr= ss.str();
+    std::string cambioIntStr= ss.str();
 
-    string guardado = "sample" + cambioIntStr + ".bmp";
+    std::string guardado = "sample" + cambioIntStr + ".bmp";
     AnImage.WriteToFile("sample.bmp");
      */
 
@@ -53,40 +56,44 @@ void TesoroBinario::creacionCanvas(Jugador * jugador){
 
 //Esta va a ser una funcion que podamos llamar en cada momento que se requiera
 //cambiar un o unos pixeles en especifico, asi no tenemos que reescribir el bitmap entero
-void TesoroBinario::pintarPixel(string contenido){
+void TesoroBinario::pintarPixel(std::string contenido){
 
 }
 
 //Escritura del archivo que copia la terminal
-void TesoroBinario::escrituraArchivoDeTexto(string contenido){
+void TesoroBinario::escrituraArchivoDeTexto(std::string contenido){
 
-    string nombreDeArchivo = "src/include/libreria/textoBitmap.txt";
-    ofstream archivo;
+    std::string nombreDeArchivo = "src/include/libreria/textoBitmap.txt";
+    std::ofstream archivo;
 
-    archivo.open(nombreDeArchivo.c_str(), fstream::app);
+    archivo.open(nombreDeArchivo.c_str(), std::fstream::app);
 
-    if(contenido == "$"){
-        archivo << endl;
-    } else if (contenido == "+"){
-        for(int i = 0; i < this->tablero->getTamanioX(); i++){
-            archivo << "+";
+    if (archivo.is_open()) {
+        if(contenido == "$"){
+            archivo << std::endl;
+        } else if (contenido == "+"){
+            for(int i = 0; i < this->tablero->getTamanioX(); i++){
+                archivo << "+";
+            }
+        } else {
+            archivo << contenido;
         }
+
+        //Con esta combinacion de $, + y contenido, nos quedaria un txt replica de la
+        // terminal, separando los planos xy con una cadena de x * "+"
+        //usamos fstream::app para que no reinicie el archivo, sino que le agregue algo.
+
+        archivo.close();
     } else {
-        archivo << contenido;
+        std::cerr << "Error al abrir el archivo.\n";
     }
-
-    //Con esta combinacion de $, + y contenido, nos quedaria un txt replica de la
-    // terminal, separando los planos xy con una cadena de x * "+"
-    //usamos fstream::app para que no reinicie el archivo, sino que le agregue algo.
-
-    archivo.close();
 }
 
 //Reseteo de archivo de texto
 void TesoroBinario::reiniciarArchivoEscrito(){
-    string nombreArchivo = "src/include/libreria/textoBitmap.txt";
-    ofstream archivo;
+    std::string nombreArchivo = "src/include/libreria/textoBitmap.txt";
+    std::ofstream archivo;
 
-    archivo.open(nombreArchivo.c_str(), fstream::out);
+    archivo.open(nombreArchivo.c_str(), std::fstream::out);
     archivo.close();
 }

@@ -48,6 +48,7 @@ class TesoroBinario{
         // Pre: Recibe las coordenadas y un numero de jugador
         // Post: Coloca un tesoro en la posición determinada 
         void colocarTesoro(int x, int y, int z, int jugador);
+        void colocarTesoro(Celda* celda, int jugador);
 
         //
         // gestiona todo el desarrollo del juego hasta que algun jugador gane
@@ -79,6 +80,24 @@ class TesoroBinario{
         //post: elimina los espias del juego y deja la casilla vacia y sin dueño
         void eliminarEspias(Celda* celda);
 
+        //Pre: 'Debe estar inicializado tablero y ademas la celda por parametro debe tener un Espia'
+        //Post: 'Eliminas los espias, resetea la celda, desactiva la celda
+        //tantos turnos y hace perder un turno al jugador propietario del Espia'
+        void explotarEspia(Celda *celda, Jugador *jugador);
+
+        //Pre: 'Debe estar inicializado tablero y ademas la celda por parametro debe tener un Tesoro'
+        //Post: 'Elimina cantidad de tesoros. Resetea la celda y desactiva la celda por tantos turnos'
+        void explotarTesoro(Celda *celda, Jugador *jugador);
+
+        //Pre: 'Debe estar inicializado tablero y adcional la celda por parametro debe tener un Mina'
+        //Post: 'Resetea la celda y desactiva la celda por tantos turnos'
+        void explotarMinas(Celda *celda);
+
+        //Pre: 'Debe estar inicializado Tablero, con casillas disponibles'
+        //Post: 'Coloca una ficha tipo Tesoro Mina'
+
+        void colocarMina(int jugador);
+
         //Post: Gestiona la carga del tablero y los tesoros
         void cargarJuego();    
 
@@ -103,10 +122,10 @@ class TesoroBinario{
         Carta* generarCarta();
 
         //Post: devuelve el tipo de carta dependiendo del indice que reciba
-        TipoCarta obtenerTipoDeCarta(int indiceDeCarta);
+        TipoCarta obtenerTipoCarta(int indiceDeCarta);
 
         //Post: devuelve el tipo de carta dependiendo del indice que reciba
-        int obtenerIndiceDeCarta(Jugador* jugador);
+        int obtenerIndiceCarta(Jugador* jugador);
 
         //Pre: 'carta', 'jugador' y 'coordenada' deben contener un valor valido
         //Post: dependiendo del tipo de carta ejecuta la accion correspondiente
@@ -119,6 +138,15 @@ class TesoroBinario{
         //Pre: 'mensaje' debe estar inicializado
         //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no
         bool mensajeValido(std::string mensaje);
+
+        // Logica Bitmap?
+        void creacionCanvas(Jugador * jugador);
+
+        void pintarPixel(std::string contenido);
+
+        void escrituraArchivoDeTexto(std::string contenido);
+
+        void reiniciarArchivoEscrito();
     
 };
 #endif /* TESOROBINARIO_H_ */

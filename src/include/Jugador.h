@@ -2,86 +2,97 @@
 #define __JUGADOR_H__
 
 #include <string>
+#include "Lista.h"
 #include "Carta.h"
 
-class Jugador{
-    private:
-        std::string nombre;
-        int numeroDeJugador;
-        int tesoros;
-        int espias;
-        Lista<Carta*>* cartas;
-    public:
-        //PRE: no tiene
-        //POST: crea una isntancia de jugador
-        Jugador();
+class Jugador {
+   private:
+    Lista<Carta*>* cartas;
+    std::string nombre;
+    int numeroDeJugador;
+    int tesoros;
+    int espias;
+    bool omitirTurno;
 
-        //PRE: no tiene
-        //POST: destruye la instancia jugador y libera la memoria dinamica usada
-        ~Jugador();
+   public:
+    // PRE: no tiene
+    // POST: crea una isntancia de jugador
+    Jugador();
 
-        //POST: Devuelve el nombre del jugador
-        std::string getNombre();
+    // PRE: no tiene
+    // POST: destruye la instancia jugador y libera la memoria dinamica usada
+    ~Jugador();
 
-        //post: devuelve el numero de jugador
-        int getNumeroDeJugador();
+    // POST: Devuelve el nombre del jugador
+    std::string getNombre();
 
-        //POST: Devuelve la cantidad de Tesoros del jugador
-        int getTesoros();
+    // post: devuelve el numero de jugador
+    int getNumeroDeJugador();
 
-        //POST: Devuelve la cantidad de Espias del jugador
-        int getEspias();
+    // POST: Devuelve la cantidad de Tesoros del jugador
+    int getTesoros();
 
-        //PRE: Recibe el string de nombre del jugador
-        //POST: Setea el nombre del jugador
-        void setNombre(std::string nombre);
+    // POST: Devuelve la cantidad de Espias del jugador
+    int getEspias();
 
-        //pre: recibe el numerod e jugador
-        //setea el numero de jugador
-        void setNumeroDeJugador(int numeroDeJugador);
+    // PRE: Recibe el string de nombre del jugador
+    // POST: Setea el nombre del jugador
+    void setNombre(std::string nombre);
 
-        //PRE: Recibe un int de la cantidad de Tesoros
-        //POST: Setea la cantidad de Tesoros
-        void setTesoro(int tesoros);
+    // pre: recibe el numerod e jugador
+    // setea el numero de jugador
+    void setNumeroDeJugador(int numeroDeJugador);
 
-        //pre
-        //post: incrementa en 1 la cantidad de tesoros
-        void incrementarTesoros();
+    // PRE: Recibe un int de la cantidad de Tesoros
+    // POST: Setea la cantidad de Tesoros
+    void setTesoro(int tesoros);
 
-        //pre:
-        //post: reduce en 1 la cantidad de tesoros
-        void descontarTesoros();
+    // pre
+    // post: incrementa en 1 la cantidad de tesoros
+    void incrementarTesoros();
 
-        //pre
-        //post: incrementa en 1 la cantidad de espias
-        void incrementarEspias();
+    // pre:
+    // post: reduce en 1 la cantidad de tesoros
+    void descontarTesoros();
 
-        //pre:
-        //post: reduce en 1 la cantidad de espias
-        void descontarEspias();
+    // pre
+    // post: incrementa en 1 la cantidad de espias
+    void incrementarEspias();
 
-        //PRE: Recibe un int de la cantidad de Espias
-        //POST: Setea la cantidad de Espias
-        void setEspia(int espias);
+    // pre:
+    // post: reduce en 1 la cantidad de espias
+    void descontarEspias();
 
-        //Pre:debe recibir un punto a una carta
-        //Post: debe agregar la carta recibida como parametro a la lista de cartas
-        void agregarCarta(Carta* carta);
+    // PRE: Recibe un int de la cantidad de Espias
+    // POST: Setea la cantidad de Espias
+    void setEspia(int espias);
 
-        //Pre:El jugador debe tener cartas
-        //Post:Devuelve por consola la lista de cartas que posee el jugador
-        void imprimirCartas();
+    // Pre:debe recibir un punto a una carta
+    // Post: debe agregar la carta recibida como parametro a la lista de cartas
+    void agregarCarta(Carta* carta);
 
-        //Pre:se tiene que recibir un indice valido
-        //Post: devuelve un puntero a la carta correspondiente al indice ingresado
-        Carta* seleccionarCarta(int indiceCarta);
+    // Pre:El jugador debe tener cartas
+    // Post:Devuelve por consola la lista de cartas que posee el jugador
+    void imprimirCartas();
 
-        //Pre:se tiene que recibir el indice de la carta que se desea remover
-        //Post: remueve la carta del mazo del indice indicado
-        void removerCarta(int indiceCarta);
+    // Pre:se tiene que recibir un indice valido
+    // Post: devuelve un puntero a la carta correspondiente al indice ingresado
+    Carta* seleccionarCarta(int indiceCarta);
 
-        //Post: devuelve la cantidad de cartas que tiene el jugador
-        int getCantidadDeCartas();
+    // Pre:se tiene que recibir el indice de la carta que se desea remover
+    // Post: remueve la carta del mazo del indice indicado
+    void removerCarta(int indiceCarta);
+
+    // Post: devuelve la cantidad de cartas que tiene el jugador
+    int getCantidadDeCartas();
+
+    // pre: 'Debe existrir la instancia jugador y pasar una valor bool'
+    // post:'Setea el valor omitirTurno segun el valor ingresado'
+    void setOmitirTurno(bool estado);
+
+    // pre: 'Debe existrir la instancia jugador'
+    // post: 'Retorna es estado de turno del jugador'
+    bool getOmitirTurno();
 };
 
 #endif

@@ -2,7 +2,6 @@
 #define LISTA_H
 
 #include <cstddef>
-
 #include "Nodo.h"
 
 /*
@@ -14,18 +13,17 @@
  * Tiene un cursor que permite recorrer todos los elementos secuencialmente.
  *
  */
-template<class T> class Lista {
+template <class T>
+class Lista {
 
-private:
-
+   private:
     Nodo<T>* primero;
 
     unsigned int tamanio;
 
     Nodo<T>* cursor;
 
-public:
-
+   public:
     /*
      * post: Lista vacía.
      */
@@ -35,7 +33,7 @@ public:
      * post: Lista que tiene los mismos elementos que otraLista.
      *       La instancia resulta en una copia de otraLista.
      */
-    Lista(Lista<T> * otraLista);
+    Lista(Lista<T>* otraLista);
 
     /*
      * post: indica si la Lista tiene algún elemento.
@@ -70,7 +68,7 @@ public:
      * post: agrega todos los elementos de otraLista
      *       a partir de la posición contarElementos() + 1.
      */
-    void agregar(Lista<T> * otraLista);
+    void agregar(Lista<T>* otraLista);
 
     /*
      * pre : posición pertenece al intervalo: [1, contarElementos()]
@@ -118,7 +116,8 @@ public:
     T obtenerCursor();
 
     /* pre: -
-     * post: liga el ultimo elemento de la lista con el primero para crear una lista ligada circular simple
+     * post: liga el ultimo elemento de la lista con el primero para crear una
+     * lista ligada circular simple
      */
     void ligarUltimoConPrimero();
 
@@ -127,23 +126,24 @@ public:
      */
     ~Lista();
 
-private:
-
+   private:
     /*
      * pre : posición pertenece al intervalo: [1, contarElementos()]
      * post: devuelve el nodo en la posición indicada.
      */
-    Nodo<T>* obtenerNodo(unsigned int posicion); // NOTA: primitiva PRIVADA
+    Nodo<T>* obtenerNodo(unsigned int posicion);  // NOTA: primitiva PRIVADA
 };
 
-template<class T> Lista<T>::Lista() {
+template <class T>
+Lista<T>::Lista() {
 
     this->primero = NULL;
     this->tamanio = 0;
     this->cursor = NULL;
 }
 
-template<class T> Lista<T>::Lista(Lista<T> * otraLista) {
+template <class T>
+Lista<T>::Lista(Lista<T>* otraLista) {
 
     this->primero = NULL;
     this->tamanio = 0;
@@ -153,25 +153,28 @@ template<class T> Lista<T>::Lista(Lista<T> * otraLista) {
     this->agregar(otraLista);
 }
 
-template<class T> bool Lista<T>::estaVacia() {
+template <class T>
+bool Lista<T>::estaVacia() {
 
     return (this->tamanio == 0);
 }
 
-template<class T> unsigned int Lista<T>::contarElementos() {
+template <class T>
+unsigned int Lista<T>::contarElementos() {
 
     return this->tamanio;
 }
 
-template<class T> void Lista<T>::agregar(T elemento) {
+template <class T>
+void Lista<T>::agregar(T elemento) {
 
     this->agregar(elemento, this->tamanio + 1);
 }
 
-template<class T> void Lista<T>::agregar(T elemento, unsigned int posicion) {
+template <class T>
+void Lista<T>::agregar(T elemento, unsigned int posicion) {
 
-    if ((posicion > 0) &&
-    	(posicion <= this->tamanio + 1)) {
+    if ((posicion > 0) && (posicion <= this->tamanio + 1)) {
 
         Nodo<T>* nuevo = new Nodo<T>(elemento);
 
@@ -192,10 +195,10 @@ template<class T> void Lista<T>::agregar(T elemento, unsigned int posicion) {
         /* cualquier recorrido actual queda invalidado */
         this->iniciarCursor();
     }
-
 }
 
-template<class T> void Lista<T>::agregar(Lista<T> * otraLista) {
+template <class T>
+void Lista<T>::agregar(Lista<T>* otraLista) {
 
     otraLista->iniciarCursor();
     while (otraLista->avanzarCursor()) {
@@ -203,7 +206,8 @@ template<class T> void Lista<T>::agregar(Lista<T> * otraLista) {
     }
 }
 
-template<class T> T Lista<T>::obtener(unsigned int posicion) {
+template <class T>
+T Lista<T>::obtener(unsigned int posicion) {
 
     T elemento;
 
@@ -215,21 +219,23 @@ template<class T> T Lista<T>::obtener(unsigned int posicion) {
     return elemento;
 }
 
-template<class T> bool Lista<T>::contiene(T elemento) {
-	Nodo<T>* cursorAnterior = this->cursor;
-	iniciarCursor();
-	bool encontrado = false;
-	while (avanzarCursor() && !encontrado) {
-		T actual = obtenerCursor();
-		if (actual == elemento) {
-			encontrado = true;
-		}
-	}
-	this->cursor = cursorAnterior;
-	return encontrado;
+template <class T>
+bool Lista<T>::contiene(T elemento) {
+    Nodo<T>* cursorAnterior = this->cursor;
+    iniciarCursor();
+    bool encontrado = false;
+    while (avanzarCursor() && !encontrado) {
+        T actual = obtenerCursor();
+        if (actual == elemento) {
+            encontrado = true;
+        }
+    }
+    this->cursor = cursorAnterior;
+    return encontrado;
 }
 
-template<class T> void Lista<T>::asignar(T elemento, unsigned int posicion) {
+template <class T>
+void Lista<T>::asignar(T elemento, unsigned int posicion) {
 
     if ((posicion > 0) && (posicion <= this->tamanio)) {
 
@@ -237,7 +243,8 @@ template<class T> void Lista<T>::asignar(T elemento, unsigned int posicion) {
     }
 }
 
-template<class T> void Lista<T>::remover(unsigned int posicion) {
+template <class T>
+void Lista<T>::remover(unsigned int posicion) {
 
     if ((posicion > 0) && (posicion <= this->tamanio)) {
 
@@ -263,12 +270,14 @@ template<class T> void Lista<T>::remover(unsigned int posicion) {
     }
 }
 
-template<class T> void Lista<T>::iniciarCursor() {
+template <class T>
+void Lista<T>::iniciarCursor() {
 
     this->cursor = NULL;
 }
 
-template<class T> bool Lista<T>::avanzarCursor() {
+template <class T>
+bool Lista<T>::avanzarCursor() {
 
     if (this->cursor == NULL) {
 
@@ -283,9 +292,10 @@ template<class T> bool Lista<T>::avanzarCursor() {
     return (this->cursor != NULL);
 }
 
-template<class T> T Lista<T>::obtenerCursor() {
+template <class T>
+T Lista<T>::obtenerCursor() {
 
-    T elemento; //int elemento
+    T elemento;  // int elemento
 
     if (this->cursor != NULL) {
 
@@ -295,7 +305,8 @@ template<class T> T Lista<T>::obtenerCursor() {
     return elemento;
 }
 
-template<class T> Lista<T>::~Lista() {
+template <class T>
+Lista<T>::~Lista() {
 
     while (this->primero != NULL) {
 
@@ -306,7 +317,8 @@ template<class T> Lista<T>::~Lista() {
     }
 }
 
-template<class T> Nodo<T>* Lista<T>::obtenerNodo(unsigned int posicion) {
+template <class T>
+Nodo<T>* Lista<T>::obtenerNodo(unsigned int posicion) {
 
     Nodo<T>* actual = this->primero;
     for (unsigned int i = 1; i < posicion; i++) {
@@ -317,11 +329,10 @@ template<class T> Nodo<T>* Lista<T>::obtenerNodo(unsigned int posicion) {
     return actual;
 }
 
-template<class T> void Lista<T>::ligarUltimoConPrimero(){
+template <class T>
+void Lista<T>::ligarUltimoConPrimero() {
 
     this->obtenerNodo(this->tamanio)->cambiarSiguiente(this->primero);
-
-
 }
 
-#endif //LISTA_H
+#endif  // LISTA_H

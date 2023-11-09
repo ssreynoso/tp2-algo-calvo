@@ -10,7 +10,7 @@
 
 Carta* TesoroBinario::generarCarta() {
     int numero     = rand() % 3;
-    TipoCarta tipo = obtenerTipoDeCarta(numero);
+    TipoCarta tipo = obtenerTipoCarta(numero);
     Carta* carta   = new Carta(tipo);
 
     return carta;
@@ -23,15 +23,14 @@ void TesoroBinario::ejecutarCartaElegida(
 ) {
     carta->usarCarta(tablero, coordenada);
 }
-int TesoroBinario::obtenerIndiceDeCarta(Jugador* jugador) {
+int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
     int i = 0;
     int indiceDeCarta;
     bool esIndiceValido = false;
 
     while (!esIndiceValido) {
         // Ingreso de datos
-        std::cout << "Ingrese el indice de la carta que quiere usar: "
-                  << std::endl;
+        std::cout << "Ingrese el indice de la carta que quiere usar: " << std::endl;
         std::cin >> indiceDeCarta;
 
         // Evaluación de índice
@@ -59,7 +58,7 @@ void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada) {
 
     if (respuesta) {
         jugador->imprimirCartas();
-        int indiceCarta = this->obtenerIndiceDeCarta(jugador);
+        int indiceCarta = this->obtenerIndiceCarta(jugador);
         this->ejecutarCartaElegida(jugador->seleccionarCarta(indiceCarta),
                                    jugador, coordenada);
         jugador->removerCarta(indiceCarta);
@@ -67,7 +66,7 @@ void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada) {
     }
 }
 
-TipoCarta TesoroBinario::obtenerTipoDeCarta(int indiceCarta) {
+TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta) {
     TipoCarta tipo;
     switch (indiceCarta) {
         case Blindaje:

@@ -37,3 +37,11 @@ int Ficha::getNumFicha(){
 void Ficha::setNumFicha(int numero){
     this->enumerador = numero;
 }
+
+//Restablece los valores de la ficha
+
+void Ficha::resetFicha() {
+    this->tipo = VACIO;
+    this->jugadorOwner = -1;
+    this->enumerador = -1;
+}
