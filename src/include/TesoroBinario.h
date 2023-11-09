@@ -108,5 +108,13 @@ class TesoroBinario{
         //Pre: 'jugador' debe contener un valor valido
         //Post: devuelve el indice de la carta solictado por el usuario
         int obtenerIndiceDeCarta(Jugador* jugador);
+
+        void creacionCanvas(Jugador * jugador);
+
+        void pintarPixel(std::string contenido);
+
+        void escrituraArchivoDeTexto(std::string contenido);
+
+        void reiniciarArchivoEscrito();
 };
 #endif /* TESOROBINARIO_H_ */
