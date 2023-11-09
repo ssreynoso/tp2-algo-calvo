@@ -15,6 +15,8 @@
 
 // libreria bitmap
 #include "./include/libreria/EasyBMP_1.06/EasyBMP.h"
+//En caso de que no corra, incluir EasyBMP.cpp en lugar de este
+//#include "./include/libreria/EasyBMP_1.06/EasyBMP.cpp"
 #include <fstream>
 #include <sstream>
 
@@ -85,13 +87,10 @@ void TesoroBinario::imprimirTablero(int jugador){
 					}
 				}
 				cout << contenido;
-                this->escrituraArchivoDeTexto(contenido);
 				}
 			cout << endl;
-            this->escrituraArchivoDeTexto("$");
 			}
 		cout << "\n----------\n";
-        this->escrituraArchivoDeTexto("+");
 		}
 }
 
@@ -355,16 +354,19 @@ void TesoroBinario::creacionCanvas(Jugador * jugador){
     //El ancho va a ser de: (x * 10) + constante de margen
     //El alto va a ser de: ((y + linea de separacion) * 10) * z + constante de margen
     int anchoCanvas, altoCanvas, altoPlanoIndividual;
-    anchoCanvas = (this->tablero->getTamanioX() * 10);
-    altoPlanoIndividual = this->tablero->getTamanioY() + 1;
-    altoCanvas = ((altoPlanoIndividual) * this->tablero->getTamanioZ() * 10);
+    anchoCanvas = (this->tablero->getTamanioX()) + 4;
+    altoPlanoIndividual = (this->tablero->getTamanioY()) + 1;
+    altoCanvas = (altoPlanoIndividual * this->tablero->getTamanioZ() + 1);
     AnImage.SetSize(anchoCanvas, altoCanvas);
     //Set color depth a 8-bits
     AnImage.SetBitDepth(8);
 
-    //Itera para que cada pixel sea lanco
+
+    //Esta serie de iteraciones deja un canvas con planos vacios, mas margenes de color
+    //Esta primer iteracion recorre el bmp
     for(int y = 0; y < altoCanvas; y++){
 
+        //Recorre el bmp dejandolo blanco
         for(int x = 0; x < anchoCanvas; x++){
 
             AnImage(x, y)->Red = 255;
@@ -372,30 +374,51 @@ void TesoroBinario::creacionCanvas(Jugador * jugador){
             AnImage(x, y)->Blue= 255;
 
         }
+
+        //Recorre verticalmente dando un margen vertical de 2 pixeles
+        AnImage(0, y)->Red = 255;
+        AnImage(0, y)->Green = 100;
+        AnImage(0, y)->Blue = 100;
+        AnImage(anchoCanvas, y)->Red = 255;
+        AnImage(anchoCanvas - 2, y)->Green = 100;
+        AnImage(anchoCanvas - 2, y)->Blue = 100;
+        AnImage(1, y)->Red = 255;
+        AnImage(1, y)->Green = 100;
+        AnImage(1, y)->Blue = 100;
+        AnImage(anchoCanvas - 1, y)->Red = 255;
+        AnImage(anchoCanvas - 1, y)->Green = 100;
+        AnImage(anchoCanvas - 1, y)->Blue = 100;
+
     }
 
-    //Buscar manera de crear un archivo con un nombre personalizado para el
-    //numero de jugador
+    //Itera cada  y = largo de planoIndividual, es decir, pinta la separacion entre planos
+    for(int y = 0; y < altoCanvas + 1; y = y + altoPlanoIndividual){
+        for(int x = 2; x < anchoCanvas - 2; x++){
+            AnImage(x, y)->Red = 100;
+            AnImage(x, y)->Green = 100;
+            AnImage(x, y)->Blue = 100;
+        }
+    }
 
-    /*
+    //con esta parte, cada jugador va a tener su propio bmp al que acceder mas
+    //tarde cuando juegue. Va a tener su numero de jugador en el nombre.
     int numeroDeJugador = jugador->getNumeroDeJugador();
     std::stringstream ss;
     ss << numeroDeJugador;
-    string cambioIntStr= ss.str();
-
-    string guardado = "sample" + cambioIntStr + ".bmp";
-    AnImage.WriteToFile("sample.bmp");
-     */
+    string fila = ss.str();
+    string guardado = "sample" + fila + ".bmp";
+    AnImage.WriteToFile(guardado.c_str());
 
 }
 
 //Esta va a ser una funcion que podamos llamar en cada momento que se requiera
 //cambiar un o unos pixeles en especifico, asi no tenemos que reescribir el bitmap entero
-void TesoroBinario::pintarPixel(string contenido){
+void TesoroBinario::pintarPixel(string contenido, Jugador * jugador){
 
 }
 
 //Escritura del archivo que copia la terminal
+/*
 void TesoroBinario::escrituraArchivoDeTexto(string contenido){
 
     string nombreDeArchivo = "src/include/libreria/textoBitmap.txt";
@@ -428,3 +451,4 @@ void TesoroBinario::reiniciarArchivoEscrito(){
     archivo.open(nombreArchivo.c_str(), fstream::out);
     archivo.close();
 }
+ */

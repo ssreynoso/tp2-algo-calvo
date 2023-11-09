@@ -111,10 +111,12 @@ class TesoroBinario{
 
         void creacionCanvas(Jugador * jugador);
 
-        void pintarPixel(std::string contenido);
+        void pintarPixel(std::string contenido, Jugador * jugador);
 
+        /*
         void escrituraArchivoDeTexto(std::string contenido);
 
         void reiniciarArchivoEscrito();
+        */
 };
 #endif /* TESOROBINARIO_H_ */
