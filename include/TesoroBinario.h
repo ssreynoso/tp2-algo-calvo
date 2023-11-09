@@ -99,7 +99,12 @@ class TesoroBinario{
         void colocarMina(int jugador);
 
         //Post: Gestiona la carga del tablero y los tesoros
-        void cargarJuego();    
+        void cargarJuego();
+
+        // Logica Bitmap?
+        void creacionCanvas();
+
+        void pintarPixel(std::string contenido, Jugador * jugador, int x, int y, int z);
 
     private:
          //Post: Carga la cantidad de fichas a cada jugador
@@ -138,11 +143,6 @@ class TesoroBinario{
         //Pre: 'mensaje' debe estar inicializado
         //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no
         bool mensajeValido(std::string mensaje);
-
-        // Logica Bitmap?
-        void creacionCanvas(Jugador * jugador);
-
-        void pintarPixel(std::string contenido);
 
         void escrituraArchivoDeTexto(std::string contenido);
 
