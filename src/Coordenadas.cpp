@@ -1,4 +1,4 @@
-#include "./include/Coordenadas.h"
+#include "Coordenadas.h"
 
 Coordenada::Coordenada(){
     this->coordX = 0;

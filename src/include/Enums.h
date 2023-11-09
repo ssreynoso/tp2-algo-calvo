@@ -5,6 +5,7 @@
 enum TipoContenido {
     Espia, 
     Tesoro,
+    TesoroPartido,
 	Mina,
     VACIO,
 };
@@ -14,6 +15,10 @@ enum TipoCarta {
     Blindaje,
     Radar,
     PartirTesoro,
+    EliminarEspia,
+    OmitirTurno,
+    Escudo,
+
 
 };
 

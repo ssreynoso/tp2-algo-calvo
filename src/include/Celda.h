@@ -51,10 +51,5 @@ class Celda {
         //Pre: -
         //Post: devuelve un puntero a las coordenadas
         Coordenada* getCoordenada();
-
-        //Pre: 'Debe existir la instancia Celda'
-        //Post: 'Desactiva la casilla por la cantidad de turnos especificada'
-        void desctivarCasillaPorTurnos(int cantidadDeTurnos);
-
 };
 #endif

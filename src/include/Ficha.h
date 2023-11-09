@@ -32,8 +32,5 @@ class Ficha{
         //Pre: recibe el identificador de la ficha
         //Post: asigna el numero de la ficha recibido 
         void setNumFicha(int numero);
-        //Pre:-
-        // Post: 'Restaura los valores por defecto de la Ficha.'
-        void resetFicha();
 };
 #endif

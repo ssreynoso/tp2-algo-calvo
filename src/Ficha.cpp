@@ -1,5 +1,5 @@
 // Constructor
-#include "./include/Ficha.h"
+#include "Ficha.h"
 
 Ficha::Ficha() {
     this->tipo = VACIO;
@@ -36,12 +36,4 @@ int Ficha::getNumFicha(){
 // Cambia el número que identifica a la ficha de las otras del mismo tipo
 void Ficha::setNumFicha(int numero){
     this->enumerador = numero;
-}
-
-//Restablece los valores de la ficha
-
-void Ficha::resetFicha() {
-    this->tipo = VACIO;
-    this->jugadorOwner = -1;
-    this->enumerador = -1;
 }

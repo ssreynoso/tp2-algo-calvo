@@ -39,6 +39,19 @@ class Carta{
         //Pre: recibe el contenido de una ficha
         //Post: devuelve un string  que describa el tipo de contenido
         std::string getStringTipoFicha(TipoContenido tipoFicha);
+        
+        //Avisa si hay Tesoros a la redonda
+        bool radar(Tablero* tablero, Coordenada coord);
+
+        // Inactiva la Celdad por turnos limitados
+        void blindaje(Tablero* tablero, Coordenada coord);
+
+        //Parte una ficha "Tesoro" en dos fichas "TesoroPartido"
+        // en dos casilleros distintos
+        void partirTesoro(Tablero* tablero, Coordenada coord);
+
+        //Post: elimina la ficha del jugador e inactiva la celda en donde se produjo el encuentro
+        void eliminarEspia(Tablero* tablero, Coordenada coord);
 
 
 };

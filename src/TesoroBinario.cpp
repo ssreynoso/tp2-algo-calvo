@@ -5,13 +5,13 @@
 #include <time.h>
 #include <iostream>
 
-#include "./include/Tablero.h"
-#include "./include/TesoroBinario.h"
-#include "./include/Lista.h"
-#include "./include/Jugador.h"
-#include "./include/Enums.h"
-#include "./include/Celda.h"
-#include "./include/Carta.h"
+#include "Tablero.h"
+#include "TesoroBinario.h"
+#include "Lista.h"
+#include "Jugador.h"
+#include "Enums.h"
+#include "Celda.h"
+#include "Carta.h"
 
 using namespace std;
 
@@ -190,8 +190,8 @@ void TesoroBinario::colocarEspia(int jugador){
 			eliminarEspias(this->tablero->getCelda(x,y,z));
 			break;
 		case Mina:
-            explotarEspia(this->tablero->getCelda(x,y,z),this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner()));
-                break;
+			//pierdeTurno;
+			break;
 		}
 	}
 }
@@ -213,73 +213,6 @@ void TesoroBinario::eliminarEspias(Celda* celda){
 	celda->getFicha()->setJugadorOwner(-1);
 }
 
-//__________________________________________________
-
-///Disminuye una unidad la cantidad de Espias del jugador, resetea la casilla y
-///configura la cantidad de turnos desactivados. Finalmente omite el turno del jugador propietario;
-void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
-    jugador->descontarEspias();
-    celda->getFicha()->resetFicha();
-    celda->desctivarCasillaPorTurnos(2);
-    jugador->setOmitirTurno(true);
-}
-
-///Disminuye una unidad la cantidad de Tesoros del jugador, resetea la casilla y
-///configura la cantidad de turnos desactivados.
-void TesoroBinario::explotarTesoro(Celda *celda, Jugador *jugador) {
-    jugador->descontarTesoros();
-    celda->desctivarCasillaPorTurnos(3);
-}
-///Resetea la casilla y configura la cantidad de turnos desactivados.
-void TesoroBinario::explotarMinas(Celda *celda) {
-    celda->getFicha()->resetFicha();
-    celda->desctivarCasillaPorTurnos(5);
-}
-
-
-void TesoroBinario::colocarMina(int jugador){
-    int x,y,z;
-    cout << "JUGADOR. " << jugador << "Indique la posicion para Mina: " << endl;
-
-    recibirPosicion(&x,&y,&z);
-    Celda *celdaActual = this->tablero->getCelda(x,y,z);
-    Ficha *ficha = celdaActual->getFicha();
-    Jugador *jugadorPropietario = this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner());
-
-    if(ficha->getJugadorOwner() == jugador){
-        cout << "Ya tienes una ficha en esta casilla" << endl;
-        colocarMina(jugador);
-    }else{
-        switch (ficha->getTipo()){
-
-            case VACIO:
-                ficha->setJugadorOwner(jugador);
-                ficha->setTipo(Mina);
-                break;
-            case Tesoro:
-                //Si encuentra un tesoro entonces pierde el tesoro el jugador contrincante, dajando inactivo 3 turnos
-                cout << "Eliminaste un tesoro del oponente: " << ficha->getJugadorOwner()<<endl;
-                explotarTesoro(celdaActual,jugadorPropietario);
-                break;
-            case Espia:
-                cout << "Eliminaste un Espia. El dueño perdera un turno"<<endl;
-                cout << "Se desactivo la casilla por 2 Turnos"<<endl;
-                //Si encuentra un espia deja incactivo el casillero por 2 turno
-                //Pierde el turno el dueño del espia
-                explotarEspia(celdaActual, jugadorPropietario);
-                break;
-            case Mina:
-                cout << "Oh, encontraste una mina..."<<endl;
-                cout << "Ambas minas explotaron y desactivaron la casilla por 5 Turnos"<<endl;
-                //Si encuentra otra minas, ambas explotan si se desactiva por 5 turnos
-                explotarMinas(celdaActual);
-                break;
-
-        }
-    }
-}
-
-//____________________________________________________
 
 
 
@@ -336,7 +269,24 @@ void TesoroBinario::cargarFichas(){
 		i++;
 	}
 }
+//Funciones relacionadas con tomar carta del mazo y sus parametros Punto a)
+bool TesoroBinario::coordenadaEnRango(Coordenada coordenada){
+    return (coordenada.getCoordenadaX() >= 0 && coordenada.getCoordenadaX() < this->tablero->getTamanioX() && coordenada.getCoordenadaY() >= 0 && coordenada.getCoordenadaY() < this->tablero->getTamanioY() && coordenada.getCoordenadaZ() >= 0 && coordenada.getCoordenadaZ() < this->tablero->getTamanioZ());
+}
 
+Coordenada TesoroBinario::obtenerCoordenadaCelda(){ 
+    Coordenada aux;
+    int x=0, y=0, z=0;
+    do{ 
+        cout << "Ingrese coordenada en formato 'x y z': ";
+        cin >> x >> y >> z;
+        aux.setCoordenadaX(x);
+        aux.setCoordenadaY(y);
+        aux.setCoordenadaZ(z);
+    }while(!coordenadaEnRango(aux)); 
+
+    return aux;
+}
 TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
     TipoCarta tipo;
     switch (indiceCarta)
@@ -350,6 +300,15 @@ TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta){
     case PartirTesoro:
         tipo = PartirTesoro;
         break;
+	case EliminarEspia:
+	    tipo= EliminarEspia;
+		break;
+	case OmitirTurno:
+        tipo = OmitirTurno;
+        break;
+    default:
+        tipo = Escudo;
+        break;
     }
     return tipo;
 }
@@ -362,9 +321,17 @@ Carta* TesoroBinario::generarCarta(){
 }
 
 void TesoroBinario::ejecutarCartaElegida(Carta* carta, Jugador* jugador,Coordenada coordenada){
-    carta->usarCarta(tablero, coordenada);
+    switch(carta->getTipoCarta()){
+        case OmitirTurno:
+            this->omitirTurno = true;
+            break;
+        case Escudo:
+            jugador->activarEscudo();
+			break;
+        default:
+            carta->usarCarta(this->tablero, coordenada);
     }
-} 
+}
 bool TesoroBinario::mensajeValido(std::string mensaje){
     return (mensaje == "Y" || mensaje == "N");
 }

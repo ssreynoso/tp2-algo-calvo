@@ -1,4 +1,4 @@
-#include "./include/Celda.h"
+#include "Celda.h"
 
 Celda::Celda() {
     this->activa = true;
@@ -44,11 +44,4 @@ void Celda::setCoordenada(int x, int y, int z){
 
 Coordenada* Celda::getCoordenada(){
 	return this->coordenadas;
-}
-
-// Desactiva la casilla por la canticad de turnos especificada
-
-void Celda::desctivarCasillaPorTurnos(int cantidadDeTurnos) {
-    this->activa = false;
-    this->turnosInactiva = cantidadDeTurnos;
 }

@@ -1,4 +1,4 @@
-#include "./include/Tablero.h"
+#include "Tablero.h"
 
 Tablero::Tablero(int x, int y, int z){
 	//validar
@@ -68,6 +68,7 @@ bool Tablero::inRange(int x, int y, int z){
 		return false;
 	}
 }
+
 
 
 

@@ -1,18 +1,18 @@
 #include "iostream"
 #include <string>
 
-#include "./include/Jugador.h"
-#include "./include/Carta.h"
-#include "./include/Enums.h"
+#include "Jugador.h"
+#include "Carta.h"
+#include "Enums.h"
 
 using namespace std;
 
 Jugador::Jugador() {
     this->nombre = "";
+	this->escudoActivo = false;
     this->numeroDeJugador = 0;
     this->espias = 0;
     this->tesoros = 0;
-    this->omitirTurno = false;
     this->cartas = new Lista<Carta*>();
 }
 
@@ -104,11 +104,10 @@ void Jugador::removerCarta(int indiceCarta){
 int Jugador::getCantidadDeCartas(){
 	return this->cartas->contarElementos();
 }
-
-void Jugador::setOmitirTurno(bool estado){
-    this->omitirTurno = estado;
+void Jugador::desactivarEscudo(){
+  this->escudoActivo = false;
 }
 
-bool Jugador::getOmitirTurno() {
-    return this->getOmitirTurno();
+void Jugador::activarEscudo(){
+   this->escudoActivo = true;
 }
