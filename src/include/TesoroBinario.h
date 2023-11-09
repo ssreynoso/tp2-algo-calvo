@@ -38,12 +38,15 @@ class TesoroBinario{
         //		si se intenta colocar un tesoro donde ya hay otro se le avisa y se pide otra posicion
         void cargarTesorosPorJugador();
 
-        //
         //post: recibe posiciones hasta que la ingresada este en rango y y este activa
         void recibirPosicion(int* x, int* y, int* z);
 
-        //pre
-        //post: recibe por teclado las coordenadas y coloca el tesoro en la celda correspondiente
+        // Pre: Recibe un puntero a jugador
+        // Post: Intenta realizar el movimiento de un tesoro.
+        void moverTesoro(Jugador* jugador);
+
+        // Pre: Recibe las coordenadas y un numero de jugador
+        // Post: Coloca un tesoro en la posición determinada 
         void colocarTesoro(int x, int y, int z, int jugador);
 
         //
@@ -62,10 +65,6 @@ class TesoroBinario{
         //pre: recibe el indice correspondiente al jugador del turno
         //post: gestiona cada turno
         void jugarTurno(Jugador* jugador);
-
-        // pre: -
-        // post: Recibe un jugador y mueve un tesoro
-        void TesoroBinario::moverTesoro(Jugador* jugador);
 
         //
         //

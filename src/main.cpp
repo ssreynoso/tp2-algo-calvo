@@ -43,7 +43,6 @@ int main(){
     int cantJugadores;
     NumeroJugadores(&cantJugadores);
 
-
     int x, y, z;
     dimensiones(&x, &y, &z);
 

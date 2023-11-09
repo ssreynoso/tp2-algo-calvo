@@ -2,6 +2,7 @@
 #define __TABLERO_H__
 #include "Lista.h"
 #include "Celda.h"
+#include "Jugador.h"
 
 class Tablero{
 private:
@@ -37,9 +38,9 @@ public:
     //POST: Devuelve true si la coordenada esta dentro del tablero
     bool inRange(int x, int y, int z);
 
-    // Pre: -
-    // Post
-    // void moverTesoro();
+    // Pre: Recibe un puntero a jugador
+    // Post: Imprime el tablero del jugador
+    void imprimir(int numeroJugador);
 };
 
 /*
