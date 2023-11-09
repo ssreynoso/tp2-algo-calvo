@@ -1,4 +1,8 @@
-#include "./include/Carta.h"
+#include <string>
+
+#include "Carta.h"
+#include "Tablero.h"
+#include "Coordenadas.h"
 
 Carta::Carta(TipoCarta carta) {
     this->cartaActiva = true;
@@ -6,9 +10,7 @@ Carta::Carta(TipoCarta carta) {
 }
 
 void Carta::usarCarta(Tablero* tablero, Coordenada centro) {
-
     this->cartaActiva = false;
-
     switch (this->carta) {
         case Blindaje:
             // this->blindaje(tablero,centro);

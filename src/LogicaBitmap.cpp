@@ -1,12 +1,12 @@
-#include "./include/TesoroBinario.h"
-#include "./include/Jugador.h"
+#include "TesoroBinario.h"
+#include "Jugador.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 
 // libreria bitmap
-#include "./include/libreria/EasyBMP_1.06/EasyBMP.h"
+#include "libreria/EasyBMP_1.06/EasyBMP.h"
 
 
 //Creacion de canvas blanco de dimensiones del juego.

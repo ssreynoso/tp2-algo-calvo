@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "./include/Tablero.h"
-#include "./include/Jugador.h"
-#include "./include/Utilidades.h"
+#include "Tablero.h"
+#include "Jugador.h"
+#include "Utilidades.h"
 
 Tablero::Tablero(int x, int y, int z) {
     // validar

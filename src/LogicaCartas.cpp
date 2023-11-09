@@ -2,11 +2,11 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include "./include/Carta.h"
-#include "./include/Celda.h"
-#include "./include/Jugador.h"
-#include "./include/TesoroBinario.h"
-#include "./include/Utilidades.h"
+#include "Carta.h"
+#include "Celda.h"
+#include "Jugador.h"
+#include "TesoroBinario.h"
+#include "Utilidades.h"
 
 Carta* TesoroBinario::generarCarta() {
     int numero     = rand() % 3;
@@ -24,7 +24,6 @@ void TesoroBinario::ejecutarCartaElegida(
     carta->usarCarta(tablero, coordenada);
 }
 int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
-    int i = 0;
     int indiceDeCarta;
     bool esIndiceValido = false;
 
@@ -34,9 +33,8 @@ int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
         std::cin >> indiceDeCarta;
 
         // Evaluación de índice
-        bool estaEnRangoValido = (indiceDeCarta - 1 >= 0);
-        bool estaEnRangoDeJugador =
-            (indiceDeCarta - 1 < jugador->getCantidadDeCartas());
+        bool estaEnRangoValido    = (indiceDeCarta - 1 >= 0);
+        bool estaEnRangoDeJugador = (indiceDeCarta - 1 < jugador->getCantidadDeCartas());
 
         esIndiceValido = estaEnRangoValido && estaEnRangoDeJugador;
 

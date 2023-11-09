@@ -3,7 +3,9 @@
 
 #include <string>
 #include "Lista.h"
-#include "Carta.h"
+
+// Declaración anticipada de la clase Carta
+class Carta;
 
 class Jugador {
    private:

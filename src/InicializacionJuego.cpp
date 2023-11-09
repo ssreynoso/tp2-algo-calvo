@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include "./include/TesoroBinario.h"
+#include "TesoroBinario.h"
 
 void TesoroBinario::cargarTesorosPorJugador() {
     int cantidadDeTesoros;

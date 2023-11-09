@@ -1,6 +1,6 @@
-#include "./include/TesoroBinario.h"
-#include "./include/Ficha.h"
-#include "./include/Celda.h"
+#include "TesoroBinario.h"
+#include "Ficha.h"
+#include "Celda.h"
 #include <iostream>
 
 ///Disminuye una unidad la cantidad de Espias del jugador, resetea la casilla y

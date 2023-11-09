@@ -1,4 +1,4 @@
-#include "./include/TesoroBinario.h"
+#include "TesoroBinario.h"
 
 void TesoroBinario::juego() {
     this->jugadores->iniciarCursor();

@@ -1,5 +1,5 @@
 // Constructor
-#include "./include/Ficha.h"
+#include "Ficha.h"
 
 Ficha::Ficha() {
     this->tipo = VACIO;

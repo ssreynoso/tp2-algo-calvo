@@ -3,10 +3,10 @@
 
 #include <map>
 #include <string>
+#include "Tablero.h"
 #include "Celda.h"
 #include "Coordenadas.h"
 #include "Enums.h"
-#include "Tablero.h"
 
 class Carta {
    private:

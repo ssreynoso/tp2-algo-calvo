@@ -1,11 +1,10 @@
 #include "iostream"
 #include <string>
 
-#include "./include/Jugador.h"
-#include "./include/Carta.h"
-#include "./include/Enums.h"
-
-using namespace std;
+#include "Jugador.h"
+#include "Lista.h"
+#include "Carta.h"
+#include "Enums.h"
 
 Jugador::Jugador() {
     this->nombre = "";
@@ -24,7 +23,7 @@ Jugador:: ~Jugador(){
     delete this->cartas;
 }
 
-string Jugador::getNombre() {
+std::string Jugador::getNombre() {
     return this->nombre;
 }
 
@@ -41,7 +40,7 @@ int Jugador::getTesoros() {
 }
 
 
-void Jugador::setNombre(string nombre) {
+void Jugador::setNombre(std::string nombre) {
     this->nombre = nombre;
 }
 
@@ -81,7 +80,7 @@ void Jugador::imprimirCartas(){
 	this->cartas->iniciarCursor();
 	int i = 1;
 	while(this->cartas->avanzarCursor()){
-		cout << i << " Tipo de carta: " << this->cartas->obtenerCursor()->getStringTipoCarta() << endl;
+		std::cout << i << " Tipo de carta: " << this->cartas->obtenerCursor()->getStringTipoCarta() << std::endl;
 	}
 }
 

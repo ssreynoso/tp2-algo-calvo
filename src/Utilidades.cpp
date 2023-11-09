@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "./include/Tablero.h"
+#include "Tablero.h"
 
 bool rta(std::string texto) {
     return (texto == "Y" || texto == "N");

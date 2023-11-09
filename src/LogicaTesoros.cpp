@@ -1,8 +1,8 @@
 #include <string>
 #include <iostream>
-#include "./include/TesoroBinario.h"
-#include "./include/Utilidades.h"
-#include "./include/Ficha.h"
+#include "TesoroBinario.h"
+#include "Utilidades.h"
+#include "Ficha.h"
 
 void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador) {
     this->tablero->getCelda(x, y, z)->getFicha()->setTipo(Tesoro);
@@ -12,40 +12,6 @@ void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador) {
 void TesoroBinario::colocarTesoro(Celda* celda, int jugador) {
     celda->getFicha()->setTipo(Tesoro);
     celda->getFicha()->setJugadorOwner(jugador);
-}
-
-void TesoroBinario::moverTesoro(Jugador* jugador) {
-    int numeroJugador = jugador->getNumeroDeJugador();
-    Celda* celda = NULL;
-
-    Celda* tesoroPropio       = obtenerTesoroPropio(this, this->tablero, numeroJugador);
-    Celda* nuevaPosicion      = obtenerNuevaPosicion(this, this->tablero, numeroJugador);
-    Ficha* fichaNuevaPosicion = nuevaPosicion->getFicha();
-    Ficha* fichaTesoroPropio  = tesoroPropio->getFicha();
-
-    switch (fichaNuevaPosicion->getTipo()) {
-        case VACIO:
-            colocarTesoro(nuevaPosicion, numeroJugador);
-            fichaTesoroPropio->resetFicha();
-            break;
-        case Tesoro:
-            std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;
-            // No utilizo un while porque si ya le doy la información de que hay un
-            // tesoro enemigo sería injusto que pueda intentar muchas veces con
-            // chances de encontrar múltiples tesoros enemigos.
-            break;
-        case Espia:
-            std::cout << "Tu tesoro ha sido encontrado por un espia enemigo. La casilla quedara inactiva por 5 turnos" << std::endl;
-            nuevaPosicion->setEstado(false);
-            nuevaPosicion->setTurnosInactiva(5);
-            jugador->descontarTesoros();
-            break;
-        case Mina:
-            // pierdeTurno;
-            std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
-            explotarTesoro(nuevaPosicion, jugador);
-            break;
-    }
 }
 
 Celda* obtenerTesoroPropio(TesoroBinario* tesoroBinario, Tablero* tablero, int numeroJugador) {
@@ -104,4 +70,36 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
     }
 
     return celda;
+}
+
+void TesoroBinario::moverTesoro(Jugador* jugador) {
+    int numeroJugador = jugador->getNumeroDeJugador();
+    Celda* tesoroPropio       = obtenerTesoroPropio(this, this->tablero, numeroJugador);
+    Celda* nuevaPosicion      = obtenerNuevaPosicion(this, this->tablero, numeroJugador);
+    Ficha* fichaNuevaPosicion = nuevaPosicion->getFicha();
+    Ficha* fichaTesoroPropio  = tesoroPropio->getFicha();
+
+    switch (fichaNuevaPosicion->getTipo()) {
+        case VACIO:
+            colocarTesoro(nuevaPosicion, numeroJugador);
+            fichaTesoroPropio->resetFicha();
+            break;
+        case Tesoro:
+            std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;
+            // No utilizo un while porque si ya le doy la información de que hay un
+            // tesoro enemigo sería injusto que pueda intentar muchas veces con
+            // chances de encontrar múltiples tesoros enemigos.
+            break;
+        case Espia:
+            std::cout << "Tu tesoro ha sido encontrado por un espia enemigo. La casilla quedara inactiva por 5 turnos" << std::endl;
+            nuevaPosicion->setEstado(false);
+            nuevaPosicion->setTurnosInactiva(5);
+            jugador->descontarTesoros();
+            break;
+        case Mina:
+            // pierdeTurno;
+            std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
+            explotarTesoro(nuevaPosicion, jugador);
+            break;
+    }
 }
