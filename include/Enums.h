@@ -15,6 +15,9 @@ enum TipoCarta {
     Blindaje,
     Radar,
     PartirTesoro,
+    EliminarEspia,
+    OmitirTurno,
+    Escudo,
 };
 
 //lista

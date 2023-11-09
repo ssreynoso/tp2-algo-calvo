@@ -8,10 +8,10 @@
 
 Jugador::Jugador() {
     this->nombre = "";
+    this->escudoActivo = false;
     this->numeroDeJugador = 0;
     this->espias = 0;
     this->tesoros = 0;
-    this->omitirTurno = false;
     this->cartas = new Lista<Carta*>();
 }
 
@@ -104,10 +104,10 @@ int Jugador::getCantidadDeCartas(){
 	return this->cartas->contarElementos();
 }
 
-void Jugador::setOmitirTurno(bool estado){
-    this->omitirTurno = estado;
+void Jugador::desactivarEscudo(){
+  this->escudoActivo = false;
 }
 
-bool Jugador::getOmitirTurno() {
-    return this->getOmitirTurno();
+void Jugador::activarEscudo(){
+   this->escudoActivo = true;
 }
