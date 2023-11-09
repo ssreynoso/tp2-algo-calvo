@@ -90,6 +90,12 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             // tesoro enemigo sería injusto que pueda intentar muchas veces con
             // chances de encontrar múltiples tesoros enemigos.
             break;
+        case TesoroPartido:
+            std::cout << "Hay un tesoro partido enemigo en esta posición, envie un espía" << std::endl;
+            // No utilizo un while porque si ya le doy la información de que hay un
+            // tesoro enemigo sería injusto que pueda intentar muchas veces con
+            // chances de encontrar múltiples tesoros enemigos.
+            break;
         case Espia:
             std::cout << "Tu tesoro ha sido encontrado por un espia enemigo. La casilla quedara inactiva por 5 turnos" << std::endl;
             nuevaPosicion->setEstado(false);

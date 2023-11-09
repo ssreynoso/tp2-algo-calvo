@@ -87,6 +87,9 @@ void Tablero::imprimir(int numeroJugador) {
                             case Tesoro:
                                 contenido = " T ";
                                 break;
+                            case TesoroPartido:
+                                contenido = " T ";
+                                break;
                             case Mina:
                                 contenido = " M ";
                                 break;

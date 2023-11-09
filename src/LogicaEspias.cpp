@@ -25,6 +25,9 @@ void TesoroBinario::colocarEspia(int numeroJugador) {
             case Tesoro:
                 encontrarTesoro(celdaActual);
                 break;
+            case TesoroPartido:
+                encontrarTesoro(celdaActual);
+                break;
             case Espia:
                 eliminarEspias(celdaActual);
                 break;

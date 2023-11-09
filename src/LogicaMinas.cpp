@@ -50,6 +50,11 @@ void TesoroBinario::colocarMina(int jugador){
                 std::cout << "Eliminaste un tesoro del oponente: " << ficha->getJugadorOwner()<< std::endl;
                 explotarTesoro(celdaActual,jugadorPropietario);
                 break;
+            case TesoroPartido:
+                //Si encuentra un tesoro entonces pierde el tesoro el jugador contrincante, dajando inactivo 3 turnos
+                std::cout << "Eliminaste un tesoro partido del oponente: " << ficha->getJugadorOwner()<< std::endl;
+                explotarTesoro(celdaActual,jugadorPropietario);
+                break;
             case Espia:
                 std::cout << "Eliminaste un Espia. El dueño perdera un turno"<< std::endl;
                 std::cout << "Se desactivo la casilla por 2 Turnos"<< std::endl;
