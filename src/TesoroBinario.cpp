@@ -170,7 +170,7 @@ void TesoroBinario::jugarTurno(int jugador){
 void TesoroBinario::colocarEspia(int jugador){
 	int x,y,z;
 	cout << "Indique la posicion para el espia: " << endl;
-	recibirPosicion(&x,&y,&z);
+	recibirPosicion(&x,&y,&z);        //Verifica que este en rango y que la celda este activa
 
 	Ficha* ficha = this->tablero->getCelda(x,y,z)->getFicha();
 	if(ficha->getJugadorOwner() == jugador){
@@ -207,7 +207,7 @@ void TesoroBinario::encontrarTesoro(Celda* celda){
 void TesoroBinario::eliminarEspias(Celda* celda){
 	cout << "Tu espia se encontro con un espia enemigo. Ambos son eliminados del juego" << endl;
 	//descuento en 1 los espias del otro jugador
-	this->jugadores->obtener(celda->getFicha()->getJugadorOwner())->descontarTesoros();
+	this->jugadores->obtener(celda->getFicha()->getJugadorOwner())->descontarEspias();
 	//vacio la celda
 	celda->getFicha()->setTipo(VACIO);
 	celda->getFicha()->setJugadorOwner(-1);
