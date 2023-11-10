@@ -45,27 +45,39 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
     Ficha* ficha = NULL;
     bool celdaInactiva   = true;
     bool hayTesoroPropio = true;
+    bool hayEspiaPropio  = true;
+    bool hayMinaPropia   = true;
 
     // Se pide una nueva posición
-    std::cout << "JUGADOR " << toString(numeroJugador) << " Indique la nueva posicion del tesoro: " << std::endl;
+    std::cout << "JUGADOR " << toString(numeroJugador);
 
     // La celda no tiene que estar inactiva y no tiene que haber un tesoro propio.
-    while (celdaInactiva && hayTesoroPropio) {
+    while (celdaInactiva || hayTesoroPropio || hayEspiaPropio || hayMinaPropia) {
+        std::cout << "Indique la nueva posicion del tesoro: " << std::endl;
         tesoroBinario->recibirPosicion(&x, &y, &z);
         celda = tablero->getCelda(x, y, z);
         ficha = celda->getFicha();
+        bool esCeldaPropia = ficha->getJugadorOwner() == numeroJugador;
+
         celdaInactiva   = !celda->estaActiva();
-        hayTesoroPropio = ficha->getTipo() == Tesoro && ficha->getJugadorOwner() == numeroJugador;
+        hayTesoroPropio = (ficha->getTipo() == Tesoro || ficha->getTipo() == TesoroPartido) && esCeldaPropia;
+        hayEspiaPropio  = ficha->getTipo() == Espia && esCeldaPropia;
+        hayMinaPropia   = ficha->getTipo() == Mina && esCeldaPropia;
 
         if (celdaInactiva) {
             std::cout << "Esta celda está inactiva, intente nuevamente" << std::endl;
-            std::cout << "Indique la nueva posicion del tesoro: " << std::endl;
-            continue;
         }
 
         if (hayTesoroPropio) {
             std::cout << "Ya tienes un tesoro en esta celda, intente nuevamente" << std::endl;
-            std::cout << "Indique la nueva posicion del tesoro: " << std::endl;
+        }
+
+        if (hayEspiaPropio) {
+            std::cout << "Ya tienes un espía en esta celda, intente nuevamente" << std::endl;
+        }
+
+        if (hayMinaPropia) {
+            std::cout << "Ya tienes una mina en esta celda, intente nuevamente" << std::endl;
         }
     }
 
