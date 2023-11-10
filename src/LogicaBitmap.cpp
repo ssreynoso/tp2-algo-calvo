@@ -163,40 +163,10 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
     AnImage.WriteToFile(guardado.c_str());
 }
 
-//Escritura del archivo que copia la terminal
-void TesoroBinario::escrituraArchivoDeTexto(std::string contenido){
-
-    std::string nombreDeArchivo = "src/include/libreria/textoBitmap.txt";
-    std::ofstream archivo;
-
-    archivo.open(nombreDeArchivo.c_str(), std::fstream::app);
-
-    if (archivo.is_open()) {
-        if(contenido == "$"){
-            archivo << std::endl;
-        } else if (contenido == "+"){
-            for(int i = 0; i < this->tablero->getTamanioX(); i++){
-                archivo << "+";
-            }
-        } else {
-            archivo << contenido;
-        }
-
-        //Con esta combinacion de $, + y contenido, nos quedaria un txt replica de la
-        // terminal, separando los planos xy con una cadena de x * "+"
-        //usamos fstream::app para que no reinicie el archivo, sino que le agregue algo.
-
-        archivo.close();
-    } else {
-        std::cerr << "Error al abrir el archivo.\n";
-    }
-}
-
-//Reseteo de archivo de texto
-void TesoroBinario::reiniciarArchivoEscrito(){
-    std::string nombreArchivo = "src/include/libreria/textoBitmap.txt";
-    std::ofstream archivo;
-
-    archivo.open(nombreArchivo.c_str(), std::fstream::out);
-    archivo.close();
-}
+/*
+ * aplicar pintar pixel en:
+ * TesoroBinario::moverTesoro()  de LogicaTesoros.cpp
+ * TesoroBinario::colocarEspia() y demas en LogicaEspias.cpp
+ * TesoroBinario::colocarMina y demas en LogicaMinas.cpp
+ * Faltan varias mas
+ */

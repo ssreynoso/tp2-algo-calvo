@@ -143,10 +143,6 @@ class TesoroBinario{
         //Pre: 'mensaje' debe estar inicializado
         //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no
         bool mensajeValido(std::string mensaje);
-
-        void escrituraArchivoDeTexto(std::string contenido);
-
-        void reiniciarArchivoEscrito();
     
 };
 #endif /* TESOROBINARIO_H_ */
