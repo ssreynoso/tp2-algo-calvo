@@ -7,33 +7,43 @@
 
 // libreria bitmap
 #include "../include/libreria/EasyBMP_1.06/EasyBMP.h"
+//#include "../inlcude/libreria/EasyBMP_1.06/EasyBmp.cpp"
 
+const static int ANCHO_DEL_MARGEN = 2;
+const static int MULTIPLICADOR_DE_RESOLUCION = 8;
+const static int MARGEN_INFERIOR = 8;
 
 //Creacion de canvas blanco de dimensiones del juego.
 //Habria que hacer uno para cada jugador
 void TesoroBinario::creacionCanvas(){
 
-    //declaramos el operador Animage para referirnos a nuestra nueva imagen
+    //Ancho recibido por parametro, NO es constante
+    int anchoDelTablero = this->tablero->getTamanioX();
+    //Alto recibido por parametro, NO es constante
+    int alto_del_tablero = this->tablero->getTamanioY();
+    //Cantidad de tableros (profundidad)
+    int cantidad_de_tableros = this->tablero->getTamanioZ();
+
     BMP AnImage;
 
-    //asigamos tamaño
-    //El ancho va a ser de: (x * 10) + constante de margen
-    //El alto va a ser de: ((y + linea de separacion) * 10) * z + constante de margen
-    int anchoCanvas, altoCanvas, altoPlanoIndividual;
-    anchoCanvas = (this->tablero->getTamanioX()) + 4;
-    altoPlanoIndividual = (this->tablero->getTamanioY()) + 1;
-    altoCanvas = (altoPlanoIndividual * this->tablero->getTamanioZ() + 1);
-    AnImage.SetSize(anchoCanvas, altoCanvas);
+    int anchoTotal, altoTotal, altoTablero, contadorDelMargenSuperior = 0;
+    anchoTotal = (anchoDelTablero) + ANCHO_DEL_MARGEN;
+    anchoTotal = anchoTotal * MULTIPLICADOR_DE_RESOLUCION;
+    altoTablero = alto_del_tablero + 1;
+    altoTablero = altoTablero * MULTIPLICADOR_DE_RESOLUCION;
+    altoTotal = ((altoTablero) * cantidad_de_tableros ) + MARGEN_INFERIOR;
+
+    AnImage.SetSize(anchoTotal, altoTotal);
     //Set color depth a 8-bits
     AnImage.SetBitDepth(8);
 
 
     //Esta serie de iteraciones deja un canvas con planos vacios, mas margenes de color
     //Esta primer iteracion recorre el bmp
-    for(int y = 0; y < altoCanvas; y++){
+    for(int y = 0; y < altoTotal; y++){
 
         //Recorre el bmp dejandolo blanco
-        for(int x = 0; x < anchoCanvas; x++){
+        for(int x = 0; x < anchoTotal; x++){
 
             AnImage(x, y)->Red = 255;
             AnImage(x, y)->Green = 255;
@@ -41,29 +51,32 @@ void TesoroBinario::creacionCanvas(){
 
         }
 
-        //Recorre verticalmente dando un margen vertical de 2 pixeles
-        AnImage(0, y)->Red = 78;
-        AnImage(0, y)->Green = 184;
-        AnImage(0, y)->Blue = 244;
-        AnImage(anchoCanvas, y)->Red = 78;
-        AnImage(anchoCanvas - 2, y)->Green = 184;
-        AnImage(anchoCanvas - 2, y)->Blue = 244;
-        AnImage(1, y)->Red = 78;
-        AnImage(1, y)->Green = 184;
-        AnImage(1, y)->Blue = 244;
-        AnImage(anchoCanvas - 1, y)->Red = 78;
-        AnImage(anchoCanvas - 1, y)->Green = 184;
-        AnImage(anchoCanvas - 1, y)->Blue = 244;
+        //Agregando margenes laterales
+        for (int j = 0; j < MULTIPLICADOR_DE_RESOLUCION ; ++j) {
 
-    }
+            AnImage(j, y)->Red = 78;
+            AnImage(j, y)->Green = 184;
+            AnImage(j, y)->Blue = 244;
+            AnImage(anchoTotal - j - 1, y)->Red = 78;
+            AnImage(anchoTotal - j - 1, y)->Green = 184;
+            AnImage(anchoTotal - j - 1, y)->Blue = 244;
 
-    //Itera cada  y = largo de planoIndividual, es decir, pinta la separacion entre planos
-    for(int y = 0; y < altoCanvas + 1; y = y + altoPlanoIndividual){
-        for(int x = 2; x < anchoCanvas - 2; x++){
-            AnImage(x, y)->Red = 78;
-            AnImage(x, y)->Green = 184;
-            AnImage(x, y)->Blue = 244;
         }
+
+        //Agregando margenes superiores
+        if (y % altoTablero == 0 || contadorDelMargenSuperior > 0){
+            for(int x = 8; x < anchoTotal - 8; x++){
+                AnImage(x, y)->Red = 78;
+                AnImage(x, y)->Green = 184;
+                AnImage(x, y)->Blue = 244;
+            }
+            if (contadorDelMargenSuperior == 7){
+                contadorDelMargenSuperior = 0;
+            }else{
+                contadorDelMargenSuperior++;
+            }
+        }
+
     }
 
     //Esta parte guarda una copia del tablero que acabamo de armar por cada jugador, siendo que empiezan todos igual
@@ -94,6 +107,9 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
     std::string  guardado = "sample" + fila + ".bmp";
     AnImage.ReadFromFile(guardado.c_str());
 
+    int alto_del_tablero = this->tablero->getTamanioY();
+    x *= MULTIPLICADOR_DE_RESOLUCION;
+    y *= MULTIPLICADOR_DE_RESOLUCION;
 
     /*
      * Listado colores:
@@ -137,10 +153,13 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
         blue = 244;
     }
 
-    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Red = rojo;
-    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Green = green;
-    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Blue = blue;
-
+    for (int i = 0; i < MULTIPLICADOR_DE_RESOLUCION; ++i) {
+        for (int j = 0; j < MULTIPLICADOR_DE_RESOLUCION; ++j) {
+            AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Red = rojo;
+            AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Green = green;
+            AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Blue = blue;
+        }
+    }
     AnImage.WriteToFile(guardado.c_str());
 }
 
