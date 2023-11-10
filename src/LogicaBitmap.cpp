@@ -137,9 +137,11 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
         blue = 244;
     }
 
-    AnImage(x + 2, (y + 1) * z)->Red = rojo;
-    AnImage(x + 2, (y + 1) * z)->Green = green;
-    AnImage(x + 2, (y + 1) * z)->Blue = blue;
+    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Red = rojo;
+    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Green = green;
+    AnImage(x + 2, (y + 1) + (this->tablero->getTamanioZ() + 1)* z)->Blue = blue;
+
+    AnImage.WriteToFile(guardado.c_str());
 }
 
 //Escritura del archivo que copia la terminal
