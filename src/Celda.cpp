@@ -1,4 +1,4 @@
-#include "Celda.h"
+#include "../include/Celda.h"
 #include "../include/TesoroBinario.h"
 Celda::Celda() {
     this->activa = true;

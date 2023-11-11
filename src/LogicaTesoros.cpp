@@ -1,8 +1,8 @@
 #include <string>
 #include <iostream>
-#include "TesoroBinario.h"
-#include "Utilidades.h"
-#include "Ficha.h"
+#include "../include/TesoroBinario.h"
+#include "../include/Utilidades.h"
+#include "../include/Ficha.h"
 
 void TesoroBinario::colocarTesoro(int x, int y, int z, int jugador) {
     this->tablero->getCelda(x, y, z)->getFicha()->setTipo(Tesoro);

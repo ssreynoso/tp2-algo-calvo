@@ -2,11 +2,11 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include "Carta.h"
-#include "Celda.h"
-#include "Jugador.h"
-#include "TesoroBinario.h"
-#include "Utilidades.h"
+#include "../include/Carta.h"
+#include "../include/Celda.h"
+#include "../include/Jugador.h"
+#include "../include/TesoroBinario.h"
+#include "../include/Utilidades.h"
 
 Carta* TesoroBinario::generarCarta() {
     int numero     = rand() % 3;

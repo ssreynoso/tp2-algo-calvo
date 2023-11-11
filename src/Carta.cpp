@@ -1,13 +1,13 @@
-#include "Carta.h"
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "Celda.h"
-#include "Tablero.h"
-#include "TesoroBinario.h"
+#include "../include/Carta.h"
+#include "../include/Celda.h"
+#include "../include/Tablero.h"
+#include "../include/TesoroBinario.h"
 
 using namespace std;
 

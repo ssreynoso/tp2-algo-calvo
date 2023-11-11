@@ -1,6 +1,6 @@
-#include "TesoroBinario.h"
-#include "Ficha.h"
-#include "Celda.h"
+#include "../include/TesoroBinario.h"
+#include "../include/Ficha.h"
+#include "../include/Celda.h"
 #include <iostream>
 
 void TesoroBinario::colocarEspia(int numeroJugador) {

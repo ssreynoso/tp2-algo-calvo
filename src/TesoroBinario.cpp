@@ -1,4 +1,4 @@
-#include "TesoroBinario.h"
+#include "../include/TesoroBinario.h"
 #include <iostream>
 #include <string>
 

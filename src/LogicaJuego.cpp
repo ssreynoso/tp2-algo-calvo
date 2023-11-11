@@ -1,4 +1,4 @@
-#include "TesoroBinario.h"
+#include "../include/TesoroBinario.h"
 
 void TesoroBinario::juego() {
     this->jugadores->iniciarCursor();    //El cursor se inicia en NULL
