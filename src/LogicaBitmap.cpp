@@ -7,7 +7,7 @@
 
 // libreria bitmap
 #include "../include/libreria/EasyBMP_1.06/EasyBMP.h"
-//#include "../inlcude/libreria/EasyBMP_1.06/EasyBmp.cpp"
+//#include "../include/libreria/EasyBMP_1.06/EasyBmp.cpp"
 
 const static int ANCHO_DEL_MARGEN = 2;
 const static int MULTIPLICADOR_DE_RESOLUCION = 8;
@@ -97,12 +97,11 @@ void TesoroBinario::creacionCanvas(){
 
 //Esta va a ser una funcion que podamos llamar en cada momento que se requiera
 //cambiar un o unos pixeles en especifico, asi no tenemos que reescribir el bitmap entero
-void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x, int y, int z){
+void TesoroBinario::pintarPixel(std::string contenido, int numeroDeJugador , int x, int y, int z){
 
     BMP AnImage;
-    int numeroDejugador = jugador->getNumeroDeJugador();
     std::stringstream  ss;
-    ss << numeroDejugador;
+    ss << numeroDeJugador;
     std::string fila = ss.str();
     std::string  guardado = "sample" + fila + ".bmp";
     AnImage.ReadFromFile(guardado.c_str());
@@ -139,10 +138,6 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
         rojo = 255;
         green = 255;
         blue = 255;
-    } else if (contenido == "$"){
-        rojo = 0;
-        green = 0;
-        blue = 0;
     } else if (contenido == "E"){
         rojo = 130;
         green = 130;
@@ -163,10 +158,44 @@ void TesoroBinario::pintarPixel(std::string contenido, Jugador * jugador, int x,
     AnImage.WriteToFile(guardado.c_str());
 }
 
+void TesoroBinario::pintarActivoInactivo(int x, int y, int z, char caracter) {
+    int alto_del_tablero = this->tablero->getTamanioY();
+    x *= MULTIPLICADOR_DE_RESOLUCION;
+    y *= MULTIPLICADOR_DE_RESOLUCION;
+
+    int rojo, green, blue;
+    //Seteo el color en negro
+    if (caracter == '$'){
+        int rojo = 0, green = 0, blue = 0;
+    } else{
+        int rojo = 255, green = 255, blue = 255;
+    }
+
+    for(int k = 0; k < this->jugadores->contarElementos(); k++){
+        BMP AnImage;
+        std::stringstream  ss;
+        ss << k;
+        std::string fila = ss.str();
+        std::string  guardado = "sample" + fila + ".bmp";
+        AnImage.ReadFromFile(guardado.c_str());
+
+        for (int i = 0; i < MULTIPLICADOR_DE_RESOLUCION; ++i) {
+            for (int j = 0; j < MULTIPLICADOR_DE_RESOLUCION; ++j) {
+                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Red = rojo;
+                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Green = green;
+                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero+1)*MULTIPLICADOR_DE_RESOLUCION * (z))->Blue = blue;
+            }
+        }
+        AnImage.WriteToFile(guardado.c_str());
+    }
+}
+
 /*
  * aplicar pintar pixel en:
- * TesoroBinario::moverTesoro()  de LogicaTesoros.cpp
+ * TesoroBinario::moverTesoro()  de LogicaTesoros.cpp -- Listo
  * TesoroBinario::colocarEspia() y demas en LogicaEspias.cpp
  * TesoroBinario::colocarMina y demas en LogicaMinas.cpp
+ * Cuando termina de deshabilitar el casillero
  * Faltan varias mas
+ *
  */

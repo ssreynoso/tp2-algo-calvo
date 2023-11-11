@@ -104,9 +104,11 @@ class TesoroBinario{
         // Logica Bitmap?
         void creacionCanvas();
 
-        void pintarPixel(std::string contenido, Jugador * jugador, int x, int y, int z);
+        void pintarPixel(std::string contenido, int numeroDeJugador, int x, int y, int z);
 
-    private:
+        void pintarActivoInactivo(int x, int y, int z, char caracter);
+
+private:
          //Post: Carga la cantidad de fichas a cada jugador
         void cargarCantidadesDeFichasAJugadores();
 

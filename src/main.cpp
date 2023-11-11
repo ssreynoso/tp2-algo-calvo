@@ -2,7 +2,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-#include"TesoroBinario.h"
+#include"../include/TesoroBinario.h"
 
 using namespace std;
 void NumeroJugadores(int* cantJugadores){
@@ -36,9 +36,9 @@ void dimensiones(int* x, int* y, int* z){
 	recibirDimension(z);
 }
 
-int main(){
+int main() {
 
-	srand (time(NULL));
+    srand(time(NULL));
 
     int cantJugadores;
     NumeroJugadores(&cantJugadores);
@@ -46,8 +46,12 @@ int main(){
     int x, y, z;
     dimensiones(&x, &y, &z);
 
-    TesoroBinario* juego = new TesoroBinario(cantJugadores, x, y, z);
+    TesoroBinario *juego = new TesoroBinario(cantJugadores, x, y, z);
+
+    juego->creacionCanvas();
     juego->cargarTesorosPorJugador();
+
+    //TODO:Esto para que es?
     juego->imprimirTodosLosTableros();
 
     juego->juego();

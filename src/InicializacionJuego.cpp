@@ -28,6 +28,7 @@ void TesoroBinario::cargarTesorosPorJugador() {
                 recibirPosicion(&x, &y, &z);
             }
             colocarTesoro(x, y, z, j);
+            pintarPixel("T", j,x,y,z);
         }
     }
 }

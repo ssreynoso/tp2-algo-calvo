@@ -91,10 +91,20 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
     Ficha* fichaNuevaPosicion = nuevaPosicion->getFicha();
     Ficha* fichaTesoroPropio  = tesoroPropio->getFicha();
 
+    int coordenadaX = tesoroPropio->getCoordenada()->getCoordenadaX();
+    int coordenadaY = tesoroPropio->getCoordenada()->getCoordenadaY();
+    int coordenadaZ = tesoroPropio->getCoordenada()->getCoordenadaZ();
+
+    int nuevaCoordenadaX = nuevaPosicion->getCoordenada()->getCoordenadaX();
+    int nuevaCoordenadaY = nuevaPosicion->getCoordenada()->getCoordenadaY();
+    int nuevaCoordenadaZ = nuevaPosicion->getCoordenada()->getCoordenadaZ();
+
     switch (fichaNuevaPosicion->getTipo()) {
         case VACIO:
             colocarTesoro(nuevaPosicion, numeroJugador);
             fichaTesoroPropio->resetFicha();
+            pintarPixel("-",numeroJugador,coordenadaX,coordenadaY,coordenadaZ);
+            pintarPixel("T",numeroJugador,nuevaCoordenadaX,nuevaCoordenadaY,nuevaCoordenadaZ);
             break;
         case Tesoro:
             std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;
@@ -113,11 +123,15 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             nuevaPosicion->setEstado(false);
             nuevaPosicion->setTurnosInactiva(5);
             jugador->descontarTesoros();
+            pintarPixel("-",numeroJugador,coordenadaX,coordenadaY,coordenadaZ);
+            pintarActivoInactivo(nuevaCoordenadaX,nuevaCoordenadaY,nuevaCoordenadaZ,'$');
             break;
         case Mina:
             // pierdeTurno;
             std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
             explotarTesoro(nuevaPosicion, jugador);
+            pintarPixel("-",numeroJugador,coordenadaX,coordenadaY,coordenadaZ);
+            pintarActivoInactivo(nuevaCoordenadaX,nuevaCoordenadaY,nuevaCoordenadaZ,'$');
             break;
     }
 }

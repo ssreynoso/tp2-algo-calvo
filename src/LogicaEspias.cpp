@@ -21,18 +21,23 @@ void TesoroBinario::colocarEspia(int numeroJugador) {
                 ficha->setJugadorOwner(numeroJugador);
                 ficha->setTipo(Espia);
                 this->jugadores->obtener(numeroJugador)->incrementarEspias();
+                pintarPixel("T",numeroJugador,x,y,z);
                 break;
             case Tesoro:
                 encontrarTesoro(celdaActual);
+                pintarActivoInactivo(x,y,z,'$');
                 break;
             case TesoroPartido:
                 encontrarTesoro(celdaActual);
+                pintarActivoInactivo(x,y,z,'$');
                 break;
             case Espia:
                 eliminarEspias(celdaActual);
+                pintarPixel("-",ficha->getJugadorOwner(),x,y,z);
                 break;
             case Mina:
                 explotarEspia(celdaActual, celdaJugador);
+                pintarPixel("-",ficha->getJugadorOwner(),x,y,z);
                 break;
         }
     }
@@ -44,6 +49,7 @@ void TesoroBinario::encontrarTesoro(Celda* celda) {
     celda->setTurnosInactiva(5);
     // descuento en 1 los tesoros del otro jugador
     this->jugadores->obtener(celda->getFicha()->getJugadorOwner())->descontarTesoros();
+
 }
 
 void TesoroBinario::eliminarEspias(Celda* celda) {

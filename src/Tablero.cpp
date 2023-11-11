@@ -2,7 +2,6 @@
 #include <string>
 
 #include "Tablero.h"
-#include "Jugador.h"
 #include "Utilidades.h"
 
 Tablero::Tablero(int x, int y, int z) {
