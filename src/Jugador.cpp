@@ -81,7 +81,7 @@ int Jugador::getCantidadDeCartas() { return this->cartas->contarElementos(); }
 
 void Jugador::setOmitirTurno(bool estado) { this->omitirTurno = estado; }
 
-bool Jugador::getOmitirTurno() { return this->getOmitirTurno(); }
+bool Jugador::getOmitirTurno() { return this->omitirTurno; }
 
 void Jugador::desactivarEscudo() { this->escudoActivo = false; }
 
