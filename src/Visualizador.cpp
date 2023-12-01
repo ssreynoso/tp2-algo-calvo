@@ -15,14 +15,15 @@ const static int ANCHO_DEL_MARGEN = 1;
 const static int ALTO_DEL_MARGEN  = 1;
 
 Visualizador::Visualizador(
-    int anchoTablero,
-    int altoTablero,
+    int cntFilas,
+    int cntColumnas,
     int cantidadTableros,
     int multiplicadorDeResolucion
 ) {
-    this->anchoCanvas             = (anchoTablero + (2 * ANCHO_DEL_MARGEN)) * multiplicadorDeResolucion;
-    // Dejar solo un margen en medio de cada plano
-    this->altoCanvas              = ((altoTablero + (2 * ALTO_DEL_MARGEN)) * cantidadTableros) * multiplicadorDeResolucion;
+    this->cntFilas                = cntFilas;
+    this->cntColumnas             = cntColumnas;
+    this->anchoCanvas             = (cntColumnas + (2 * ANCHO_DEL_MARGEN)) * multiplicadorDeResolucion;
+    this->altoCanvas              = ((cntFilas * cantidadTableros) + (2 * ALTO_DEL_MARGEN) + (ALTO_DEL_MARGEN * cantidadTableros - 1)) * multiplicadorDeResolucion;
     this->anchoMargen             = ANCHO_DEL_MARGEN * multiplicadorDeResolucion;
     this->altoMargen              = ALTO_DEL_MARGEN * multiplicadorDeResolucion;
     this->cantidadTableros        = cantidadTableros;
@@ -49,14 +50,27 @@ void Visualizador::crearCanvas(int cantidadJugadores) {
         }
     }
 
+    // int contador = 0;
+    int distanciaEntreSeparadores = (altoCanvas - altoMargen) / cantidadTableros;
+    bool iniciaSeparador = false;
+
     // Agrego márgenes
     for(int y = 0; y < altoCanvas; y++){
         for(int x = 0; x < anchoCanvas; x++){
-            bool esMargenSuperior = y < altoMargen || y >= altoCanvas - altoMargen;
+            bool esMargenSuperiorOInferior = y < altoMargen || y >= altoCanvas - altoMargen;
             bool esMargenLateral = x < anchoMargen || x >= anchoCanvas - anchoMargen;
-            bool esSeparador = y % (altoCanvas / cantidadTableros) == 0;
 
-            if (esMargenLateral || esMargenSuperior){
+            if (y % distanciaEntreSeparadores == 0) {
+                iniciaSeparador = true;
+            }
+
+            bool esSeparador = iniciaSeparador && y % distanciaEntreSeparadores < altoMargen;
+
+            if (y % distanciaEntreSeparadores == altoMargen) {
+                iniciaSeparador = false;
+            }
+
+            if (esMargenLateral || esMargenSuperiorOInferior || esSeparador){
                 AnImage(x, y)->Red = 78;
                 AnImage(x, y)->Green = 184;
                 AnImage(x, y)->Blue = 244;
@@ -124,7 +138,7 @@ void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int 
         blue = 244;
     }
 
-    int _y = y * multiplicadorResolucion;
+    int _y = altoMargen + (z - 1) * (altoMargen + (cntFilas * multiplicadorResolucion)) + ((y - 1) * multiplicadorResolucion);
     int _x = x * multiplicadorResolucion;
     for (int j = _y; j < _y + multiplicadorResolucion; j++) {
         for (int i = _x; i < _x + multiplicadorResolucion; i++) {

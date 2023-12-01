@@ -22,8 +22,8 @@ void TesoroBinario::creacionCanvas(){
 
 //Esta va a ser una funcion que podamos llamar en cada momento que se requiera
 //cambiar un o unos pixeles en especifico, asi no tenemos que reescribir el bitmap entero
-void TesoroBinario::pintarPixel(std::string contenido, int numeroDeJugador , int x, int y, int z){
-    visualizador->pintarPixel(contenido, numeroDeJugador, x, y, z);
+void TesoroBinario::pintarPixel(std::string contenido, int numeroDeJugador , int fila, int columna, int plano){
+    visualizador->pintarPixel(contenido, numeroDeJugador, fila, columna, plano);
 }
 
 void TesoroBinario::pintarActivoInactivo(int x, int y, int z, char caracter) {

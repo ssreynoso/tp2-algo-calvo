@@ -6,10 +6,10 @@ using namespace std;
 
 const static int MULTIPLICADOR_DE_RESOLUCION = 24;
 
-TesoroBinario::TesoroBinario(int cantidad, int x, int y, int z) {
+TesoroBinario::TesoroBinario(int cantidad, int planos, int filas, int columnas) {
     // validar canidad y dimensiones
 
-    this->tablero = new Tablero(x, y, z);
+    this->tablero = new Tablero(planos, filas, columnas);
     this->jugadores = new Lista<Jugador*>();
     this->omitirTurno = false;
 
@@ -21,7 +21,7 @@ TesoroBinario::TesoroBinario(int cantidad, int x, int y, int z) {
 
     this->cantidadJugadores = cantidad;
     this->turno = 0;
-    this->visualizador = new Visualizador(x, y, z, MULTIPLICADOR_DE_RESOLUCION);
+    this->visualizador = new Visualizador(filas, columnas, planos, MULTIPLICADOR_DE_RESOLUCION);
 }
 
 TesoroBinario::~TesoroBinario() {

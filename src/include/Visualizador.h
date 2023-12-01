@@ -2,6 +2,8 @@
 
 class Visualizador {
 private:
+    int cntFilas;
+    int cntColumnas;
     int anchoCanvas;
     int altoCanvas;
     int anchoMargen;
@@ -10,7 +12,7 @@ private:
     int multiplicadorResolucion;
 
 public:
-    Visualizador(int anchoTablero, int altoTablero, int cantidadTableros, int multiplicadorDeResolucion); 
+    Visualizador(int cntFilas, int cntColumnas, int cantidadTableros, int multiplicadorDeResolucion); 
     void crearCanvas(int cantidadJugadores);
     void pintarPixel(std::string contenido, int numeroDeJugador , int x, int y, int z);
 };

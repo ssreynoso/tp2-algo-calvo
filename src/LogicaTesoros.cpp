@@ -49,7 +49,7 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
     bool hayMinaPropia   = true;
 
     // Se pide una nueva posición
-    std::cout << "JUGADOR " << toString(numeroJugador);
+    std::cout << "JUGADOR " << toString(numeroJugador) << " ";
 
     // La celda no tiene que estar inactiva y no tiene que haber un tesoro propio.
     while (celdaInactiva || hayTesoroPropio || hayEspiaPropio || hayMinaPropia) {

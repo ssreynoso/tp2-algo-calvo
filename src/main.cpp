@@ -28,11 +28,11 @@ void recibirDimension(int* valor){
 
 void dimensiones(int* x, int* y, int* z){
 	cout << "Ingrese las dimensiones del tablero (x, y, z): " << endl;
-	cout << "X: ";
+	cout << "Cantidad de planos: ";
 	recibirDimension(x);
-	cout << "Y: ";
+	cout << "Filas: ";
 	recibirDimension(y);
-	cout << "Z: ";
+	cout << "Columnas: ";
 	recibirDimension(z);
 }
 
