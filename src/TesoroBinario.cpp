@@ -1,8 +1,10 @@
-#include "../include/TesoroBinario.h"
+#include "include/TesoroBinario.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
+
+const static int MULTIPLICADOR_DE_RESOLUCION = 24;
 
 TesoroBinario::TesoroBinario(int cantidad, int x, int y, int z) {
     // validar canidad y dimensiones
@@ -19,6 +21,7 @@ TesoroBinario::TesoroBinario(int cantidad, int x, int y, int z) {
 
     this->cantidadJugadores = cantidad;
     this->turno = 0;
+    this->visualizador = new Visualizador(x, y, z, MULTIPLICADOR_DE_RESOLUCION);
 }
 
 TesoroBinario::~TesoroBinario() {

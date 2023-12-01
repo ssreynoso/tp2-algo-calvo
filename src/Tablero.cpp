@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "../include/Tablero.h"
-#include "../include/Utilidades.h"
+#include "include/Tablero.h"
+#include "include/Utilidades.h"
 
 Tablero::Tablero(int x, int y, int z) {
     // validar

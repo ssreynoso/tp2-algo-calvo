@@ -7,7 +7,7 @@ VALGRINDFLAGS = --leak-check=full --track-origins=yes --show-reachable=yes --err
 APPNAME = tesorobinario
 SRCDIR = src
 OBJDIR = obj
-INCLUDEDIR = include
+INCLUDEDIR = src/include
 EXT = .cpp
 
 SRC = $(wildcard $(SRCDIR)/*$(EXT))

@@ -6,6 +6,7 @@
 #include "Enums.h"
 #include "Coordenadas.h"
 #include "Celda.h"
+#include "Visualizador.h"
 
 
 class TesoroBinario{
@@ -15,6 +16,7 @@ class TesoroBinario{
         bool omitirTurno;
         int cantidadJugadores; //no hace falta guardarlo, se puede sacar de la long de la lista
         int turno;
+        Visualizador* visualizador;
 
     public:
         //Pre: cantidad debe ser al menos 2 y las dimensiones mayores a 1

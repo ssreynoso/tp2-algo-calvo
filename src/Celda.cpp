@@ -1,5 +1,5 @@
-#include "../include/Celda.h"
-#include "../include/TesoroBinario.h"
+#include "include/Celda.h"
+#include "include/TesoroBinario.h"
 Celda::Celda() {
     this->activa = true;
     this->ficha = new Ficha();

@@ -4,10 +4,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "../include/Carta.h"
-#include "../include/Celda.h"
-#include "../include/Tablero.h"
-#include "../include/TesoroBinario.h"
+#include "include/Carta.h"
+#include "include/Celda.h"
+#include "include/Tablero.h"
+#include "include/TesoroBinario.h"
 
 using namespace std;
 

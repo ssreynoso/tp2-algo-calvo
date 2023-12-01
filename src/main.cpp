@@ -2,7 +2,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-#include"../include/TesoroBinario.h"
+#include"include/TesoroBinario.h"
 
 using namespace std;
 void NumeroJugadores(int* cantJugadores){
