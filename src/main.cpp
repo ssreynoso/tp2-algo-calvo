@@ -51,15 +51,12 @@ int main() {
     juego->creacionCanvas();
     juego->cargarTesorosPorJugador();
 
-    //TODO:Esto para que es?
+    //TODO:Esto para que es? //Es para imprimir los tableros en consola, borrar antes de entregar
     juego->imprimirTodosLosTableros();
 
     juego->juego();
 
-    // cout << "cargarJuego" << endl;
-    // juego->cargarJuego();
-    // juego->imprimirTablero();
-
+    //agregar imprimirJugadorGanador
 
 
     delete juego;

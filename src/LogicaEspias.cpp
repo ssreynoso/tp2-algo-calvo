@@ -1,3 +1,4 @@
+#include "include/Utilidades.h"
 #include "include/TesoroBinario.h"
 #include "include/Ficha.h"
 #include "include/Celda.h"
@@ -5,6 +6,8 @@
 
 void TesoroBinario::colocarEspia(int numeroJugador) {
     int x, y, z;
+
+    std::cout << "JUGADOR " << toString(numeroJugador) << ": ";
     std::cout << "Indique la posicion para el espia: " << std::endl;
     recibirPosicion(&x, &y, &z); //Verifica que este en rango y que la celda este activa
 

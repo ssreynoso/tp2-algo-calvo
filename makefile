@@ -1,6 +1,6 @@
 CC = g++
 CXXFLAGS = -std=c++98 -O0 -g3 -Wall -Werror -I./include
-CXXFLAGS2 = -std=c++98 -O0 -g3 -Wall -I./include
+CXXFLAGS2 = -std=c++98 -O0 -g3 -I./include
 LDFLAGS =
 VALGRINDFLAGS = --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2
 

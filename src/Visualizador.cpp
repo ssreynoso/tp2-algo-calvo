@@ -85,7 +85,7 @@ void Visualizador::crearCanvas(int cantidadJugadores) {
         //con esta parte, cada jugador va a tener su propio bmp al que acceder mas
         //tarde cuando juegue. Va a tener su numero de jugador en el nombre.
         int numeroDeJugador = i;
-        std::string guardado = "sample" + toString(numeroDeJugador) + ".bmp";
+        std::string guardado = "TABLERO_JUGADOR" + toString(numeroDeJugador) + ".bmp";
         AnImage.WriteToFile(guardado.c_str());
     }
 }
@@ -97,7 +97,7 @@ void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int 
     numeroDeJugador--;
 
     BMP AnImage;
-    std::string  guardado = "sample" + toString(numeroDeJugador) + ".bmp";
+    std::string  guardado = "TABLERO_JUGADOR" + toString(numeroDeJugador) + ".bmp";
     AnImage.ReadFromFile(guardado.c_str());
 
     /*
