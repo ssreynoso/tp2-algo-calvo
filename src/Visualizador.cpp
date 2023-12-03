@@ -132,7 +132,11 @@ void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int 
         rojo = 130;
         green = 130;
         blue = 130;
-    } else {
+    } else if (contenido == "$"){
+        rojo = 0;
+        green = 0 ;
+        blue = 0;
+    }else {
         rojo = 78;
         green = 184;
         blue = 244;
