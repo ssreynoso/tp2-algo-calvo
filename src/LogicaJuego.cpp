@@ -1,4 +1,5 @@
 #include "include/TesoroBinario.h"
+#include <iostream>
 
 void TesoroBinario::juego() {
     this->jugadores->iniciarCursor();    //El cursor se inicia en NULL
@@ -11,6 +12,7 @@ void TesoroBinario::juego() {
         }
         this->jugadores->avanzarCursor();
     }
+    this->imprimirGanadorDelJuego();
 }
 
 void TesoroBinario::imprimirTodosLosTableros() {
@@ -59,4 +61,17 @@ void TesoroBinario::jugarTurno(Jugador* jugador) {
     moverTesoro(jugador);
 
     this->turno++;
+}
+
+void TesoroBinario::imprimirGanadorDelJuego(){
+    std::cout << std::endl << "LOG: Entro a imprimirGanadorDelJuego ";
+     // Recorro todos los jugadores. El indice de la lista va de 1 a cantidadJugadores
+    for (int i = 1; i <= this->cantidadJugadores; i++) {
+        int numeroTesoros = this->jugadores->obtener(i)->getTesoros();
+        // Tiene tesoros?
+        std::cout << std::endl << "LOG: Jugador " << i << "Cantidad de tesoros" << numeroTesoros;
+        if (numeroTesoros > 0) {
+            std::cout << std::endl << "Felicidades Jugador " << i << ", haz ganado la partida!";
+        }
+    }
 }

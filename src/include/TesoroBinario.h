@@ -65,6 +65,10 @@ class TesoroBinario{
         //       devuelve true en caso de que el juego deba finalizar.
         bool finDeJuego();
 
+
+        // post: imprime un mensaje con el jugador ganador.
+        void imprimirGanadorDelJuego();
+
         //pre: recibe el indice correspondiente al jugador del turno
         //post: gestiona cada turno
         void jugarTurno(Jugador* jugador);

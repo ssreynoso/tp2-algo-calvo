@@ -29,7 +29,6 @@ void TesoroBinario::pintarActivoInactivo(std::string caracter, int fila, int col
    
     for (int numeroJugador = 1; numeroJugador <= cantidadJugadores; numeroJugador++)
     {
-        std::cout << "LOG: Numero de jugador: " << numeroJugador;
         pintarPixel(caracter,numeroJugador,fila,columna,plano);
     }
 }

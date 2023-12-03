@@ -56,8 +56,6 @@ int main() {
 
     juego->juego();
 
-    //agregar imprimirJugadorGanador
-
 
     delete juego;
     return 0;
