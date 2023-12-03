@@ -41,8 +41,9 @@ bool TesoroBinario::sigueJugando(Jugador* jugador) {
 
 void TesoroBinario::jugarTurno(Jugador* jugador) {
     // Punto a)
-    //logica cartas(levantar, jugar, guardar, ver disponibles);
 
+    //logica cartas(levantar, jugar, guardar, ver disponibles);
+    //tomarCartaDeMazo(jugador);
 
     // Punto b)
     //colocarMina(jugador->getNumeroDeJugador());

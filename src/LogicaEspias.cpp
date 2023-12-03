@@ -5,18 +5,18 @@
 #include <iostream>
 
 void TesoroBinario::colocarEspia(int numeroJugador) {
-    int x, y, z;
+    int plano, fila, columna;
 
     std::cout << "JUGADOR " << toString(numeroJugador) << ": ";
     std::cout << "Indique la posicion para el espia: " << std::endl;
-    recibirPosicion(&x, &y, &z); //Verifica que este en rango y que la celda este activa
+    recibirPosicion(&plano, &fila, &columna); //Verifica que este en rango y que la celda este activa
 
-    Ficha* ficha = this->tablero->getCelda(x, y, z)->getFicha();
+    Ficha* ficha = this->tablero->getCelda(plano, fila, columna)->getFicha();
     if (ficha->getJugadorOwner() == numeroJugador) {
         std::cout << "Ya tienes una ficha en esta casilla" << std::endl;
         colocarEspia(numeroJugador);
     } else {
-        Celda*   celdaActual  = this->tablero->getCelda(x, y, z);
+        Celda*   celdaActual  = this->tablero->getCelda(plano, fila, columna);
         Jugador* celdaJugador = this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner());
 
         switch (ficha->getTipo()) {
@@ -24,23 +24,25 @@ void TesoroBinario::colocarEspia(int numeroJugador) {
                 ficha->setJugadorOwner(numeroJugador);
                 ficha->setTipo(Espia);
                 this->jugadores->obtener(numeroJugador)->incrementarEspias();
-                pintarPixel("T",numeroJugador,x,y,z);
+                pintarPixel("E",numeroJugador,fila,columna,plano);
                 break;
             case Tesoro:
                 encontrarTesoro(celdaActual);
-                pintarActivoInactivo(x,y,z,'$');
+                pintarActivoInactivo("$",fila,columna,plano);
                 break;
             case TesoroPartido:
                 encontrarTesoro(celdaActual);
-                pintarActivoInactivo(x,y,z,'$');
+                pintarActivoInactivo("$",fila,columna,plano);
                 break;
             case Espia:
                 eliminarEspias(celdaActual);
-                pintarPixel("-",ficha->getJugadorOwner(),x,y,z);
+                pintarActivoInactivo("-",fila,columna,plano);
+                //pintarPixel("-",ficha->getJugadorOwner(),fila,columna,plano);
                 break;
             case Mina:
                 explotarEspia(celdaActual, celdaJugador);
-                pintarPixel("-",ficha->getJugadorOwner(),x,y,z);
+                pintarActivoInactivo("-",fila,columna,plano);
+                //pintarPixel("-",ficha->getJugadorOwner(),fila,columna,plano);
                 break;
         }
     }

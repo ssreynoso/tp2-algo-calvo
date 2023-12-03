@@ -93,7 +93,7 @@ void Visualizador::crearCanvas(int cantidadJugadores) {
 
 //Esta va a ser una funcion que podamos llamar en cada momento que se requiera
 //cambiar un o unos pixeles en especifico, asi no tenemos que reescribir el bitmap entero
-void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int x, int y, int z){
+void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int fila, int columna, int plano){
     numeroDeJugador--;
 
     BMP AnImage;
@@ -138,10 +138,10 @@ void Visualizador::pintarPixel(std::string contenido, int numeroDeJugador , int 
         blue = 244;
     }
 
-    int _y = altoMargen + (z - 1) * (altoMargen + (cntFilas * multiplicadorResolucion)) + ((y - 1) * multiplicadorResolucion);
-    int _x = x * multiplicadorResolucion;
-    for (int j = _y; j < _y + multiplicadorResolucion; j++) {
-        for (int i = _x; i < _x + multiplicadorResolucion; i++) {
+    int _fila = altoMargen + (plano - 1) * (altoMargen + (cntFilas * multiplicadorResolucion)) + ((fila - 1) * multiplicadorResolucion);
+    int _columna = columna * multiplicadorResolucion;
+    for (int j = _fila; j < _fila + multiplicadorResolucion; j++) {
+        for (int i = _columna; i < _columna + multiplicadorResolucion; i++) {
             AnImage(i, j)->Red = rojo;
             AnImage(i, j)->Green = green;
             AnImage(i, j)->Blue = blue;

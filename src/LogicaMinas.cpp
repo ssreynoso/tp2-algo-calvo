@@ -10,7 +10,7 @@ void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
     celda->getFicha()->resetFicha();
     celda->desactivarCasillaPorTurnos(2);
     jugador->setOmitirTurno(true);
-    pintarActivoInactivo(celda->getCoordenada()->getCoordenadaX(), celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(), '$');
+    //pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
 }
 
 ///Disminuye una unidad la cantidad de Tesoros del jugador, resetea la casilla y
@@ -18,14 +18,14 @@ void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
 void TesoroBinario::explotarTesoro(Celda *celda, Jugador *jugador) {
     jugador->descontarTesoros();
     celda->desactivarCasillaPorTurnos(3);
-    pintarActivoInactivo(celda->getCoordenada()->getCoordenadaX(), celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(), '$');
+    pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
 }
 
 ///Resetea la casilla y configura la cantidad de turnos desactivados.
 void TesoroBinario::explotarMinas(Celda *celda) {
     celda->getFicha()->resetFicha();
     celda->desactivarCasillaPorTurnos(5);
-    pintarActivoInactivo(celda->getCoordenada()->getCoordenadaX(), celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(), '$');
+    pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
 }
 
 

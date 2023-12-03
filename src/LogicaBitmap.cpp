@@ -10,8 +10,6 @@
 #include "include/libreria/EasyBMP_1.06/EasyBMP.h"
 //#include "../include/libreria/EasyBMP_1.06/EasyBmp.cpp"
 
-const static int MULTIPLICADOR_DE_RESOLUCION = 1;
-
 //Creacion de canvas blanco de dimensiones del juego.
 //Habria que hacer uno para cada jugador
 void TesoroBinario::creacionCanvas()
@@ -26,46 +24,13 @@ void TesoroBinario::pintarPixel(std::string contenido, int numeroDeJugador, int 
     visualizador->pintarPixel(contenido, numeroDeJugador, fila, columna, plano);
 }
 
-void TesoroBinario::pintarActivoInactivo(int x, int y, int z, char caracter)
+void TesoroBinario::pintarActivoInactivo(std::string caracter, int fila, int columna, int plano)
 {
-    int alto_del_tablero = this->tablero->getTamanioY();
-    x *= MULTIPLICADOR_DE_RESOLUCION;
-    y *= MULTIPLICADOR_DE_RESOLUCION;
-
-    int rojo, green, blue;
-    //Seteo el color en negro
-    if (caracter == '$')
+   
+    for (int numeroJugador = 1; numeroJugador <= cantidadJugadores; numeroJugador++)
     {
-        rojo = 0;
-        green = 0;
-        blue = 0;
-    }
-    else
-    {
-        rojo = 255;
-        green = 255;
-        blue = 255;
-    }
-
-    for (unsigned int k = 0; k < this->jugadores->contarElementos()-1; k++)
-    {
-        BMP AnImage;
-        std::stringstream ss;
-        ss << k;
-        std::string fila = ss.str();
-        std::string guardado = "TABLERO_JUGADOR" + fila + ".bmp";
-        AnImage.ReadFromFile(guardado.c_str());
-
-        for (int i = 0; i < MULTIPLICADOR_DE_RESOLUCION; ++i)
-        {
-            for (int j = 0; j < MULTIPLICADOR_DE_RESOLUCION; ++j)
-            {
-                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero + 1) * MULTIPLICADOR_DE_RESOLUCION * (z))->Red = rojo;
-                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero + 1) * MULTIPLICADOR_DE_RESOLUCION * (z))->Green = green;
-                AnImage(x + MULTIPLICADOR_DE_RESOLUCION + j, (y + MULTIPLICADOR_DE_RESOLUCION + i) + (alto_del_tablero + 1) * MULTIPLICADOR_DE_RESOLUCION * (z))->Blue = blue;
-            }
-        }
-        AnImage.WriteToFile(guardado.c_str());
+        std::cout << "LOG: Numero de jugador: " << numeroJugador;
+        pintarPixel(caracter,numeroJugador,fila,columna,plano);
     }
 }
 

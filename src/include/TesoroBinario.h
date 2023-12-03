@@ -108,7 +108,7 @@ class TesoroBinario{
 
         void pintarPixel(std::string contenido, int numeroDeJugador, int x, int y, int z);
 
-        void pintarActivoInactivo(int x, int y, int z, char caracter);
+        void pintarActivoInactivo(std::string caracter, int fila, int columna, int plano);
 
 private:
          //Post: Carga la cantidad de fichas a cada jugador
@@ -142,7 +142,7 @@ private:
 
         //Pre: 'jugador' y 'coordenada' deben contener un valor valido
         //Post:se genera una carta al azar y le da la opcion al usuario de usarla o no
-        void tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada);
+        void tomarCartaDeMazo(Jugador* jugador);
 
         //Pre: 'mensaje' debe estar inicializado
         //Post: se genera una carta al azar y le da la opcion al usuario de usarla o no

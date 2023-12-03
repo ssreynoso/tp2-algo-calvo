@@ -124,14 +124,14 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             nuevaPosicion->setTurnosInactiva(5);
             jugador->descontarTesoros();
             pintarPixel("-",numeroJugador,fila,columna,plano);
-            pintarActivoInactivo(nuevaFila,nuevaColumna,nuevaPlano,'$');
+            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevaPlano);
             break;
         case Mina:
             // pierdeTurno;
             std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
             explotarTesoro(nuevaPosicion, jugador);
             pintarPixel("-",numeroJugador,fila,columna,plano);
-            pintarActivoInactivo(nuevaFila,nuevaColumna,nuevaPlano,'$');
+            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevaPlano);
             break;
     }
 }

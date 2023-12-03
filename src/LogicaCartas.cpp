@@ -47,7 +47,14 @@ int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
     return indiceDeCarta - 1;
 }
 
-void TesoroBinario::tomarCartaDeMazo(Jugador* jugador, Coordenada coordenada) {
+void TesoroBinario::tomarCartaDeMazo(Jugador* jugador) {
+    
+    Coordenada coordenada;
+    /*
+    coordenada.setCoordenadaX(x);
+    coordenada.setCoordenadaY(y);
+    coordenada.setCoordenadaZ(z);
+    */
     Carta* carta = this->generarCarta();
     jugador->agregarCarta(carta);
     std::cout << "Acaba de selecionar una carta del tipo: "

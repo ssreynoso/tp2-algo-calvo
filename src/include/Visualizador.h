@@ -14,5 +14,5 @@ private:
 public:
     Visualizador(int cntFilas, int cntColumnas, int cantidadTableros, int multiplicadorDeResolucion); 
     void crearCanvas(int cantidadJugadores);
-    void pintarPixel(std::string contenido, int numeroDeJugador , int x, int y, int z);
+    void pintarPixel(std::string contenido, int numeroDeJugador , int fila, int columna, int plano);
 };
