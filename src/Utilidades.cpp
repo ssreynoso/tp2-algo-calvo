@@ -64,14 +64,14 @@ Coordenada* getTesoroPropio(Tablero* tablero, int numeroJugador, std::string men
     std::cout << mensaje << std::endl;
 
     // La ficha tiene que ser de tipo tesoro y tiene que ser un tesoro propio.
-    while (!fichaEsTipoTesoro && !hayTesoroPropio) {
+    while (!fichaEsTipoTesoro || !hayTesoroPropio) {
         recibirPosicion(tablero, &x, &y, &z);
         celda = tablero->getCelda(x, y, z);
         ficha = celda->getFicha();
-        fichaEsTipoTesoro = ficha->getTipo() == Tesoro;
+        fichaEsTipoTesoro = ficha->getTipo() == Tesoro || ficha->getTipo() == TesoroPartido;
         hayTesoroPropio   = ficha->getJugadorOwner() == numeroJugador;
         
-        if (!fichaEsTipoTesoro && !hayTesoroPropio) {
+        if (!fichaEsTipoTesoro || !hayTesoroPropio) {
             std::cout << "No hay un tesoro en la celda indicada. Intentelo nuevamente" << std::endl;
         }
     }

@@ -1,8 +1,12 @@
 #include "Ficha.h"
 #include "Coordenadas.h"
+// #include "TesoroBinario.h"
 
 #ifndef __CELDA_H__
 #define __CELDA_H__
+
+// Declaración anticipada de la clase TesoroBinario
+class TesoroBinario;
 
 class Celda {
     private:
@@ -52,8 +56,8 @@ class Celda {
         //Post: devuelve un puntero a las coordenadas
         Coordenada* getCoordenada();
         
-        //Pre: 'Debe existir la instancia Celda'
-        //Post: 'Desactiva la casilla por la cantidad de turnos especificada'
-        void desactivarCasillaPorTurnos(int cantidadDeTurnos);
+        //Pre: recibe un puntero a un tesoro binario
+        //Post: desactiva la casilla por la cantidad de turnos especificada
+        void desactivarCasillaPorTurnos(TesoroBinario* tesoroBinario, int cantidadDeTurnos);
 };
 #endif

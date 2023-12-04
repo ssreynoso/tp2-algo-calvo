@@ -1,4 +1,5 @@
 #include "include/Celda.h"
+#include "Coordenadas.h"
 #include "include/TesoroBinario.h"
 Celda::Celda() {
     this->activa = true;
@@ -48,7 +49,13 @@ Coordenada* Celda::getCoordenada(){
 
 // Desactiva la casilla por la canticad de turnos especificada
 
-void Celda::desactivarCasillaPorTurnos(int cantidadDeTurnos) {
+void Celda::desactivarCasillaPorTurnos(TesoroBinario* tesoroBinario, int cantidadDeTurnos) {
     this->activa = false;
     this->turnosInactiva = cantidadDeTurnos;
+    Coordenada* coordenada = this->getCoordenada();
+    int plano   = coordenada->getCoordenadaX();
+    int fila    = coordenada->getCoordenadaY();
+    int columna = coordenada->getCoordenadaZ();
+
+    tesoroBinario->pintarActivoInactivo("$", fila, columna, plano);
 }

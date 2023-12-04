@@ -3,6 +3,7 @@
 #include "Lista.h"
 #include "Celda.h"
 #include "Jugador.h"
+#include "TesoroBinario.h"
 
 class Tablero{
 private:
@@ -41,6 +42,10 @@ public:
     // Pre: Recibe un puntero a jugador
     // Post: Imprime el tablero del jugador
     void imprimir(int numeroJugador);
+
+    // Pre: Recibe el numero de jugador
+    // Post: Reduce en uno la cantidad de turnos que le quedan a las celdas inactivas
+    void reactivarCasillas(TesoroBinario* tesoroBinario, int numeroJugador);
 };
 
 #endif

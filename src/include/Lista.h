@@ -334,6 +334,11 @@ T Lista<T>::obtenerCursor()
 template <class T>
 Lista<T>::~Lista()
 {
+    for (unsigned int i = 1; i <= this->tamanio; i++) {
+        if (i == this->tamanio) {
+            this->obtenerNodo(i)->cambiarSiguiente(NULL);
+        }
+    }
 
     while (this->primero != NULL)
     {

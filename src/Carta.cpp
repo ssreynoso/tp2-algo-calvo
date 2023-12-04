@@ -8,7 +8,7 @@
 #include "include/Celda.h"
 #include "include/Tablero.h"
 #include "include/Utilidades.h"
-#include "include/TesoroBinario.h"
+// #include "include/TesoroBinario.h"
 
 using namespace std;
 
@@ -75,14 +75,19 @@ bool Carta::getCartaActiva() { return this->cartaActiva; }
 void Carta::blindaje(Tablero* tablero, Jugador* jugador) {
     // Se pide la celda en la que se usará la carta
     int x, y, z;
-    std::cout << "Ingrese la celda en la que se usará la carta blindaje: " << std::endl;
-    recibirPosicion(tablero, &x, &y, &z);
+    int numeroJugador = jugador->getNumeroDeJugador();
+    Coordenada* coordenadaTesoroAPartir = getTesoroPropio(tablero, numeroJugador, "Ingrese la celda en la que se usará la carta blindaje: ");
+    x = coordenadaTesoroAPartir->getCoordenadaX();
+    y = coordenadaTesoroAPartir->getCoordenadaY();
+    z = coordenadaTesoroAPartir->getCoordenadaZ();
+    // recibirPosicion(tablero, &x, &y, &z);
     
-    // Inactiva la celda por varios turnos, por lo tanto no se puede hacer
-    // ningun movimiento/jugada en ella hasta que vuelva a la actividad.
+    // Desactiva la celda por varios turnos, por lo tanto no se puede hacer
+    // ningun realizar ninguna accion en ella hasta que vuelva a la actividad.
     tablero->getCelda(x, y, z)->setEstado(false);
     tablero->getCelda(x, y, z)->setTurnosInactiva(4);
 }
+
 void Carta::radar(Tablero* tablero, Jugador* jugador) {
     // Verifica si hay Tesoro cerca (a la redonda)
     // e informa la situación con un mensaje boolenano;
@@ -127,6 +132,7 @@ void Carta::radar(Tablero* tablero, Jugador* jugador) {
         std::cout << "No hay un tesoro cerca." << std::endl;
     }
 }
+
 void Carta::partirTesoro(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador* jugador) {
     // Parte un Tesoro en dos, cambiando la ficha de la celda inicial a ficha=
     // TesoroPartido
@@ -149,11 +155,47 @@ void Carta::partirTesoro(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador
 
     celdaTesoroPartido1->getFicha()->setTipo(TesoroPartido);
     celdaTesoroPartido1->getFicha()->setJugadorOwner(numeroJugador);
-    celdaTesoroPartido2->getFicha()->setTipo(TesoroPartido);
-    celdaTesoroPartido2->getFicha()->setJugadorOwner(numeroJugador);
-    tesoroBinario->pintarPixel("T", numeroJugador, nuevaFila, nuevaColumna, nuevoPlano);
-    jugador->incrementarTesoros();
+
+    switch (celdaTesoroPartido2->getFicha()->getTipo()) {
+        case VACIO:
+            celdaTesoroPartido2->getFicha()->setTipo(TesoroPartido);
+            celdaTesoroPartido2->getFicha()->setJugadorOwner(numeroJugador);
+            tesoroBinario->pintarPixel("T", numeroJugador, nuevaFila, nuevaColumna, nuevoPlano);
+            jugador->incrementarTesoros();
+            break;
+        case Tesoro:
+            if (celdaTesoroPartido2->getFicha()->getJugadorOwner() != numeroJugador) {
+                std::cout << "Hay un tesoro enemigo en esta posición, envie un espía." << std::endl;
+            } else {
+                std::cout << "Ya tienes un tesoro en esta posición" << std::endl;
+                partirTesoro(tesoroBinario, tablero, jugador);
+            }
+            break;
+        case TesoroPartido:
+            if (celdaTesoroPartido2->getFicha()->getJugadorOwner() != numeroJugador) {
+                std::cout << "Hay un tesoro partido enemigo en esta posición, envie un espía." << std::endl;
+            } else {
+                std::cout << "Ya tienes un tesoro en esta posición" << std::endl;
+                partirTesoro(tesoroBinario, tablero, jugador);
+            }
+            break;
+        case Espia:
+            if (controlarEscudoJugador(jugador)) {
+                break;
+            }
+            std::cout << "Tu tesoro ha sido encontrado por un espia enemigo. La casilla quedara inactiva por 5 turnos" << std::endl;
+            celdaTesoroPartido2->desactivarCasillaPorTurnos(tesoroBinario, 5);
+            break;
+        case Mina:
+            if (controlarEscudoJugador(jugador)) {
+                break;
+            }
+            std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
+            celdaTesoroPartido2->desactivarCasillaPorTurnos(tesoroBinario, 3);
+            break;
+    }
 }
+
 void Carta::eliminarEspia(Tablero* tablero, Jugador* jugador) {
     int plano = 0, fila = 0, columna = 0;
     int planoEspiaEncontrado = 0, filaEspiaEncontrado = 0, columnaEspiaEncontrado = 0;

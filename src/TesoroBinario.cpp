@@ -26,14 +26,7 @@ TesoroBinario::TesoroBinario(int cantidad, int planos, int filas, int columnas) 
 
 TesoroBinario::~TesoroBinario() {
     this->jugadores->iniciarCursor();
-    while (this->jugadores->avanzarCursor()) {
-        std::cout << "Se elimina el jugador " << this->jugadores->obtenerCursor()->getNumeroDeJugador() << std::endl;
-        delete this->jugadores->obtenerCursor();
-    }
-    std::cout << "Se elimina el tablero" << std::endl;
-    delete this->tablero;
-    std::cout << "Se elimina el visualizador" << std::endl;
-    delete this->visualizador;
-    std::cout << "Se elimina la lista de jugadores" << std::endl;
     delete this->jugadores;
+    delete this->tablero;
+    delete this->visualizador;
 }

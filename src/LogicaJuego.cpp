@@ -42,8 +42,14 @@ bool TesoroBinario::sigueJugando(Jugador* jugador) {
 }
 
 void TesoroBinario::jugarTurno(Jugador* jugador) {
-    // Punto a)
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "JUGADOR " << jugador->getNumeroDeJugador() << ": " << std::endl;
+    this->turno++;
 
+    // Reactivar casillas de jugador
+    this->tablero->reactivarCasillas(this, jugador->getNumeroDeJugador());
+
+    // Punto a)
     // logica cartas(levantar, jugar, guardar, ver disponibles);
     tomarCartaDeMazo(jugador);
     
@@ -52,35 +58,35 @@ void TesoroBinario::jugarTurno(Jugador* jugador) {
         return;
     }
 
+    if(finDeJuego() || jugador->getOmitirTurno()){
+        return;
+    }
+
     // Punto b)
     colocarMina(jugador->getNumeroDeJugador());
 
-    if(finDeJuego()){
+    if(finDeJuego() || jugador->getOmitirTurno()){
         return;
     }
     
     // Punto c)
     colocarEspia(jugador->getNumeroDeJugador());
 
-    if(finDeJuego()){
+    if(finDeJuego() || jugador->getOmitirTurno()){
         return;
     }
 
     // Punto d)
     moverTesoro(jugador);
-
-    this->turno++;
 }
 
 void TesoroBinario::imprimirGanadorDelJuego(){
-    std::cout << std::endl << "LOG: Entro a imprimirGanadorDelJuego ";
      // Recorro todos los jugadores. El indice de la lista va de 1 a cantidadJugadores
     for (int i = 1; i <= this->cantidadJugadores; i++) {
         int numeroTesoros = this->jugadores->obtener(i)->getTesoros();
         // Tiene tesoros?
-        std::cout << std::endl << "LOG: Jugador " << i << "Cantidad de tesoros" << numeroTesoros;
         if (numeroTesoros > 0) {
-            std::cout << std::endl << "Felicidades Jugador " << i << ", haz ganado la partida!";
+            std::cout << std::endl << "Felicidades Jugador " << i << ", has ganado la partida!";
         }
     }
 }

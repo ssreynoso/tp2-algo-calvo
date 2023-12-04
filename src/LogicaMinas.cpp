@@ -9,50 +9,45 @@
 void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
     jugador->descontarEspias();
     celda->getFicha()->resetFicha();
-    celda->desactivarCasillaPorTurnos(2);
+    celda->desactivarCasillaPorTurnos(this, 2);
     jugador->setOmitirTurno(true);
-    //pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
 }
 
 ///Disminuye una unidad la cantidad de Tesoros del jugador, resetea la casilla y
 ///configura la cantidad de turnos desactivados.
 void TesoroBinario::explotarTesoro(Celda *celda, Jugador *jugador) {
     jugador->descontarTesoros();
-    celda->desactivarCasillaPorTurnos(3);
-
-    int plano   = celda->getCoordenada()->getCoordenadaX();
-    int fila    = celda->getCoordenada()->getCoordenadaY();
-    int columna = celda->getCoordenada()->getCoordenadaZ();
-
-    pintarActivoInactivo("$", fila, columna, plano);
+    celda->desactivarCasillaPorTurnos(this, 3);
 }
 
 ///Resetea la casilla y configura la cantidad de turnos desactivados.
 void TesoroBinario::explotarMinas(Celda *celda) {
+    std::cout << "Oh, encontraste una mina..."<< std::endl;
+    std::cout << "Ambas minas explotaron y desactivaron la casilla por 5 Turnos"<< std::endl;
     celda->getFicha()->resetFicha();
-    celda->desactivarCasillaPorTurnos(5);
-    
-    int plano   = celda->getCoordenada()->getCoordenadaX();
-    int fila    = celda->getCoordenada()->getCoordenadaY();
-    int columna = celda->getCoordenada()->getCoordenadaZ();
-
-    pintarActivoInactivo("$", fila, columna, plano);
+    celda->desactivarCasillaPorTurnos(this, 5);
 }
 
 
 void TesoroBinario::colocarMina(int jugador){
     int plano, fila, columna;
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "JUGADOR " << jugador << ": " << std::endl; 
+    std::cout << "---------" << std::endl;
     std::cout << "Indique la posicion para Mina: " << std::endl;
 
-    recibirPosicion(this->tablero, &plano, &fila, &columna);
-    Celda *celdaActual          = this->tablero->getCelda(plano, fila, columna);
+    bool celdaActiva = false;
+
+    // Verifico que la celda no tenga blindaje
+    while(!celdaActiva){
+        recibirPosicion(this->tablero, &plano, &fila, &columna);
+        celdaActiva = this->tablero->getCelda(plano, fila, columna)->getTurnosInactiva() == 0;
+        if(!celdaActiva){
+            std::cout << "La celda esta inactiva, intente nuevamente" << std::endl;
+        }
+    }
+
+    Celda *celdaActual = this->tablero->getCelda(plano, fila, columna);
     Ficha *ficha                = celdaActual->getFicha();
     Jugador *jugadorPropietario = this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner());
-
-    std::cout << "Jugador ficha: " << toString(ficha->getJugadorOwner()) << std::endl;
-    std::cout << "Jugador: " << toString(jugador) << std::endl;
 
     if(ficha->getJugadorOwner() == jugador){
         std::cout << "Ya tienes una ficha en esta casilla" << std::endl;
@@ -90,8 +85,6 @@ void TesoroBinario::colocarMina(int jugador){
                 explotarEspia(celdaActual, jugadorPropietario);
                 break;
             case Mina:
-                std::cout << "Oh, encontraste una mina..."<< std::endl;
-                std::cout << "Ambas minas explotaron y desactivaron la casilla por 5 Turnos"<< std::endl;
                 //Si encuentra otra minas, ambas explotan si se desactiva por 5 turnos
                 explotarMinas(celdaActual);
                 break;

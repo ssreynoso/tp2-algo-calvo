@@ -3,6 +3,7 @@
 
 #include "include/Tablero.h"
 #include "include/Utilidades.h"
+#include "include/TesoroBinario.h"
 
 Tablero::Tablero(int planos, int filas, int columnas) {
     // validar
@@ -46,12 +47,9 @@ Tablero::~Tablero() {
 
 Celda* Tablero::getCelda(int x, int y, int z) {
     if (inRange(x, y, z)) {
-        std::cout << "Coordenadas: " << x << y << z << std::endl;
         Lista<Lista<Celda*>*>* plano = this->cubo->obtener(x);
-        std::cout << "Plano: " << plano->contarElementos() << std::endl;
-        Lista<Celda*>* fila          = plano->obtener(y);
-        std::cout << "Fila: " << fila->contarElementos() << std::endl;
-        Celda* celda                 = fila->obtener(z);
+        Lista<Celda*>* fila = plano->obtener(y);
+        Celda* celda = fila->obtener(z);
         
         return celda;
     } else {
@@ -112,5 +110,24 @@ void Tablero::imprimir(int numeroJugador) {
             std::cout << std::endl;
         }
         std::cout << "\n----------\n";
+    }
+}
+
+void Tablero::reactivarCasillas(TesoroBinario* tesoroBinario, int numeroJugador) {
+    for (int i = 1; i <= getTamanioX(); i++) {
+        for (int j = 1; j <= getTamanioY(); j++) {
+            for (int k = 1; k <= getTamanioZ(); k++) {
+                Celda* celda = getCelda(i, j, k);
+                if (
+                    celda->getTurnosInactiva() > 0
+                    // celda->getFicha()->getJugadorOwner() == numeroJugador
+                ) {
+                    celda->setTurnosInactiva(celda->getTurnosInactiva() - 1);
+                    if (celda->getTurnosInactiva() - 1 == 0) {
+                        tesoroBinario->pintarActivoInactivo("-", j, k, i);
+                    }
+                }
+            }
+        }
     }
 }

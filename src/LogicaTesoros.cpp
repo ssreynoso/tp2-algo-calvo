@@ -15,8 +15,7 @@ void TesoroBinario::colocarTesoro(Celda* celda, int jugador) {
 }
 
 Celda* obtenerTesoroPropio(TesoroBinario* tesoroBinario, Tablero* tablero, int numeroJugador) {
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
+    std::cout << "---------" << std::endl;
     std::string mensaje = "Indique la posicion del tesoro a mover: ";
     
     Coordenada* coordenada = getTesoroPropio(tablero, numeroJugador, mensaje);
@@ -36,12 +35,10 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
     bool hayEspiaPropio  = true;
     bool hayMinaPropia   = true;
 
-    // Se pide una nueva posición
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
-
     // La celda no tiene que estar inactiva y no tiene que haber un tesoro propio.
     while (celdaInactiva || hayTesoroPropio || hayEspiaPropio || hayMinaPropia) {
+        // Se pide una nueva posición
+        std::cout << "---------" << std::endl;
         std::cout << "Indique la nueva posicion del tesoro: " << std::endl;
         recibirPosicion(tablero, &x,&y,&z);
         celda = tablero->getCelda(x, y, z);
@@ -74,6 +71,11 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
 }
 
 void TesoroBinario::moverTesoro(Jugador* jugador) {
+    bool respuesta = confirmar("¿Desea mover algún tesoro? Y/N: ");
+    if (!respuesta) {
+        return;
+    }
+
     int numeroJugador = jugador->getNumeroDeJugador();
     Celda* tesoroPropio       = obtenerTesoroPropio(this, this->tablero, numeroJugador);
     Celda* nuevaPosicion      = obtenerNuevaPosicion(this, this->tablero, numeroJugador);
@@ -94,6 +96,12 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             fichaTesoroPropio->resetFicha();
             pintarPixel("-",numeroJugador,fila,columna,plano);
             pintarPixel("T",numeroJugador,nuevaFila,nuevaColumna,nuevoPlano);
+
+            // Si la celda estaba inactiva, la activo
+            if (tesoroPropio->getTurnosInactiva() > 0) {
+                nuevaPosicion->setTurnosInactiva(tesoroPropio->getTurnosInactiva());
+                tesoroPropio->setTurnosInactiva(0);
+            }
             break;
         case Tesoro:
             std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;

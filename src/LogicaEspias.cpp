@@ -7,12 +7,20 @@
 void TesoroBinario::colocarEspia(int numeroJugador) {
     int plano, fila, columna;
 
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
+    std::cout << "---------" << std::endl;
     std::cout << "Indique la posicion para el espia: " << std::endl;
-    recibirPosicion(this->tablero, &plano, &fila, &columna); //Verifica que este en rango y que la celda este activa
+    recibirPosicion(this->tablero, &plano, &fila, &columna);
+
+    if (
+        !this->tablero->getCelda(plano, fila, columna)->estaActiva() ||
+        this->tablero->getCelda(plano, fila, columna)->getTurnosInactiva() > 0
+    ) {
+        std::cout << "La celda esta inactiva, intente nuevamente" << std::endl;
+        colocarEspia(numeroJugador);
+    }
 
     Ficha* ficha = this->tablero->getCelda(plano, fila, columna)->getFicha();
+    
     if (ficha->getJugadorOwner() == numeroJugador) {
         std::cout << "Ya tienes una ficha en esta casilla" << std::endl;
         colocarEspia(numeroJugador);
@@ -47,9 +55,9 @@ void TesoroBinario::colocarEspia(int numeroJugador) {
                 //pintarPixel("-",ficha->getJugadorOwner(),fila,columna,plano);
                 break;
             case Mina:
+                std::cout << "Había una mina en ese casillero. Perdiste tu espia y tu turno."<< std::endl;
+                std::cout << "Se desactivo la casilla por 2 Turnos"<< std::endl;
                 explotarEspia(celdaActual, celdaJugador);
-                pintarActivoInactivo("-",fila,columna,plano);
-                //pintarPixel("-",ficha->getJugadorOwner(),fila,columna,plano);
                 break;
         }
     }

@@ -29,9 +29,7 @@ void TesoroBinario::cargarTesorosPorJugador() {
                           << std::endl;
                 recibirPosicion(this->tablero, &x, &y, &z);
             }
-            std::cout << "Tesoro colocado en: " << x << y << z << std::endl;
             colocarTesoro(x, y, z, j);
-            std::cout<<"Pixel"<<std::endl;
             pintarPixel("T", j, y, z, x);
         }
     }

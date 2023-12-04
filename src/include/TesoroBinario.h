@@ -8,6 +8,7 @@
 #include "Celda.h"
 #include "Visualizador.h"
 
+class Tablero;
 
 class TesoroBinario{
     private:

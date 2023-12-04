@@ -9,9 +9,9 @@
 #include "include/Utilidades.h"
 
 Carta* TesoroBinario::generarCarta() {
-    int numero     = rand() % 3;
-    TipoCarta tipo = obtenerTipoCarta(numero);
-    Carta* carta   = new Carta(tipo);
+    // int numero     = rand() % 3;
+    // TipoCarta tipo = obtenerTipoCarta(numero);
+    Carta* carta   = new Carta(PartirTesoro);
 
     return carta;
 }

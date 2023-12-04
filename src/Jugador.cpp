@@ -59,6 +59,7 @@ void Jugador::imprimirCartas() {
         std::cout << i << ". Tipo de carta: "
                   << this->cartas->obtenerCursor()->getStringTipoCarta()
                   << std::endl;
+        i++;
     }
 }
 
