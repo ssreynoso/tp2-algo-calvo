@@ -15,26 +15,14 @@ void TesoroBinario::colocarTesoro(Celda* celda, int jugador) {
 }
 
 Celda* obtenerTesoroPropio(TesoroBinario* tesoroBinario, Tablero* tablero, int numeroJugador) {
-    int x, y, z;
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
+    std::string mensaje = "Indique la posicion del tesoro a mover: ";
+    
+    Coordenada* coordenada = getTesoroPropio(tablero, numeroJugador, mensaje);
+
     Celda* celda = NULL;
-    Ficha* ficha = NULL;
-    bool fichaEsTipoTesoro = false;
-    bool hayTesoroPropio   = false;
-
-    std::cout << "JUGADOR " << toString(numeroJugador) << " indique la posicion del tesoro a mover: " << std::endl;
-
-    // La ficha tiene que ser de tipo tesoro y tiene que ser un tesoro propio.
-    while (!fichaEsTipoTesoro && !hayTesoroPropio) {
-        tesoroBinario->recibirPosicion(&x, &y, &z);
-        celda = tablero->getCelda(x, y, z);
-        ficha = celda->getFicha();
-        fichaEsTipoTesoro = ficha->getTipo() == Tesoro;
-        hayTesoroPropio   = ficha->getJugadorOwner() == numeroJugador;
-        
-        if (!fichaEsTipoTesoro && !hayTesoroPropio) {
-            std::cout << "No hay un tesoro en la celda indicada. Intentelo nuevamente" << std::endl;
-        }
-    }
+    celda = tablero->getCelda(coordenada->getCoordenadaX(), coordenada->getCoordenadaY(), coordenada->getCoordenadaZ());
 
     return celda;
 }
@@ -49,12 +37,13 @@ Celda* obtenerNuevaPosicion(TesoroBinario* tesoroBinario, Tablero* tablero, int 
     bool hayMinaPropia   = true;
 
     // Se pide una nueva posición
-    std::cout << "JUGADOR " << toString(numeroJugador) << " ";
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
 
     // La celda no tiene que estar inactiva y no tiene que haber un tesoro propio.
     while (celdaInactiva || hayTesoroPropio || hayEspiaPropio || hayMinaPropia) {
         std::cout << "Indique la nueva posicion del tesoro: " << std::endl;
-        tesoroBinario->recibirPosicion(&x, &y, &z);
+        recibirPosicion(tablero, &x,&y,&z);
         celda = tablero->getCelda(x, y, z);
         ficha = celda->getFicha();
         bool esCeldaPropia = ficha->getJugadorOwner() == numeroJugador;
@@ -91,12 +80,12 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
     Ficha* fichaNuevaPosicion = nuevaPosicion->getFicha();
     Ficha* fichaTesoroPropio  = tesoroPropio->getFicha();
 
-    int plano = tesoroPropio->getCoordenada()->getCoordenadaX();
-    int fila = tesoroPropio->getCoordenada()->getCoordenadaY();
+    int plano   = tesoroPropio->getCoordenada()->getCoordenadaX();
+    int fila    = tesoroPropio->getCoordenada()->getCoordenadaY();
     int columna = tesoroPropio->getCoordenada()->getCoordenadaZ();
 
-    int nuevaPlano = nuevaPosicion->getCoordenada()->getCoordenadaX();
-    int nuevaFila = nuevaPosicion->getCoordenada()->getCoordenadaY();
+    int nuevoPlano   = nuevaPosicion->getCoordenada()->getCoordenadaX();
+    int nuevaFila    = nuevaPosicion->getCoordenada()->getCoordenadaY();
     int nuevaColumna = nuevaPosicion->getCoordenada()->getCoordenadaZ();
 
     switch (fichaNuevaPosicion->getTipo()) {
@@ -104,7 +93,7 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             colocarTesoro(nuevaPosicion, numeroJugador);
             fichaTesoroPropio->resetFicha();
             pintarPixel("-",numeroJugador,fila,columna,plano);
-            pintarPixel("T",numeroJugador,nuevaFila,nuevaColumna,nuevaPlano);
+            pintarPixel("T",numeroJugador,nuevaFila,nuevaColumna,nuevoPlano);
             break;
         case Tesoro:
             std::cout << "Hay un tesoro enemigo en esta posición, envie un espía" << std::endl;
@@ -119,19 +108,24 @@ void TesoroBinario::moverTesoro(Jugador* jugador) {
             // chances de encontrar múltiples tesoros enemigos.
             break;
         case Espia:
+            if (controlarEscudoJugador(jugador)) {
+                break;
+            }
             std::cout << "Tu tesoro ha sido encontrado por un espia enemigo. La casilla quedara inactiva por 5 turnos" << std::endl;
             nuevaPosicion->setEstado(false);
             nuevaPosicion->setTurnosInactiva(5);
             jugador->descontarTesoros();
             pintarPixel("-",numeroJugador,fila,columna,plano);
-            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevaPlano);
+            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevoPlano);
             break;
         case Mina:
-            // pierdeTurno;
+            if (controlarEscudoJugador(jugador)) {
+                break;
+            }
             std::cout << "Ups... En ese casillero había una mina enemiga. La casilla quedara inactiva por 3 turnos" << std::endl;
             explotarTesoro(nuevaPosicion, jugador);
             pintarPixel("-",numeroJugador,fila,columna,plano);
-            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevaPlano);
+            pintarActivoInactivo("$",nuevaFila,nuevaColumna,nuevoPlano);
             break;
     }
 }

@@ -26,14 +26,14 @@ void recibirDimension(int* valor){
 	}
 }
 
-void dimensiones(int* x, int* y, int* z){
-	cout << "Ingrese las dimensiones del tablero (x, y, z): " << endl;
+void dimensiones(int* planos, int* filas, int* columnas){
+	cout << "Ingrese las dimensiones del tablero: " << endl;
 	cout << "Cantidad de planos: ";
-	recibirDimension(x);
+	recibirDimension(planos);
 	cout << "Filas: ";
-	recibirDimension(y);
+	recibirDimension(filas);
 	cout << "Columnas: ";
-	recibirDimension(z);
+	recibirDimension(columnas);
 }
 
 int main() {
@@ -43,10 +43,10 @@ int main() {
     int cantJugadores;
     NumeroJugadores(&cantJugadores);
 
-    int x, y, z;
-    dimensiones(&x, &y, &z);
+    int planos, filas, columnas;
+    dimensiones(&planos, &filas, &columnas);
 
-    TesoroBinario *juego = new TesoroBinario(cantJugadores, x, y, z);
+    TesoroBinario *juego = new TesoroBinario(cantJugadores, planos, filas, columnas);
 
     juego->creacionCanvas();
     juego->cargarTesorosPorJugador();
@@ -55,7 +55,6 @@ int main() {
     juego->imprimirTodosLosTableros();
 
     juego->juego();
-
 
     delete juego;
     return 0;

@@ -16,26 +16,18 @@ Carta* TesoroBinario::generarCarta() {
     return carta;
 }
 
-void TesoroBinario::ejecutarCartaElegida(
-    Carta*     carta,
-    Jugador*   jugador,
-    Coordenada coordenada
-) {
-    carta->usarCarta(tablero, coordenada);
-}
-
 int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
     int indiceDeCarta;
     bool esIndiceValido = false;
 
     while (!esIndiceValido) {
         // Ingreso de datos
-        std::cout << "Ingrese el indice de la carta que quiere usar: " << std::endl;
+        std::cout << "Ingrese el indice de la carta que quiere usar: ";
         std::cin >> indiceDeCarta;
 
         // Evaluación de índice
-        bool estaEnRangoValido    = (indiceDeCarta - 1 >= 0);
-        bool estaEnRangoDeJugador = (indiceDeCarta - 1 < jugador->getCantidadDeCartas());
+        bool estaEnRangoValido    = (indiceDeCarta > 0);
+        bool estaEnRangoDeJugador = (indiceDeCarta <= jugador->getCantidadDeCartas());
 
         esIndiceValido = estaEnRangoValido && estaEnRangoDeJugador;
 
@@ -44,30 +36,37 @@ int TesoroBinario::obtenerIndiceCarta(Jugador* jugador) {
         }
     }
 
-    return indiceDeCarta - 1;
+    return indiceDeCarta;
 }
 
 void TesoroBinario::tomarCartaDeMazo(Jugador* jugador) {
-    
-    Coordenada coordenada;
-    /*
-    coordenada.setCoordenadaX(x);
-    coordenada.setCoordenadaY(y);
-    coordenada.setCoordenadaZ(z);
-    */
     Carta* carta = this->generarCarta();
+
+    // Si es de omitir turno ni siquiera agrega la carta al mazo
+    if (carta->getTipoCarta() == OmitirTurno || carta->getTipoCarta() == Escudo) {
+        carta->usarCarta(this, tablero, jugador);
+        return;
+    }
+
     jugador->agregarCarta(carta);
-    std::cout << "Acaba de selecionar una carta del tipo: "
-              << carta->getStringTipoCarta() << std::endl;
+    std::cout << "La carta obtenida es del tipo: " << carta->getStringTipoCarta() << std::endl;
 
     bool respuesta = confirmar("¿Desea usar alguna Carta? Y/N: ");
 
     if (respuesta) {
+        // Se muestran las cartas disponibles
         jugador->imprimirCartas();
+
+        // Se pide el índice de la carta a usar
         int indiceCarta = this->obtenerIndiceCarta(jugador);
-        this->ejecutarCartaElegida(jugador->seleccionarCarta(indiceCarta),
-                                   jugador, coordenada);
+
+        // Se ejecuta la carta
+        Carta* cartaSeleccionada = jugador->seleccionarCarta(indiceCarta);
+        cartaSeleccionada->usarCarta(this, tablero, jugador);
+
+        // Se remueve la carta del mazo
         jugador->removerCarta(indiceCarta);
+        
         std::cout << "Carta ejecutada correctamente" << std::endl;
     }
 }
@@ -83,6 +82,15 @@ TipoCarta TesoroBinario::obtenerTipoCarta(int indiceCarta) {
             break;
         case PartirTesoro:
             tipo = PartirTesoro;
+            break;
+        case EliminarEspia:
+            tipo = EliminarEspia;
+            break;
+        case OmitirTurno:
+            tipo = OmitirTurno;
+            break;
+        case Escudo:
+            tipo = Escudo;
             break;
     }
     return tipo;

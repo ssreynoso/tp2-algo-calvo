@@ -221,12 +221,9 @@ void Lista<T>::agregar(Lista<T> *otraLista)
 template <class T>
 T Lista<T>::obtener(unsigned int posicion)
 {
-
     T elemento = NULL;
 
-    if ((posicion > 0) && (posicion <= this->tamanio))
-    {
-
+    if ((posicion > 0) && (posicion <= this->tamanio)) {
         elemento = this->obtenerNodo(posicion)->obtenerDato();
     }
 

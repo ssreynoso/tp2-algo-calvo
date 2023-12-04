@@ -3,6 +3,7 @@
 #include "Celda.h"
 #include "Enums.h"
 #include "Coordenadas.h"
+#include "TesoroBinario.h"
 #include <map>
 
 #ifndef __CARTA_H__
@@ -10,11 +11,9 @@
 
 class Carta{
     private:
-
         TipoCarta carta;
         bool cartaActiva;
         int radioAccion;
-       
 
     public:
 
@@ -23,7 +22,7 @@ class Carta{
 
         //Pre: recibe como parametro el tablero y el centro de accion
         //Post:Dependiendo del tipo de carta desencadenara la accion 
-        void usarCarta(Tablero* tablero, Coordenada centro);
+        void usarCarta(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador* jugador);
 
         //Post:Permite saber cual es el tipo de carta
         TipoCarta getTipoCarta();
@@ -35,24 +34,26 @@ class Carta{
         bool getCartaActiva();
 
     private:
-
-        //Pre: recibe el contenido de una ficha
-        //Post: devuelve un string  que describa el tipo de contenido
-        std::string getStringTipoFicha(TipoContenido tipoFicha);
-        
         //Avisa si hay Tesoros a la redonda
-        bool radar(Tablero* tablero, Coordenada coord);
+        void radar(Tablero* tablero, Jugador* jugador);
 
         // Inactiva la Celdad por turnos limitados
-        void blindaje(Tablero* tablero, Coordenada coord);
+        void blindaje(Tablero* tablero, Jugador* jugador);
 
         //Parte una ficha "Tesoro" en dos fichas "TesoroPartido"
         // en dos casilleros distintos
-        void partirTesoro(Tablero* tablero, Coordenada coord);
+        void partirTesoro(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador* jugador);
 
         //Post: elimina la ficha del jugador e inactiva la celda en donde se produjo el encuentro
-        void eliminarEspia(Tablero* tablero, Coordenada coord);
+        void eliminarEspia(Tablero* tablero, Jugador* jugador);
 
+        // Pre: 'jugador' debe estar inicializado
+        // Post: 'jugador' no podra jugar en su proximo turno
+        void omitirTurno(Jugador* jugador);
+
+        // Pre: 'jugador' debe estar inicializado
+        // Post: 'jugador' tendra un escudo activo
+        void asignarEscudo(Jugador* jugador);
 
 };
 

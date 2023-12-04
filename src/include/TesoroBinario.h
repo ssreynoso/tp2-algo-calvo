@@ -40,9 +40,6 @@ class TesoroBinario{
         //		si se intenta colocar un tesoro donde ya hay otro se le avisa y se pide otra posicion
         void cargarTesorosPorJugador();
 
-        //post: recibe posiciones hasta que la ingresada este en rango y y este activa
-        void recibirPosicion(int* x, int* y, int* z);
-
         // Pre: Recibe un puntero a jugador
         // Post: Intenta realizar el movimiento de un tesoro.
         void moverTesoro(Jugador* jugador);
@@ -139,10 +136,6 @@ private:
 
         //Post: devuelve el tipo de carta dependiendo del indice que reciba
         int obtenerIndiceCarta(Jugador* jugador);
-
-        //Pre: 'carta', 'jugador' y 'coordenada' deben contener un valor valido
-        //Post: dependiendo del tipo de carta ejecuta la accion correspondiente
-        void ejecutarCartaElegida(Carta* carta, Jugador* jugador, Coordenada coordenada);
 
         //Pre: 'jugador' y 'coordenada' deben contener un valor valido
         //Post:se genera una carta al azar y le da la opcion al usuario de usarla o no

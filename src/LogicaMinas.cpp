@@ -1,6 +1,7 @@
 #include "include/TesoroBinario.h"
 #include "include/Ficha.h"
 #include "include/Celda.h"
+#include "include/Utilidades.h"
 #include <iostream>
 
 ///Disminuye una unidad la cantidad de Espias del jugador, resetea la casilla y
@@ -18,48 +19,68 @@ void TesoroBinario::explotarEspia(Celda *celda, Jugador *jugador) {
 void TesoroBinario::explotarTesoro(Celda *celda, Jugador *jugador) {
     jugador->descontarTesoros();
     celda->desactivarCasillaPorTurnos(3);
-    pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
+
+    int plano   = celda->getCoordenada()->getCoordenadaX();
+    int fila    = celda->getCoordenada()->getCoordenadaY();
+    int columna = celda->getCoordenada()->getCoordenadaZ();
+
+    pintarActivoInactivo("$", fila, columna, plano);
 }
 
 ///Resetea la casilla y configura la cantidad de turnos desactivados.
 void TesoroBinario::explotarMinas(Celda *celda) {
     celda->getFicha()->resetFicha();
     celda->desactivarCasillaPorTurnos(5);
-    pintarActivoInactivo("$", celda->getCoordenada()->getCoordenadaY(), celda->getCoordenada()->getCoordenadaZ(),celda->getCoordenada()->getCoordenadaX());
+    
+    int plano   = celda->getCoordenada()->getCoordenadaX();
+    int fila    = celda->getCoordenada()->getCoordenadaY();
+    int columna = celda->getCoordenada()->getCoordenadaZ();
+
+    pintarActivoInactivo("$", fila, columna, plano);
 }
 
 
 void TesoroBinario::colocarMina(int jugador){
-    int x,y,z;
-    std::cout << "JUGADOR. " << jugador << "Indique la posicion para Mina: " << std::endl;
+    int plano, fila, columna;
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "JUGADOR " << jugador << ": " << std::endl; 
+    std::cout << "Indique la posicion para Mina: " << std::endl;
 
-    recibirPosicion(&x,&y,&z);
-    Celda *celdaActual = this->tablero->getCelda(x,y,z);
-    Ficha *ficha = celdaActual->getFicha();
+    recibirPosicion(this->tablero, &plano, &fila, &columna);
+    Celda *celdaActual          = this->tablero->getCelda(plano, fila, columna);
+    Ficha *ficha                = celdaActual->getFicha();
     Jugador *jugadorPropietario = this->jugadores->obtener(celdaActual->getFicha()->getJugadorOwner());
+
+    std::cout << "Jugador ficha: " << toString(ficha->getJugadorOwner()) << std::endl;
+    std::cout << "Jugador: " << toString(jugador) << std::endl;
 
     if(ficha->getJugadorOwner() == jugador){
         std::cout << "Ya tienes una ficha en esta casilla" << std::endl;
         colocarMina(jugador);
-    }else{
+    } else {
         switch (ficha->getTipo()){
-
             case VACIO:
                 ficha->setJugadorOwner(jugador);
                 ficha->setTipo(Mina);
-                pintarPixel("M", jugador, x, y, z);
+                pintarPixel("M", jugador, fila, columna, plano);
                 break;
             case Tesoro:
+                if (controlarEscudoJugador(jugadorPropietario)) {
+                    break;
+                }
                 //Si encuentra un tesoro entonces pierde el tesoro el jugador contrincante, dajando inactivo 3 turnos
                 std::cout << "Eliminaste un tesoro del oponente: " << ficha->getJugadorOwner()<< std::endl;
                 explotarTesoro(celdaActual,jugadorPropietario);
-                pintarPixel("-", jugador, x, y, z);
+                pintarPixel("-", jugador, fila, columna, plano);
                 break;
             case TesoroPartido:
+                if (controlarEscudoJugador(jugadorPropietario)) {
+                    break;
+                }
                 //Si encuentra un tesoro entonces pierde el tesoro el jugador contrincante, dajando inactivo 3 turnos
                 std::cout << "Eliminaste un tesoro partido del oponente: " << ficha->getJugadorOwner()<< std::endl;
                 explotarTesoro(celdaActual,jugadorPropietario);
-                pintarPixel("-", jugador, x, y, z);
+                pintarPixel("-", jugador, fila, columna, plano);
                 break;
             case Espia:
                 std::cout << "Eliminaste un Espia. El dueño perdera un turno"<< std::endl;
@@ -67,7 +88,6 @@ void TesoroBinario::colocarMina(int jugador){
                 //Si encuentra un espia deja incactivo el casillero por 2 turno
                 //Pierde el turno el dueño del espia
                 explotarEspia(celdaActual, jugadorPropietario);
-
                 break;
             case Mina:
                 std::cout << "Oh, encontraste una mina..."<< std::endl;
@@ -75,7 +95,6 @@ void TesoroBinario::colocarMina(int jugador){
                 //Si encuentra otra minas, ambas explotan si se desactiva por 5 turnos
                 explotarMinas(celdaActual);
                 break;
-
         }
     }
 }

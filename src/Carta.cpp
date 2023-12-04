@@ -7,6 +7,7 @@
 #include "include/Carta.h"
 #include "include/Celda.h"
 #include "include/Tablero.h"
+#include "include/Utilidades.h"
 #include "include/TesoroBinario.h"
 
 using namespace std;
@@ -16,21 +17,22 @@ Carta::Carta(TipoCarta carta) {
     this->carta = carta;
 }
 
-void Carta::usarCarta(Tablero* tablero, Coordenada coord) {
+void Carta::usarCarta(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador* jugador) {
 
     this->cartaActiva = false;
 
     switch (this->carta) {
         case Blindaje:
-            this->blindaje(tablero, coord);
+            this->blindaje(tablero, jugador);
             break;
         case Radar:
-            this->radar(tablero, coord);
+            this->radar(tablero, jugador);
             break;
         case PartirTesoro:
-            this->partirTesoro(tablero, coord);
+            this->partirTesoro(tesoroBinario, tablero, jugador);
             break;
         case EliminarEspia:
+            this->eliminarEspia(tablero, jugador);
             break;
         case OmitirTurno:
             break;
@@ -55,10 +57,13 @@ string Carta::getStringTipoCarta() {
             tipoDeCarta = "PartirTesoro";
             break;
         case EliminarEspia:
+            tipoDeCarta = "EliminarEspia";
             break;
         case OmitirTurno:
+            tipoDeCarta = "OmitirTurno";
             break;
         case Escudo:
+            tipoDeCarta = "Escudo";
             break;
     }
 
@@ -67,153 +72,128 @@ string Carta::getStringTipoCarta() {
 
 bool Carta::getCartaActiva() { return this->cartaActiva; }
 
-string Carta::getStringTipoFicha(TipoContenido tipo) {
-    string tipoDeCarta = "";
-
-    switch (tipo) {
-        case Espia:
-            tipoDeCarta = "Espia";
-            break;
-        case Tesoro:
-            tipoDeCarta = "Tesoro";
-            break;
-
-        default:
-            tipoDeCarta = "Vacio";
-            break;
-    }
-    return tipoDeCarta;
-}
-
-void Carta::blindaje(Tablero* tablero, Coordenada coord) {
+void Carta::blindaje(Tablero* tablero, Jugador* jugador) {
+    // Se pide la celda en la que se usará la carta
+    int x, y, z;
+    std::cout << "Ingrese la celda en la que se usará la carta blindaje: " << std::endl;
+    recibirPosicion(tablero, &x, &y, &z);
+    
     // Inactiva la celda por varios turnos, por lo tanto no se puede hacer
     // ningun movimiento/jugada en ella hasta que vuelva a la actividad.
-    tablero
-        ->getCelda(
-            coord.getCoordenadaX(),
-            coord.getCoordenadaY(),
-            coord.getCoordenadaZ()
-        )
-        ->setEstado(false);
-    tablero
-        ->getCelda(
-            coord.getCoordenadaX(),
-            coord.getCoordenadaY(),
-            coord.getCoordenadaZ()
-        )
-        ->setTurnosInactiva(4);
+    tablero->getCelda(x, y, z)->setEstado(false);
+    tablero->getCelda(x, y, z)->setTurnosInactiva(4);
 }
-bool Carta::radar(Tablero* tablero, Coordenada coord) {
+void Carta::radar(Tablero* tablero, Jugador* jugador) {
     // Verifica si hay Tesoro cerca (a la redonda)
     // e informa la situación con un mensaje boolenano;
 
-    std::cout << "Verificando si hay tesoros cerca" << std::endl;
-    bool hayTesoroCerca = true;
-    Ficha* comparar1 =
-        tablero
-            ->getCelda(
-                coord.getCoordenadaX(),
-                coord.getCoordenadaY() - 1,
-                coord.getCoordenadaZ()
-            )
-            ->getFicha();
-    if (comparar1->getTipo() != Tesoro) {
-        Ficha* comparar2 =
-            tablero
-                ->getCelda(
-                    (coord.getCoordenadaX()) + 1,
-                    coord.getCoordenadaY(),
-                    (coord.getCoordenadaZ()) - 1
-                )
-                ->getFicha();
-        if (comparar2->getTipo() != Tesoro) {
-            Ficha* comparar3 = tablero
-                                   ->getCelda(
-                                        (coord.getCoordenadaX()) + 1,
-                                        coord.getCoordenadaY(),
-                                        coord.getCoordenadaZ() + 1
-                                    )
-                                   ->getFicha();
-            if (comparar3->getTipo() != Tesoro) {
-                hayTesoroCerca = false;
+    // Se pide la celda en la que se usará la carta
+    int plano, fila, columna;
+    std::cout << "Ingrese la celda en la que se usará la carta radar: " << std::endl;
+    recibirPosicion(tablero, &plano, &fila, &columna);
+
+    bool hayTesoroCerca = false;
+
+    for (int i = plano - 1; i < plano + 1; i++) {
+        for (int j = fila - 1; j < fila + 1; j++) {
+            for (int k = columna - 1; k < columna + 1; k++) {
+                bool esCeldaValida = tablero->inRange(i, j, k);
+                
+                if (esCeldaValida) {
+                    if (tablero->getCelda(i, j, k)->getFicha()->getTipo() == Tesoro) {
+                        hayTesoroCerca = true;
+                    }
+                }
             }
         }
     }
-    return hayTesoroCerca;
+
+    // Ficha* comparar1 = tablero->getCelda(x, y - 1, z)->getFicha();
+    // if (comparar1->getTipo() != Tesoro) {
+
+    //     Ficha* comparar2 =tablero->getCelda(x + 1, y, z - 1)->getFicha();
+    //     if (comparar2->getTipo() != Tesoro) {
+
+    //         Ficha* comparar3 = tablero->getCelda(x + 1, y, z + 1)->getFicha();
+    //         if (comparar3->getTipo() != Tesoro) {
+    //             hayTesoroCerca = false;
+    //         }
+    //     }
+    // }
+    
+    if (hayTesoroCerca) {
+        std::cout << "Hay un tesoro cerca." << std::endl;
+    } else {
+        std::cout << "No hay un tesoro cerca." << std::endl;
+    }
 }
-void Carta::partirTesoro(Tablero* tablero, Coordenada coord) {
+void Carta::partirTesoro(TesoroBinario* tesoroBinario, Tablero* tablero, Jugador* jugador) {
     // Parte un Tesoro en dos, cambiando la ficha de la celda inicial a ficha=
     // TesoroPartido
     //  Agregando la otra mitad a un casilla elegida
+    int numeroJugador = jugador->getNumeroDeJugador();
 
-    Coordenada coord2;
-    int x = 0, y = 0, z = 0;
+    Coordenada* coordenadaTesoroAPartir = getTesoroPropio(tablero, numeroJugador, "Indique la posicion del tesoro a partir: ");
 
-    cout << "Ingrese coordenada en formato 'x y z': ";
-    cin >> x >> y >> z;
-    coord2.setCoordenadaX(x);
-    coord2.setCoordenadaY(y);
-    coord2.setCoordenadaZ(z);
-    tablero
-        ->getCelda(
-            coord.getCoordenadaX(), 
-            coord.getCoordenadaY(),
-            coord.getCoordenadaZ()
-        )
-        ->getFicha()
-        ->setTipo(TesoroPartido);
-    tablero
-        ->getCelda(
-            coord2.getCoordenadaX(), 
-            coord2.getCoordenadaY(),
-            coord2.getCoordenadaZ()
-        )
-        ->getFicha()
-        ->setTipo(TesoroPartido);
+    int nuevoPlano = 0, nuevaFila = 0, nuevaColumna = 0;
+    cout << "Ingrese la celda en la que se ubicará la otra parte del tesoro: " << endl;
+    recibirPosicion(tablero, &nuevoPlano, &nuevaFila, &nuevaColumna);
+
+    Celda* celdaTesoroPartido1 = tablero->getCelda(
+        coordenadaTesoroAPartir->getCoordenadaX(), 
+        coordenadaTesoroAPartir->getCoordenadaY(),
+        coordenadaTesoroAPartir->getCoordenadaZ()
+    );
+    Celda* celdaTesoroPartido2 = tablero->getCelda(nuevoPlano, nuevaFila, nuevaColumna);
+
+
+    celdaTesoroPartido1->getFicha()->setTipo(TesoroPartido);
+    celdaTesoroPartido1->getFicha()->setJugadorOwner(numeroJugador);
+    celdaTesoroPartido2->getFicha()->setTipo(TesoroPartido);
+    celdaTesoroPartido2->getFicha()->setJugadorOwner(numeroJugador);
+    tesoroBinario->pintarPixel("T", numeroJugador, nuevaFila, nuevaColumna, nuevoPlano);
+    jugador->incrementarTesoros();
 }
-void Carta::eliminarEspia(Tablero* tablero, Coordenada coord) {
-    // Verifica si hay un Espia cerca, eliminando el primero que aparece
+void Carta::eliminarEspia(Tablero* tablero, Jugador* jugador) {
+    int plano = 0, fila = 0, columna = 0;
+    int planoEspiaEncontrado = 0, filaEspiaEncontrado = 0, columnaEspiaEncontrado = 0;
+    cout << "Ingrese la celda en la que se buscará un espía adyacente: ";
+    recibirPosicion(tablero, &plano, &fila, &columna);
 
-    std::cout << "Verificando si hay Espias cerca" << std::endl;
+    // Verifica si hay un Espia cerca, eliminando el último que aparece
+    bool hayEspiaCerca = false;
 
-    Ficha* comparar1 =
-        tablero
-            ->getCelda(
-                coord.getCoordenadaX(), 
-                coord.getCoordenadaY() - 1,
-                coord.getCoordenadaZ()
-            )
-            ->getFicha();
-    if (comparar1->getTipo() != Espia) {
-        Ficha* comparar2 =
-            tablero
-                ->getCelda((
-                    coord.getCoordenadaX()) + 1, 
-                    coord.getCoordenadaY(),
-                    coord.getCoordenadaZ() - 1
-                )
-                ->getFicha();
-        if (comparar2->getTipo() != Espia) {
-            Ficha* comparar3 = tablero
-                                   ->getCelda((
-                                        coord.getCoordenadaX()) + 1,
-                                        coord.getCoordenadaY(),
-                                        coord.getCoordenadaZ() + 1
-                                    )
-                                   ->getFicha();
-            if (comparar3->getTipo() == Espia) {
-                comparar3->setTipo(VACIO);
-                comparar3->setJugadorOwner(-1);
-                comparar3->setNumFicha(-1);
+    for (int i = plano - 1; i < plano + 1; i++) {
+        for (int j = fila - 1; j < fila + 1; j++) {
+            for (int k = columna - 1; k < columna + 1; k++) {
+                bool esCeldaValida = tablero->inRange(i, j, k);
+                
+                if (esCeldaValida) {
+                    if (tablero->getCelda(i, j, k)->getFicha()->getTipo() == Tesoro) {
+                        hayEspiaCerca = true;
+                    }
+                }
             }
-        } else {
-            comparar2->setTipo(VACIO);
-            comparar2->setJugadorOwner(-1);
-            comparar2->setNumFicha(-1);
         }
-    } else {
-        comparar1->setTipo(VACIO);
-        comparar1->setJugadorOwner(-1);
-        comparar1->setNumFicha(-1);
     }
+
+    if (hayEspiaCerca) {
+        Ficha* fichaEspiaEncontrado = tablero->getCelda(planoEspiaEncontrado, filaEspiaEncontrado, columnaEspiaEncontrado)->getFicha();
+        fichaEspiaEncontrado->setTipo(VACIO);
+        fichaEspiaEncontrado->setJugadorOwner(-1);
+        fichaEspiaEncontrado->setNumFicha(-1);
+        cout << "Se encontró un espía adyacente y se ha eliminado." << endl;
+    } else {
+        cout << "No se encontró un espía adyacente." << endl;
+    }
+}
+
+void Carta::omitirTurno(Jugador* jugador) {
+    std::cout << "Ups.. Mala suerte. Obtuviste una carta que omite tu turno." << std::endl;
+    jugador->setOmitirTurno(true);
+}
+
+void Carta::asignarEscudo(Jugador* jugador) {
+    std::cout << "Que suerte! Obtuviste una carta que te da un escudo." << std::endl;
+    jugador->activarEscudo();
 }

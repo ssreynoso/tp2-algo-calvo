@@ -7,9 +7,10 @@
 void TesoroBinario::colocarEspia(int numeroJugador) {
     int plano, fila, columna;
 
-    std::cout << "JUGADOR " << toString(numeroJugador) << ": ";
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "JUGADOR " << toString(numeroJugador) << ": " << std::endl;
     std::cout << "Indique la posicion para el espia: " << std::endl;
-    recibirPosicion(&plano, &fila, &columna); //Verifica que este en rango y que la celda este activa
+    recibirPosicion(this->tablero, &plano, &fila, &columna); //Verifica que este en rango y que la celda este activa
 
     Ficha* ficha = this->tablero->getCelda(plano, fila, columna)->getFicha();
     if (ficha->getJugadorOwner() == numeroJugador) {
@@ -27,10 +28,16 @@ void TesoroBinario::colocarEspia(int numeroJugador) {
                 pintarPixel("E",numeroJugador,fila,columna,plano);
                 break;
             case Tesoro:
+                if (controlarEscudoJugador(celdaJugador)) {
+                    break;
+                }
                 encontrarTesoro(celdaActual);
                 pintarActivoInactivo("$",fila,columna,plano);
                 break;
             case TesoroPartido:
+                if (controlarEscudoJugador(celdaJugador)) {
+                    break;
+                }
                 encontrarTesoro(celdaActual);
                 pintarActivoInactivo("$",fila,columna,plano);
                 break;

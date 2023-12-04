@@ -54,8 +54,9 @@ void Jugador::agregarCarta(Carta* carta) { this->cartas->agregar(carta); }
 void Jugador::imprimirCartas() {
     this->cartas->iniciarCursor();
     int i = 1;
+    std::cout << "Cartas disponibles: " << std::endl;
     while (this->cartas->avanzarCursor()) {
-        std::cout << i << " Tipo de carta: "
+        std::cout << i << ". Tipo de carta: "
                   << this->cartas->obtenerCursor()->getStringTipoCarta()
                   << std::endl;
     }
@@ -86,3 +87,5 @@ bool Jugador::getOmitirTurno() { return this->omitirTurno; }
 void Jugador::desactivarEscudo() { this->escudoActivo = false; }
 
 void Jugador::activarEscudo() { this->escudoActivo = true; }
+
+bool Jugador::tieneEscudo() { return this->escudoActivo; }

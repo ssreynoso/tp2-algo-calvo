@@ -102,6 +102,10 @@ class Jugador {
 
     // Remueve el escudo del jugador
     void desactivarEscudo();
+
+    // Pre: Debe existrir la instancia jugador
+    // Post: Retorna es estado de turno del jugador
+    bool tieneEscudo();
 };
 
 #endif

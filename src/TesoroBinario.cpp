@@ -27,24 +27,13 @@ TesoroBinario::TesoroBinario(int cantidad, int planos, int filas, int columnas) 
 TesoroBinario::~TesoroBinario() {
     this->jugadores->iniciarCursor();
     while (this->jugadores->avanzarCursor()) {
+        std::cout << "Se elimina el jugador " << this->jugadores->obtenerCursor()->getNumeroDeJugador() << std::endl;
         delete this->jugadores->obtenerCursor();
     }
+    std::cout << "Se elimina el tablero" << std::endl;
     delete this->tablero;
+    std::cout << "Se elimina el visualizador" << std::endl;
+    delete this->visualizador;
+    std::cout << "Se elimina la lista de jugadores" << std::endl;
     delete this->jugadores;
-}
-
-void TesoroBinario::recibirPosicion(int* x, int* y, int* z) {
-    std::cout << "plano: ";   std::cin >> *x;
-	std::cout << "fila: ";    std::cin >> *y;
-	std::cout << "columna: "; std::cin >> *z;
-
-	if(!tablero->inRange(*x, *y, *z)) {
-		std::cout << "Coordenadas fuera de rango, intentelo nuevamente" << std::endl;
-		recibirPosicion(x, y, z);
-	}
-
-	if(!tablero->getCelda(*x,*y,*z)->estaActiva()) {
-		std::cout << "La celda indicada esta inactiva" << std::endl;
-		recibirPosicion(x, y, z);
-	}
 }

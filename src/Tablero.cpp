@@ -4,21 +4,21 @@
 #include "include/Tablero.h"
 #include "include/Utilidades.h"
 
-Tablero::Tablero(int x, int y, int z) {
+Tablero::Tablero(int planos, int filas, int columnas) {
     // validar
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->x = planos;
+    this->y = filas;
+    this->z = columnas;
 
     this->cubo = new Lista<Lista<Lista<Celda*>*>*>();
-    for (int i = 0; i < x; i++) {
+    for (int i = 1; i <= planos; i++) {
         Lista<Lista<Celda*>*>* plano = new Lista<Lista<Celda*>*>();
-        for (int j = 0; j < y; j++) {
+        for (int j = 1; j <= filas; j++) {
             Lista<Celda*>* fila = new Lista<Celda*>();
-            for (int k = 0; k < z; k++) {
+            for (int k = 1; k <= columnas; k++) {
                 Celda* celda = new Celda();
                 fila->agregar(celda);
-                celda->setCoordenada(i + 1, j + 1, k + 1);
+                celda->setCoordenada(i, j, k);
             }
             plano->agregar(fila);
         }
@@ -46,7 +46,14 @@ Tablero::~Tablero() {
 
 Celda* Tablero::getCelda(int x, int y, int z) {
     if (inRange(x, y, z)) {
-        return this->cubo->obtener(x)->obtener(y)->obtener(z);
+        std::cout << "Coordenadas: " << x << y << z << std::endl;
+        Lista<Lista<Celda*>*>* plano = this->cubo->obtener(x);
+        std::cout << "Plano: " << plano->contarElementos() << std::endl;
+        Lista<Celda*>* fila          = plano->obtener(y);
+        std::cout << "Fila: " << fila->contarElementos() << std::endl;
+        Celda* celda                 = fila->obtener(z);
+        
+        return celda;
     } else {
         throw "Las coordenadas indicadas estan fuera de rango";
     }
@@ -59,8 +66,8 @@ int Tablero::getTamanioY() { return this->y; }
 int Tablero::getTamanioZ() { return this->z; }
 
 bool Tablero::inRange(int x, int y, int z) {
-    if ((x >= 0 && x <= this->x) && (y >= 0 && y <= this->y) &&
-        (z >= 0 && z <= this->z)) {
+    if ((x > 0 && x <= this->x) && (y > 0 && y <= this->y) &&
+        (z > 0 && z <= this->z)) {
 
         return true;
     } else {

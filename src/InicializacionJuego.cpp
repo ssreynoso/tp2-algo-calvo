@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "include/TesoroBinario.h"
+#include "include/Utilidades.h"
 
 void TesoroBinario::cargarTesorosPorJugador() {
     int cantidadDeTesoros;
@@ -17,17 +18,20 @@ void TesoroBinario::cargarTesorosPorJugador() {
     for (int i = 0; i < cantidadDeTesoros; i++) {
         for (int j = 1; j <= this->cantidadJugadores; j++) {
             int x, y, z;
-            std::cout << "JUGADOR " << j
-                      << " indique la posicion del tesoro numero " << i + 1
+            std::cout << "------------------------------------------" << std::endl;
+            std::cout << "JUGADOR " << j << ": " << std::endl;
+            std::cout << "Indique la posicion del tesoro numero " << i + 1
                       << " (plano, fila, columna): " << std::endl;
 
-            recibirPosicion(&x, &y, &z);
+            recibirPosicion(this->tablero, &x, &y, &z);
             while (this->tablero->getCelda(x, y, z)->getFicha()->getTipo() == Tesoro) {
                 std::cout << "Ya hay un tesoro en la celda indicada. Intentelo nuevamente"
                           << std::endl;
-                recibirPosicion(&x, &y, &z);
+                recibirPosicion(this->tablero, &x, &y, &z);
             }
+            std::cout << "Tesoro colocado en: " << x << y << z << std::endl;
             colocarTesoro(x, y, z, j);
+            std::cout<<"Pixel"<<std::endl;
             pintarPixel("T", j, y, z, x);
         }
     }
